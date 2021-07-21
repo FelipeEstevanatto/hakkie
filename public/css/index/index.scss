@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap');
+
+body { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        padding: 2em;
+
+        .left {
+            width: 60%;
+            max-width: 900px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            /* Mudar para se adequar a nova logo*/
+            .top {
+                margin-bottom: 3em;
+
+                /* Logo provisória */
+                .logo {
+                    font-size: 4em;
+                    background: linear-gradient(35deg, #7700ff 40%,  #0059ff);
+                    background-clip: text;
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    font-family: 'Comfortaa', cursive;
+                }
+            }
+
+            .content {
+                font-size: 1.5em;
+                letter-spacing: 2px;
+                width: 80%;
+            }
+        }
+
+        .right {  
+            display: flex;
+            flex-direction: column;
+            justify-content: center;  
+            width: 40%;
+
+            .top,
+            .social-media,
+            .or,
+            form {
+                max-width: 600px;
+            }
+
+            .top {
+                font-size: 1.8em;
+                letter-spacing: 2px;
+                font-weight: 700;
+                text-align: center;
+                margin-bottom: 1em;
+
+                background: linear-gradient(35deg, #7700ff 40%,  #0059ff);
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-family: 'Comfortaa', cursive;
+            }
+
+            .social-media {
+                display: flex;
+                justify-content: space-around;
+                margin: 1em 0;
+
+                // background: linear-gradient(35deg, #7700ff 40%,  #0059ff);
+                // background-clip: text;
+                // -webkit-background-clip: text;
+                // -webkit-text-fill-color: transparent;
+
+                i {
+                    cursor: pointer;
+                    font-size: 3em;
+                }
+            }
+
+            .or {
+                color: gray;
+                position: relative;
+                text-align: center;
+                margin: 1em 0 2em 0;
+
+                &::after {
+                    content: '';
+                    width: 100%;
+                    height: 3px;
+                    border-radius: 1em;
+                    background: linear-gradient(35deg, #7700ff 40%,  #0059ff);
+                    position: absolute;
+                    bottom: -10px;
+                    left: 0;
+                }
+            }
+
+            form {
+
+                label {
+                    font-size: 1.2em;
+                    font-weight: 500;
+                }
+
+                input {
+                    width: 100%;
+                    border: none;
+                    outline: none;
+                    padding: 1em;
+                    border-radius: .5em;
+                    font-size: 1em;
+                    font-weight: 500;
+
+                    &:not(:last-child) {
+                        margin-bottom: 2em;
+                    }
+                }
+
+                .show-password {
+                    position: relative;
+
+                    #show-password-btn {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        padding: 16px;
+                        font-size: 1.5em;
+                        cursor: pointer;
+                    }
+                }
+
+                input[name="password"] {
+                    padding-right: 64px;
+                }
+
+                input[type="submit"] {
+                    background: linear-gradient(35deg, #7700ff 40%,  #0059ff) !important;
+                    color: #FFF;
+                    font-weight: 600;
+                    font-size: 1.1em;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    #switch-theme-btn {
+        position: absolute;
+        font-size: 2em;
+        top: 10px;
+        left: 10px;
+        cursor: pointer;
+    }
+}
+
+// Page Theme
+
+body.light {
+    input {
+        box-shadow: 0px 0px 10px rgb(216, 216, 216);
+        color: rgb(78, 78, 78);
+    }
+
+    .show-password-btn {
+        color: rgb(78, 78, 78);
+    }
+}
+
+body.dark {
+    input {
+        background: #1e1e30;
+        color: rgb(216, 216, 216);
+    }
+
+    .show-password {
+        color: rgb(216, 216, 216);
+    }
+}
+
+@media screen and (max-width: 775px) {
+    
+    body {
+        .container {
+            flex-direction: column;
+            padding: 4em 1em;
+
+            .left {
+                width: 100%;
+                text-align: center; 
+                margin: 2em 0;
+
+                .content {
+                    max-width: 600px;
+                    width: 100%;
+                    font-size: 1.2em; 
+                }
+            }
+
+            .right {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                margin: 2em 0;
+
+                .top {
+                    font-size: 1.5em;
+                }
+
+                .social-media,
+                .or {
+                    width: 100%;
+                }
+
+            }
+        }
+    }
+}

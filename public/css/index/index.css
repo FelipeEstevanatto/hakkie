@@ -1,0 +1,238 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap");
+body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+}
+
+body .container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 2em;
+}
+
+body .container .left {
+  width: 60%;
+  max-width: 900px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  /* Mudar para se adequar a nova logo*/
+}
+
+body .container .left .top {
+  margin-bottom: 3em;
+  /* Logo provisória */
+}
+
+body .container .left .top .logo {
+  font-size: 4em;
+  background: linear-gradient(35deg, #7700ff 40%, #0059ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Comfortaa', cursive;
+}
+
+body .container .left .content {
+  font-size: 1.5em;
+  letter-spacing: 2px;
+  width: 80%;
+}
+
+body .container .right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 40%;
+}
+
+body .container .right .top,
+body .container .right .social-media,
+body .container .right .or,
+body .container .right form {
+  max-width: 600px;
+}
+
+body .container .right .top {
+  font-size: 1.8em;
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1em;
+  background: linear-gradient(35deg, #7700ff 40%, #0059ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Comfortaa', cursive;
+}
+
+body .container .right .social-media {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  margin: 1em 0;
+}
+
+body .container .right .social-media i {
+  cursor: pointer;
+  font-size: 3em;
+}
+
+body .container .right .or {
+  color: gray;
+  position: relative;
+  text-align: center;
+  margin: 1em 0 2em 0;
+}
+
+body .container .right .or::after {
+  content: '';
+  width: 100%;
+  height: 3px;
+  border-radius: 1em;
+  background: linear-gradient(35deg, #7700ff 40%, #0059ff);
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+}
+
+body .container .right form label {
+  font-size: 1.2em;
+  font-weight: 500;
+}
+
+body .container .right form input {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 1em;
+  border-radius: .5em;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+body .container .right form input:not(:last-child) {
+  margin-bottom: 2em;
+}
+
+body .container .right form .show-password {
+  position: relative;
+}
+
+body .container .right form .show-password #show-password-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 16px;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+body .container .right form input[name="password"] {
+  padding-right: 64px;
+}
+
+body .container .right form input[type="submit"] {
+  background: linear-gradient(35deg, #7700ff 40%, #0059ff) !important;
+  color: #FFF;
+  font-weight: 600;
+  font-size: 1.1em;
+  cursor: pointer;
+}
+
+body #switch-theme-btn {
+  position: absolute;
+  font-size: 2em;
+  top: 10px;
+  left: 10px;
+  cursor: pointer;
+}
+
+body.light input {
+  -webkit-box-shadow: 0px 0px 10px #d8d8d8;
+          box-shadow: 0px 0px 10px #d8d8d8;
+  color: #4e4e4e;
+}
+
+body.light .show-password-btn {
+  color: #4e4e4e;
+}
+
+body.dark input {
+  background: #1e1e30;
+  color: #d8d8d8;
+}
+
+body.dark .show-password {
+  color: #d8d8d8;
+}
+
+@media screen and (max-width: 775px) {
+  body .container {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    padding: 4em 1em;
+  }
+  body .container .left {
+    width: 100%;
+    text-align: center;
+    margin: 2em 0;
+  }
+  body .container .left .content {
+    max-width: 600px;
+    width: 100%;
+    font-size: 1.2em;
+  }
+  body .container .right {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    width: 100%;
+    margin: 2em 0;
+  }
+  body .container .right .top {
+    font-size: 1.5em;
+  }
+  body .container .right .social-media,
+  body .container .right .or {
+    width: 100%;
+  }
+}
+/*# sourceMappingURL=index.css.map */

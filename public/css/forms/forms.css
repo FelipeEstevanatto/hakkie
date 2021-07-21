@@ -41,25 +41,29 @@ body .container .left {
 
 body .container .left .top {
   margin-bottom: 3em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   /* Logo provisória */
 }
 
 body .container .left .top .logo {
   font-size: 4em;
-  background: linear-gradient(35deg, #7700ff 40%, #0059ff);
+  background: linear-gradient(45deg, #7700ff, #eb4808);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-family: 'Comfortaa', cursive;
   position: relative;
+  text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.212);
 }
 
 body .container .left .top .logo::after {
   content: '';
-  width: 8%;
+  width: 70px;
   height: 8px;
   border-radius: 1em;
-  background: linear-gradient(45deg, #7700ff, #ff4800);
+  background: linear-gradient(45deg, #7700ff, #eb4808);
   position: absolute;
   bottom: -3px;
   left: 0;
@@ -103,15 +107,17 @@ body .container .right .top {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-family: 'Comfortaa', cursive;
+  text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.507);
 }
 
 body .container .right .social-media {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  margin: 1em 0;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  margin: 1em 2em;
 }
 
 body .container .right .social-media i {
@@ -202,6 +208,10 @@ body #switch-form-btn {
   text-decoration: none;
 }
 
+body #switch-form-btn:hover {
+  padding: 25px 30px 20px 15px;
+}
+
 body.light input {
   -webkit-box-shadow: 0px 0px 10px #d8d8d8;
           box-shadow: 0px 0px 10px #d8d8d8;
@@ -234,6 +244,13 @@ body.dark .show-password {
     text-align: center;
     margin: 2em 0;
   }
+  body .container .left .top .logo {
+    width: 100%;
+    text-align: center;
+  }
+  body .container .left .top .logo::after {
+    height: 0;
+  }
   body .container .left .content {
     max-width: 600px;
     width: 100%;
@@ -263,7 +280,7 @@ body.dark .show-password {
     position: absolute;
     text-align: center;
     border-radius: 0;
-    padding: 10px;
+    padding: 20px;
     width: 100%;
     font-size: .9em;
     color: #FFF;

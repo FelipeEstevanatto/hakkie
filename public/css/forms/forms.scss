@@ -20,23 +20,28 @@ body {
             /* Mudar para se adequar a nova logo*/
             .top {
                 margin-bottom: 3em;
+                display: flex;
+                    
 
                 /* Logo provisória */
                 .logo {
                     font-size: 4em;
-                    background: linear-gradient(35deg, #7700ff 40%,  #0059ff);
+                    background: linear-gradient(45deg, #7700ff,  #eb4808);
                     background-clip: text;
+
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
                     font-family: 'Comfortaa', cursive;
+
                     position: relative;
+                    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.212);
 
                     &::after {
                         content: '';
-                        width: 8%;
+                        width: 70px;
                         height: 8px;
                         border-radius: 1em;
-                        background: linear-gradient(45deg, #7700ff,  #ff4800);
+                        background: linear-gradient(45deg, #7700ff,  #eb4808);
                         position: absolute;
                         bottom: -3px;
                         left: 0;
@@ -76,17 +81,14 @@ body {
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
                 font-family: 'Comfortaa', cursive;
+
+                text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.507);
             }
 
             .social-media {
                 display: flex;
-                justify-content: space-around;
-                margin: 1em 0;
-
-                // background: linear-gradient(35deg, #7700ff 40%,  #0059ff);
-                // background-clip: text;
-                // -webkit-background-clip: text;
-                // -webkit-text-fill-color: transparent;
+                justify-content: space-evenly;
+                margin: 1em 2em;
 
                 i {
                     cursor: pointer;
@@ -152,7 +154,7 @@ body {
                 }
 
                 input[type="submit"] {
-                    background: linear-gradient(35deg, #7700ff 40%,  #0059ff) !important; //linear-gradient(45deg, #7700ff,  #ff4800) !important;
+                    background: linear-gradient(35deg, #7700ff 40%,  #0059ff) !important; 
                     color: #FFF;
                     font-weight: 600;
                     font-size: 1.1em;
@@ -182,6 +184,10 @@ body {
         font-size: 1.2em;
         color: #FFF;
         text-decoration: none;
+
+        &:hover {
+            padding: 25px 30px 20px 15px;
+        }
     }
 }
 
@@ -221,6 +227,17 @@ body.dark {
                 text-align: center; 
                 margin: 2em 0;
 
+                .top {
+                    .logo {
+                        width: 100%;
+                        text-align: center;
+
+                        &::after {
+                            height: 0;
+                        }
+                    }
+                }
+
                 .content {
                     max-width: 600px;
                     width: 100%;
@@ -251,7 +268,7 @@ body.dark {
             position: absolute;
             text-align: center;
             border-radius: 0;
-            padding: 10px;
+            padding: 20px;
             width: 100%;
     
             font-size: .9em;

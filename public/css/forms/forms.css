@@ -1,4 +1,3 @@
-@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap");
 body {
   display: -webkit-box;
@@ -36,7 +35,6 @@ body .container .left {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  /* Mudar para se adequar a nova logo*/
 }
 
 body .container .left .top {
@@ -44,7 +42,6 @@ body .container .left .top {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  /* Logo provisória */
 }
 
 body .container .left .top .logo {
@@ -90,8 +87,6 @@ body .container .right {
 }
 
 body .container .right .top,
-body .container .right .social-media,
-body .container .right .or,
 body .container .right form {
   max-width: 600px;
 }
@@ -108,40 +103,6 @@ body .container .right .top {
   -webkit-text-fill-color: transparent;
   font-family: 'Comfortaa', cursive;
   text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.507);
-}
-
-body .container .right .social-media {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
-  margin: 1em 2em;
-}
-
-body .container .right .social-media i {
-  cursor: pointer;
-  font-size: 3em;
-}
-
-body .container .right .or {
-  color: gray;
-  position: relative;
-  text-align: center;
-  margin: 1em 0 2em 0;
-  letter-spacing: 2px;
-}
-
-body .container .right .or::after {
-  content: '';
-  width: 100%;
-  height: 3px;
-  border-radius: 1em;
-  background: linear-gradient(35deg, #7700ff 40%, #0059ff);
-  position: absolute;
-  bottom: -10px;
-  left: 0;
 }
 
 body .container .right form label {
@@ -186,6 +147,60 @@ body .container .right form input[type="submit"] {
   font-weight: 600;
   font-size: 1.1em;
   cursor: pointer;
+}
+
+body .container .right .or {
+  margin: 2em 0;
+  position: relative;
+  text-align: center;
+  font-weight: 500;
+  width: 100%;
+}
+
+body .container .right .or::before {
+  left: 0;
+}
+
+body .container .right .or::after {
+  right: 0;
+}
+
+body .container .right .or::before, body .container .right .or::after {
+  content: '';
+  position: absolute;
+  height: 8px;
+  width: 40%;
+  background: rgba(141, 141, 141, 0.411);
+  bottom: 8px;
+  border-radius: 1em;
+}
+
+body .container .right .google-login {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 1em;
+  border-radius: 3em;
+  font-size: 1em;
+  font-weight: 500;
+  padding: 1em;
+  border: 2px solid #4285F4;
+  background: #FFF;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+  color: #4d4d4d;
+}
+
+body .container .right .google-login img {
+  width: 2em;
+  margin-right: 1em;
 }
 
 body #switch-theme-btn {
@@ -272,9 +287,9 @@ body.dark .show-password {
   body .container .right .top {
     font-size: 1.5em;
   }
-  body .container .right .social-media,
-  body .container .right .or {
+  body .container .right .google-login {
     width: 100%;
+    margin-bottom: 4em;
   }
   body #switch-form-btn {
     position: absolute;

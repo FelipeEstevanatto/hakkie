@@ -29,6 +29,18 @@ body {
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
                     font-family: 'Comfortaa', cursive;
+                    position: relative;
+
+                    &::after {
+                        content: '';
+                        width: 8%;
+                        height: 8px;
+                        border-radius: 1em;
+                        background: linear-gradient(45deg, #7700ff,  #ff4800);
+                        position: absolute;
+                        bottom: -3px;
+                        left: 0;
+                    }
                 }
             }
 
@@ -87,6 +99,7 @@ body {
                 position: relative;
                 text-align: center;
                 margin: 1em 0 2em 0;
+                letter-spacing: 2px;
 
                 &::after {
                     content: '';
@@ -139,7 +152,7 @@ body {
                 }
 
                 input[type="submit"] {
-                    background: linear-gradient(35deg, #7700ff 40%,  #0059ff) !important;
+                    background: linear-gradient(35deg, #7700ff 40%,  #0059ff) !important; //linear-gradient(45deg, #7700ff,  #ff4800) !important;
                     color: #FFF;
                     font-weight: 600;
                     font-size: 1.1em;
@@ -155,6 +168,20 @@ body {
         top: 10px;
         left: 10px;
         cursor: pointer;
+    }
+
+    #switch-form-btn {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+
+        background: linear-gradient(35deg, #7700ff 40%,  #0059ff); 
+        border-radius: 0 2em 0 0;
+        padding: 25px 30px 10px 15px;
+
+        font-size: 1.2em;
+        color: #FFF;
+        text-decoration: none;
     }
 }
 
@@ -218,6 +245,18 @@ body.dark {
                 }
 
             }
+        }
+
+        #switch-form-btn {
+            position: absolute;
+            text-align: center;
+            border-radius: 0;
+            padding: 10px;
+            width: 100%;
+    
+            font-size: .9em;
+            color: #FFF;
+            text-decoration: none;
         }
     }
 }

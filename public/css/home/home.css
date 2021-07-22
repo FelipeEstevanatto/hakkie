@@ -1,0 +1,310 @@
+#switch-theme-btn {
+  bottom: 10px;
+  left: 10px;
+}
+
+#tool-bar {
+  height: 100vh;
+  width: 20vw;
+  padding-top: 2em;
+  position: fixed;
+}
+
+#tool-bar .logo {
+  margin: 0 auto;
+  font-size: 3vw;
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+#tool-bar .btn {
+  display: block;
+  font-size: 1.2vw;
+  padding: 10px;
+  font-weight: 600;
+  padding-left: 20%;
+}
+
+#tool-bar .btn i {
+  margin-right: 10px;
+}
+
+#feed {
+  margin: 0 25vw 0 20vw;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+#feed::-webkit-scrollbar {
+  width: 10px;
+}
+
+#feed::-webkit-scrollbar-thumb {
+  background: #888;
+  height: 10px;
+  border-radius: 1em;
+}
+
+#feed::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+#message-section {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 25vw;
+  height: 100vh;
+  -webkit-transition: 500ms;
+  transition: 500ms;
+}
+
+#message-section h2 {
+  font-weight: 700;
+  font-size: 1.5vw;
+  margin: 1em;
+}
+
+#message-section .talk {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+  padding: 10px;
+}
+
+#message-section .talk img {
+  width: 60px;
+  border-radius: 90%;
+  margin-right: 15px;
+  margin-left: 1em;
+}
+
+#message-section .talk .name {
+  font-weight: 600;
+}
+
+#message-section.message-section-open {
+  overflow-y: auto;
+}
+
+#message-section.message-section-open::-webkit-scrollbar {
+  width: 10px;
+}
+
+#message-section.message-section-open::-webkit-scrollbar-thumb {
+  background: #888;
+  height: 10px;
+  border-radius: 1em;
+}
+
+#message-section.message-section-open::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+#message-section.message-section-close {
+  height: 0;
+}
+
+#message-btn {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 25vw;
+  text-align: center;
+  border-radius: 2em 2em 0 0;
+  padding: 15px;
+  cursor: pointer;
+  -webkit-transition: 500ms;
+  transition: 500ms;
+  background: linear-gradient(35deg, #7700ff 40%, #0059ff);
+  color: #FFF;
+}
+
+.message-btn-open i {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+body.light #tool-bar {
+  background: #EDEDED;
+  -webkit-box-shadow: 0px 10px 5px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 10px 5px rgba(0, 0, 0, 0.1);
+}
+
+body.light #tool-bar .btn {
+  color: #0D0D1A;
+  -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+body.light #tool-bar .btn:hover {
+  background: #e0e0e0;
+  -webkit-transition: 200ms;
+  transition: 200ms;
+}
+
+body.light #message-section {
+  background: linear-gradient(45deg, #EDEDED, #dbdbdb);
+  -webkit-box-shadow: 0 10px 5px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 10px 5px rgba(0, 0, 0, 0.1);
+}
+
+body.light #message-section .talk {
+  color: #0D0D1A;
+  -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+body.light #message-section .talk:hover {
+  background: #cccccc;
+  -webkit-transition: 200ms;
+  transition: 200ms;
+}
+
+body.light #feed::-webkit-scrollbar-track,
+body.light #message-section.message-section-open::-webkit-scrollbar-track {
+  background: #c7c7c7;
+}
+
+body.light #message-btn {
+  -webkit-box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.1);
+}
+
+body.dark #tool-bar {
+  background: #0D0D1A;
+  -webkit-box-shadow: 0px 0px 5px rgba(134, 134, 134, 0.1);
+          box-shadow: 0px 0px 5px rgba(134, 134, 134, 0.1);
+}
+
+body.dark #tool-bar .btn {
+  color: #EDEDED;
+  -webkit-box-shadow: 0px 0px 5px rgba(134, 134, 134, 0.1);
+          box-shadow: 0px 0px 5px rgba(134, 134, 134, 0.1);
+}
+
+body.dark #tool-bar .btn:hover {
+  background: #1e1e30;
+  color: #d8d8d8;
+}
+
+body.dark #message-section {
+  background: #0D0D1A;
+  -webkit-box-shadow: 0px 0px 5px rgba(134, 134, 134, 0.1);
+          box-shadow: 0px 0px 5px rgba(134, 134, 134, 0.1);
+}
+
+body.dark #message-section .talk {
+  color: #EDEDED;
+  -webkit-box-shadow: 0px 0px 5px rgba(134, 134, 134, 0.1);
+          box-shadow: 0px 0px 5px rgba(134, 134, 134, 0.1);
+}
+
+body.dark #message-section .talk:hover {
+  background: #1e1e30;
+  color: #d8d8d8;
+}
+
+body.dark #feed::-webkit-scrollbar-track,
+body.dark #message-section.message-section-open::-webkit-scrollbar-track {
+  background: #272747;
+}
+
+body.dark #message-btn {
+  -webkit-box-shadow: 0px -5px 5px rgba(134, 134, 134, 0.1);
+          box-shadow: 0px -5px 5px rgba(134, 134, 134, 0.1);
+}
+
+@media screen and (max-width: 900px) {
+  #feed {
+    margin: 0;
+    padding-top: 6em;
+  }
+  #tool-bar {
+    width: 100vw;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    height: auto;
+    padding: 1em .5em;
+  }
+  #tool-bar .logo {
+    font-size: 1.8em;
+    margin: 0;
+  }
+  #tool-bar .buttons {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  #tool-bar .buttons .btn {
+    height: auto;
+    font-size: 1em;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 10px;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -ms-flex-line-pack: center;
+        align-content: center;
+    border-radius: 90%;
+  }
+  #tool-bar .buttons .btn span {
+    display: none;
+  }
+  #tool-bar .buttons .btn i {
+    margin: 0;
+    font-size: 1.4em;
+  }
+  #tool-bar .buttons .btn:not(:last-child) {
+    margin-right: 5px;
+  }
+  #message-section {
+    width: 100vw;
+  }
+  #message-section h2 {
+    font-size: 1.5em;
+  }
+  #message-section .talk {
+    width: 100%;
+  }
+  #message-btn {
+    right: 10px;
+    bottom: 10px;
+    width: auto;
+    border-radius: 100%;
+  }
+  body.light #tool-bar {
+    -webkit-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  body.light #tool-bar .btn {
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    background: #f3f3f3;
+  }
+  body.dark #tool-bar {
+    background: #0D0D1A;
+    -webkit-box-shadow: 0px 2px 5px rgba(134, 134, 134, 0.1);
+            box-shadow: 0px 2px 5px rgba(134, 134, 134, 0.1);
+  }
+  body.dark #tool-bar .btn {
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    background: #31313d;
+  }
+}
+/*# sourceMappingURL=home.css.map */

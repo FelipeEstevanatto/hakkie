@@ -1,14 +1,22 @@
+<?php
+    session_start();
+    if(isset($_SESSION['isAuth'])){
+        //header("Location: home.php ");
+	    //exit();
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account</title>
+    <title>Login</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="public/css/style.css">
-    <link rel="stylesheet" href="public/css/forms/forms.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/forms/forms.css">
 
     <!-- Font Awesome-->
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>
@@ -20,25 +28,12 @@
     </div>
 
     <div class="container">
-        <div class="left">
+        <div class="right" style="width: 100%;">
             <div class="top">
-                <h1 class="logo">Hakkie</h1>                
+                Log into your account
             </div>
 
-            <div class="content">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quod placeat nam nobis dolorum hic neque qui, esse ratione obcaecati quos quis voluptatem sapiente, quo maiores? Voluptate perspiciatis atque hic ratione?
-            </div>
-        </div>
-
-        <div class="right">
-            <div class="top">
-                Create Account
-            </div>
-
-            <form action="" method="POST">
-                <label for="name">Name</label>
-                <input type="text" name="name" id="name">
-
+            <form action="../../app/php/loginLogic.php" method="POST">
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email">
 
@@ -48,7 +43,7 @@
                     <i class="fas fa-eye-slash" id="show-password-btn"></i>
                 </div>
 
-                <input type="submit" value="Submit">
+                <input type="submit" value="Submit" name="login-user-submit">
             </form>
 
             <div class="or">
@@ -56,19 +51,19 @@
             </div>
 
             <div class="google-login">
-                <img src="public/images/g-logo.png" alt="Google">
-                Sign up with Google
+                <img src="../images/g-logo.png" alt="Google">
+                Login with Google
             </div>
         </div>
     </div>
-
-    <a href="public/views/login.html">
+    
+    <a href="../../index.php">
         <div id="switch-form-btn">
-            I already have an account!
+            I still don't have an account
         </div>
     </a>
-    
-    <script src="public/js/switchTheme.js"></script>
-    <script src="public/js/showPssword.js"></script>
+
+    <script src="../../js/switchTheme.js"></script>
+    <script src="../../js/showPassword.js"></script>
 </body>
 </html>

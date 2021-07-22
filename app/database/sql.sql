@@ -1,10 +1,11 @@
 CREATE TABLE users (
   id_user SERIAL PRIMARY KEY NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  email_user VARCHAR(256),
+  name_user VARCHAR(255),
+  email_user VARCHAR(255),
   user_password VARCHAR(72),
   user_picture VARCHAR(255),
   user_banner VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   darkmode BOOLEAN DEFAULT TRUE
   );
   

@@ -42,7 +42,7 @@
                     <input type="password" name="password" id="password">
                     <i class="fas fa-eye-slash" id="show-password-btn"></i>
                 </div>
-
+                <a href="#"> Forgot you password? </a>
                 <input type="submit" value="Submit" name="login-user-submit">
             </form>
 

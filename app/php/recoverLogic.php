@@ -75,39 +75,64 @@
                 $mail->Subject = "Hakkie - Password Recover";
                 $mail->Body    = "
                 <html lang='pt-br'>
-                    <head><meta charset='UTF-8'></head>
-                    <body style='text-align: center;
-                            width: 50%;
-                            margin: auto;
-                            font-family: Roboto;
-                            background: rgb(230, 230, 230);'>
-                    <div height='70px' width='100%' style='background: rgb(224, 24, 64); color: white;'>
+                    <head>
+                    <meta charset='UTF-8'>
+                        <style>
+                            body{
+                                width: 100%;
+                                font-family: Roboto;
+                                
+                            }
+                            #main{
+                                width: 50%;
+                                text-align: center;
+                                margin: auto;
+                                background-color: rgb(230, 230, 230);
+                            }
+                            h1{
+                                color: blue;
+                            }
+                            #top{
+                                background: 
+                                linear-gradient(45deg, #7700ff, #eb4808);
+                                background-clip: text; 
+                                color: white;
+                            }
+                            button{
+                                background-color:black;
+                                color: white;
+                                font-size: 1.5em; 
+                                cursor: pointer;
+                                padding: 1em;
+                                outline: none;
+                                border-radius: .5em;
+                                border: none;
+                            }
+                            .texto{
+                                text-align: justify; 
+                                padding: 0 16px; 
+                                font-size: 1.2em;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                    <div id='main'>
+                    <div id='top'height='70px' width='100%'>
                         <h2 style='padding-top: 30px; padding-bottom: 30px;'>Hakkie</h2>
                     </div>
                     <h1>Password Recover</h1>
-                        <p style='text-align: justify; 
-                            padding: 0 16px; 
-                            font-size: 1.2em;'>
+                        <p class='texto'>
                         Hello ".$name_user.", we received a password recovery requisition of your Hakkie account by the IP ".getUserIP().", 
                         if you didn't requested or was responsible for anything, you can just ignore this email.<br><br>
                         This authentication link will be valid for the next 1 hour after this Email is sent.
                         Click on the button below to be redirected to create your new password or just click in the link below:
                         </p><br>
-                        <a href='".$url."'> 
-                        <button style='background-color:black;
-                                    color: white;
-                                    font-size: 1.5em; 
-                                    cursor: pointer;
-                                    padding: 1em;
-                                    outline: none;
-                                    border-radius: .5em;
-                                    border: none;'>
-                        Redefine password</button>
-                        </a>
+                        <a href='".$url."'> <button>Redefine password</button> </a>
                         <br>
                         <br>
                         <br>
                         <a href='".$url."'> ".$url." </a><br><br>
+                    </div>
                     </body>
                 </html>
                 ";
@@ -118,7 +143,7 @@
                 --This authentication link will be valid for the next 1 hour after this Email is sent.";
 
                 $mail->send();
-                echo 'Message has been sent';
+                //echo 'Message has been sent';
 
                 header("Location: ../../public/views/new-password.php?newpwd=checkyouremail");
                 exit();
@@ -130,5 +155,6 @@
         }
 
     } else {
-        echo "Teu email é podre ou vc veio do lugar errado";
+        header("Location: ../../public/views/new-password.php?newpwd=error");
+        exit();
     }

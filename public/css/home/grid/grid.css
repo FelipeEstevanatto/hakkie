@@ -1,13 +1,9 @@
-#switch-theme-btn {
-  bottom: 10px;
-  left: 10px;
-}
-
 #tool-bar {
   height: 100vh;
   width: 20vw;
   padding-top: 2em;
   position: fixed;
+  z-index: 999;
 }
 
 #tool-bar .logo {
@@ -29,24 +25,28 @@
   margin-right: 10px;
 }
 
-#feed {
+#container {
   margin: 0 25vw 0 20vw;
   height: 100vh;
   overflow-y: auto;
 }
 
-#feed::-webkit-scrollbar {
+#container::-webkit-scrollbar {
   width: 10px;
 }
 
-#feed::-webkit-scrollbar-thumb {
+#container::-webkit-scrollbar-thumb {
   background: #888;
   height: 10px;
   border-radius: 1em;
 }
 
-#feed::-webkit-scrollbar-thumb:hover {
+#container::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+#container h1 {
+  margin-bottom: 1em;
 }
 
 #message-section {
@@ -166,7 +166,7 @@ body.light #message-section .talk:hover {
   transition: 200ms;
 }
 
-body.light #feed::-webkit-scrollbar-track,
+body.light #container::-webkit-scrollbar-track,
 body.light #message-section.message-section-open::-webkit-scrollbar-track {
   background: #c7c7c7;
 }
@@ -210,7 +210,7 @@ body.dark #message-section .talk:hover {
   color: #d8d8d8;
 }
 
-body.dark #feed::-webkit-scrollbar-track,
+body.dark #container::-webkit-scrollbar-track,
 body.dark #message-section.message-section-open::-webkit-scrollbar-track {
   background: #272747;
 }
@@ -221,9 +221,9 @@ body.dark #message-btn {
 }
 
 @media screen and (max-width: 900px) {
-  #feed {
+  #container {
     margin: 0;
-    padding-top: 6em;
+    padding-top: 8em;
   }
   #tool-bar {
     width: 100vw;
@@ -237,10 +237,10 @@ body.dark #message-btn {
         -ms-flex-align: center;
             align-items: center;
     height: auto;
-    padding: 1em .5em;
+    padding: 1em;
   }
   #tool-bar .logo {
-    font-size: 1.8em;
+    font-size: 1.5em;
     margin: 0;
   }
   #tool-bar .buttons {
@@ -250,7 +250,7 @@ body.dark #message-btn {
   }
   #tool-bar .buttons .btn {
     height: auto;
-    font-size: 1em;
+    font-size: 2.5vw;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -270,7 +270,7 @@ body.dark #message-btn {
     font-size: 1.4em;
   }
   #tool-bar .buttons .btn:not(:last-child) {
-    margin-right: 5px;
+    margin-right: 10px;
   }
   #message-section {
     width: 100vw;
@@ -307,4 +307,4 @@ body.dark #message-btn {
     background: #31313d;
   }
 }
-/*# sourceMappingURL=home.css.map */
+/*# sourceMappingURL=grid.css.map */

@@ -100,23 +100,6 @@ body .container .right form input:not(:last-child) {
   margin-bottom: 2em;
 }
 
-body .container .right form .show-password {
-  position: relative;
-}
-
-body .container .right form .show-password #show-password-btn {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 16px;
-  font-size: 1.5em;
-  cursor: pointer;
-}
-
-body .container .right form input[name="password"] {
-  padding-right: 64px;
-}
-
 body .container .right form input[type="submit"] {
   background: linear-gradient(35deg, #7700ff 40%, #0059ff) !important;
   color: #FFF;
@@ -179,11 +162,6 @@ body .container .right .google-login img {
   margin-right: 1em;
 }
 
-body #switch-theme-btn {
-  top: 10px;
-  left: 10px;
-}
-
 body #switch-form-btn {
   position: fixed;
   bottom: 0;
@@ -197,25 +175,6 @@ body #switch-form-btn {
 
 body #switch-form-btn:hover {
   padding: 25px 30px 20px 15px;
-}
-
-body.light input {
-  -webkit-box-shadow: 0px 0px 10px #d8d8d8;
-          box-shadow: 0px 0px 10px #d8d8d8;
-  color: #4e4e4e;
-}
-
-body.light .show-password-btn {
-  color: #4e4e4e;
-}
-
-body.dark input {
-  background: #1e1e30;
-  color: #d8d8d8;
-}
-
-body.dark .show-password {
-  color: #d8d8d8;
 }
 
 @media screen and (max-width: 775px) {

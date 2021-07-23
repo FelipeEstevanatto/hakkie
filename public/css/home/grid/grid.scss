@@ -1,14 +1,10 @@
-#switch-theme-btn {
-    bottom: 10px;
-    left: 10px;
-}
-
 #tool-bar {
     height: 100vh;
     width: 20vw;
     padding-top: 2em;
     position: fixed;
-
+    z-index: 999;
+    
     .logo {
         margin: 0 auto;
         font-size: 3vw;
@@ -22,13 +18,14 @@
         padding: 10px;
         font-weight: 600;
         padding-left: 20%;
+
         i {
             margin-right: 10px;
         }
     }
 }
 
-#feed {
+#container {
     margin: 0 25vw 0 20vw;
     height: 100vh;
 
@@ -156,7 +153,7 @@ body.light {
         }
     }
 
-    #feed,
+    #container,
     #message-section.message-section-open {
         &::-webkit-scrollbar-track {
             background: #c7c7c7;
@@ -199,7 +196,7 @@ body.dark {
         }
     }
 
-    #feed, 
+    #container , 
     #message-section.message-section-open {
         &::-webkit-scrollbar-track {
             background: #272747;
@@ -212,9 +209,13 @@ body.dark {
 }
 
 @media screen and (max-width: 900px) { 
-    #feed {
+    #container  {
         margin: 0;
         padding-top: 6em;
+
+        h1 {
+            font-size: 1em;
+        }
     }
 
     #tool-bar {
@@ -223,10 +224,10 @@ body.dark {
         justify-content: space-between;
         align-items: center;
         height: auto;
-        padding: 1em .5em;
+        padding: 1em;
 
         .logo {
-            font-size: 1.8em;
+            font-size: 1.5em;
             margin: 0;
         }
     
@@ -235,7 +236,7 @@ body.dark {
 
             .btn {
                 height: auto;
-                font-size: 1em;
+                font-size: 2.5vw;
                 display: flex;
                 padding: 10px;
                 justify-content: center;
@@ -252,7 +253,7 @@ body.dark {
                 }
 
                 &:not(:last-child) {
-                    margin-right: 5px;
+                    margin-right: 10px;
                 }
             }
         }
@@ -277,7 +278,7 @@ body.dark {
         border-radius: 100%;
     }
 
-    // 
+    // Theme
 
     body.light {
         #tool-bar {

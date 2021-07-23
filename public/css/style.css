@@ -38,11 +38,21 @@ body {
   text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.212);
 }
 
-#switch-theme-btn {
+.show-password {
+  position: relative;
+}
+
+.show-password #show-password-btn {
   position: absolute;
-  font-size: 2em;
+  top: 0;
+  right: 0;
+  padding: 16px;
+  font-size: 1.5em;
   cursor: pointer;
-  z-index: 1;
+}
+
+.show-password input[name="password"] {
+  padding-right: 64px;
 }
 
 body.light {
@@ -50,8 +60,27 @@ body.light {
   color: #0D0D1A;
 }
 
+body.light .show-password-btn {
+  color: #4e4e4e;
+}
+
+body.light input {
+  -webkit-box-shadow: 0px 0px 10px #d8d8d8;
+          box-shadow: 0px 0px 10px #d8d8d8;
+  color: #4e4e4e;
+}
+
 body.dark {
   background: #0D0D1A;
   color: #EDEDED;
+}
+
+body.dark .show-password {
+  color: #d8d8d8;
+}
+
+body.dark input {
+  background: #1e1e30;
+  color: #d8d8d8;
 }
 /*# sourceMappingURL=style.css.map */

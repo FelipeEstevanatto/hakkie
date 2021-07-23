@@ -20,13 +20,11 @@
 
     <!-- Font Awesome-->
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon">
 </head>
-<body class="light">
-
-    <div id="switch-theme-btn">
-        <i class="fas fa-adjust"></i>
-    </div>
-
+<body class="dark">
     <div class="container">
         <div class="right" style="width: 100%;">
             <div class="top">
@@ -63,7 +61,6 @@
         </div>
     </a>
 
-    <script src="../../js/switchTheme.js"></script>
     <script src="../../js/showPassword.js"></script>
 </body>
 </html>

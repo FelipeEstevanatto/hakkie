@@ -75,23 +75,6 @@ body {
                     }
                 }
 
-                .show-password {
-                    position: relative;
-
-                    #show-password-btn {
-                        position: absolute;
-                        top: 0;
-                        right: 0;
-                        padding: 16px;
-                        font-size: 1.5em;
-                        cursor: pointer;
-                    }
-                }
-
-                input[name="password"] {
-                    padding-right: 64px;
-                }
-
                 input[type="submit"] {
                     background: linear-gradient(35deg, #7700ff 40%,  #0059ff) !important; 
                     color: #FFF;
@@ -152,11 +135,6 @@ body {
         }
     }
 
-    #switch-theme-btn {
-        top: 10px;
-        left: 10px;
-    }
-
     #switch-form-btn {
         position: fixed;
         bottom: 0;
@@ -172,30 +150,6 @@ body {
         &:hover {
             padding: 25px 30px 20px 15px;
         }
-    }
-}
-
-// Page Theme
-
-body.light {
-    input {
-        box-shadow: 0px 0px 10px rgb(216, 216, 216);
-        color: rgb(78, 78, 78);
-    }
-
-    .show-password-btn {
-        color: rgb(78, 78, 78);
-    }
-}
-
-body.dark {
-    input {
-        background: #1e1e30;
-        color: rgb(216, 216, 216);
-    }
-
-    .show-password {
-        color: rgb(216, 216, 216);
     }
 }
 

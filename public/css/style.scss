@@ -38,19 +38,48 @@ body {
     text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.212);
 }
 
-#switch-theme-btn {
-    position: absolute;
-    font-size: 2em;
-    cursor: pointer;
-    z-index: 1;
+.show-password {
+    position: relative;
+
+    #show-password-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 16px;
+        font-size: 1.5em;
+        cursor: pointer;
+    }
+
+    input[name="password"] {
+        padding-right: 64px;
+    }
 }
 
 body.light {
     background: #EDEDED;
     color: #0D0D1A;
+
+    
+    .show-password-btn {
+        color: rgb(78, 78, 78);
+    }
+
+    input {
+        box-shadow: 0px 0px 10px rgb(216, 216, 216);
+        color: rgb(78, 78, 78);
+    }
 }
 
 body.dark {
     background: #0D0D1A;
     color: #EDEDED;
+
+    .show-password {
+        color: rgb(216, 216, 216);
+    }
+
+    input {
+        background: #1e1e30;
+        color: rgb(216, 216, 216);
+    }
 }

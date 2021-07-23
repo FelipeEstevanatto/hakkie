@@ -1,0 +1,153 @@
+#container {
+    padding: 2em 4em;
+    position: relative;
+}
+
+#container .settings .btn {
+    cursor: pointer;
+    padding: 15px 25px;
+    background: linear-gradient(45deg, #7700ff,  #eb4808);
+    opacity: .8;
+    border-radius: 1em;
+    font-size: 1.1vw;
+    color: #FFF;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.377);
+    margin-bottom: .9em; 
+    transition: 400ms;
+}
+
+#container .settings .btn.open {
+    border-radius: 1em 1em 0 0;
+}
+
+#container .settings .btn i {
+    margin-right: 15px;
+}
+
+#container .settings #logout-btn {
+    position: absolute;
+    bottom: 1em;
+    left: 4em;
+    background: linear-gradient(35deg, #ff0000 40%,  #940000);
+}
+
+/* Form Manage */
+
+#container .settings .form-manage {
+    transition: 400ms;
+}
+
+#container .settings .form-manage.close {
+    height: 0;
+}
+
+#container .settings .form-manage.close form, 
+#container .settings .form-manage.close label,
+#container .settings .form-manage.close input {
+    display: none;
+}
+
+#container .settings .form-manage.open {
+    display: flex;
+    width: 100%;
+    margin-bottom: 3em;
+    padding: 2em 1em;
+    margin-top: -1.2em;
+    border-radius: 0 0 1em 1em;
+}
+
+#container .settings .form-manage.open form {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#container .settings .form-manage.open label {
+    width: 100%;
+    display: block;
+    padding: 1em 0 1em 0;
+    font-weight: 600;
+}
+
+#container .settings .form-manage.open input {
+    outline: none;
+    border: none;
+    padding: 1em;
+    width: 70%;
+    border-radius: 1em;
+    font-size: 1em;
+}
+
+#container .settings .form-manage.open input[type="submit"] {
+    background: rgb(46, 139, 87);
+    color: #FFF;
+    font-weight: 700;
+    width: 25%;
+}
+
+#container .settings .form-manage.open input[type="submit"]:hover {
+    background: rgb(22, 107, 59);
+    cursor: pointer;
+    transition: 200ms;
+}
+
+#container .settings .form-manage.open .show-password {
+    width: 70%;
+
+    input {
+        width: 100%;
+    }
+}
+
+/* Theme */
+
+body.light #container .settings .form-manage.open {
+    background: rgb(204, 204, 204);
+}
+
+body.dark #container .settings .form-manage.open {
+    background: #10101a;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.151)
+}
+
+@media screen and (max-width: 900px) {
+    #container {
+        padding: 1em;
+    }
+
+    #container .settings .btn {
+        font-size: 1em;
+    }
+
+    /* Form manage */
+
+    #container .settings .form-manage.open {
+        padding: 2em 1em 1em 1em;
+    }
+
+    #container .settings .form-manage.open form {
+        display: block;
+        font-size: .9em;
+    }
+
+    #container .settings .form-manage.open input {
+        width: 100%;
+        font-size: 1.1em;
+        margin-bottom: 2em;
+    }
+
+    #container .settings .form-manage.open .show-password {
+        width: 100%;
+        margin-bottom: 2.5;
+
+        input {
+            width: 100%;
+        }
+    }
+    
+    #container .settings .form-manage.open input[type="submit"] {
+        width: 100%;
+    }
+    
+}

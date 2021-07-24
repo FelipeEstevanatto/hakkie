@@ -12,6 +12,9 @@
 
     <!-- Font Awesome-->
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon">
 </head>
 <body class="light">
 
@@ -27,14 +30,16 @@
             <?php
                 include('../../app/php/functions.php');
                 $userIP = getUserIP();
-                if( isset($_GET['newpwd']) && $_GET['newpwd'] == 'checkyouremail' )
-                    echo"<div class='warning'>Check your email for the recovery link</div>";
-                elseif( !isset($_GET['selector']) || !isset($_GET['validator']) || (isset($_GET['newpdw']) && $_GET['newpwd'] == 'error') ) {
+                if ( isset($_GET['newpwd']) && $_GET['newpwd'] == 'checkyouremail' )
+                    echo"<div class='warning'>Check your email for the recovery link (look in the Spam tab too)</div>";  
+                elseif ( !isset($_GET['selector']) || !isset($_GET['validator']) || (isset($_GET['newpdw']) && $_GET['newpwd'] == 'error') ) {
                     echo"<div class='warning'>It was not possible to validade your request</div>";
                 } else {
+                if ( isset($_GET['newpwd']) && $_GET['newpwd'] == 'pwdnotsame' )
+                    echo"<div class='warning'>Put the same password in both fields</div>";
             ?>
             <form action="../../app/php/changePasswordDB.php" method="POST">
-
+                
                 <input type="hidden" name="selector" value="<?php echo$_GET['selector']; ?>">
                 <input type="hidden" name="validator" value="<?php echo$_GET['validator']; ?>">
 

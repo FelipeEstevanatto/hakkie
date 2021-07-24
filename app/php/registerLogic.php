@@ -6,7 +6,7 @@ require_once("../database/connect.php");
 require_once("functions.php");
 
 $name_user = cleanString($_POST['name']);
-$email_user = filter_var(strtolower( cleanString($_POST['email']) ),FILTER_SANITIZE_EMAIL);
+$email_user = cleanEmail($_POST['email']);
 $password_user = cleanString($_POST['password']);
 
 if (!empty($email_user) && !empty($password_user) && isset($_POST['register_user_submit']) ) {
@@ -29,15 +29,13 @@ if (!empty($email_user) && !empty($password_user) && isset($_POST['register_user
 
         $stmt = $conn -> prepare($query);
 
-        $stmt -> bindValue(':email_user', $email_user);
-
         $stmt -> execute( array(':name_user' => $name_user ,
                                 ':email_user' => $email_user,
                                 ':password_user' => $password_user ) );
 
         if ($stmt) {
 
-            $query = "SELECT id_user FROM users WHERE email_user = :email_user";
+            $query = "SELECT id_user, darkmode FROM users WHERE email_user = :email_user";
 
             $stmt = $conn -> prepare($query);
 
@@ -48,13 +46,14 @@ if (!empty($email_user) && !empty($password_user) && isset($_POST['register_user
             $return = $stmt -> fetch(PDO::FETCH_ASSOC);
             
             $_SESSION['isAuth'] = true;
+            $_SESSION['darkMode'] = $return['darkmode'];
             $_SESSION['idUser'] = $return['id_user'];
 
             header("Location: ../../public/views/home.html");
             exit();
         }
     } else {
-        header("Location: ../../index22.php");
+        header("Location: ../../index.php?error=emailalreadyregistered");
         exit();
     }
 

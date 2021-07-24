@@ -12,6 +12,9 @@
 
     <!-- Font Awesome-->
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon">
 </head>
 <body class="light">
 
@@ -26,12 +29,17 @@
             </div>
             <?php
                 include('../../app/php/functions.php');
-                $userIP = getUserIP();
+                $userIP = getUserIP()->ip;
             ?>
             <form action="../../app/php/recoverLogic.php" method="POST">
 
-                <input type="hidden" name="sender-ip" value="<?php echo getUserIP(); ?>">
+                <input type="hidden" name="sender-ip" value="<?php echo$userIP; ?>">
 
+                <?php
+                if (isset($_GET['newpwd']) && $_GET['newpwd'] = 'error'){
+                    echo"<div class='warning'>Use a proper email!</div>";
+                }
+                ?>
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email">
 

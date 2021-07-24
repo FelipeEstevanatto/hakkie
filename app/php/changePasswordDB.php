@@ -1,20 +1,22 @@
 <?php
 
+session_start();
+
 require_once("functions.php");
 require_once("../database/connect.php");
 
 if (isset($_POST['new-password-submit'])) {
     
     $selector = $_POST['selector'];
-    $validator = $_POST['validator'];
+    $validator = $_POST['validator']; //token
     $new_password = cleanString($_POST['password']);
     $passwordRepeat = cleanString($_POST['password-repeat']);
 
     if ( empty($new_password) || empty($passwordRepeat) ) {
-        header("location: ../public/views/new-password.php?selector=".$selector."&validator=".$validator."&newpwd=empty");
+        header("location: ../../public/views/new-password.php?selector=$selector&validator=$validator&newpwd=empty");
         exit();
     } else if ( $new_password !== $passwordRepeat ) {
-        header("location: ../public/views/new-password.php?selector=".$selector."&validator=".$validator."&newpwd=pwdnotsame");
+        header("location: ../../public/views/new-password.php?selector=$selector&validator=$validator&newpwd=pwdnotsame");
         exit();
     }
     
@@ -32,16 +34,15 @@ if (isset($_POST['new-password-submit'])) {
     $row = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
     if (!$stmt || count($row) != 1) {
-        header("location: ../public/views/new-password.php?newpwd=error");
+        header("location: ../../public/views/new-password.php?newpwd=error");
         exit();
     }
 
     $tokenBin = hex2bin($validator);
-    $tokenCheck = password_verify($tokenBin, $row[0]["pwdresettoken"]);
+    $tokenCheck = password_verify($tokenBin, $row[0]['pwdresettoken']);
 
     if ($tokenCheck === false) {
-        //print_r($_POST);
-        header("location: ../public/views/new-password.php?newpwd=error");
+        header("location: ../../public/views/new-password.php?newpwd=error");
         exit();
     } elseif ($tokenCheck === true) {
 
@@ -54,8 +55,8 @@ if (isset($_POST['new-password-submit'])) {
 
         $row = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
-        if (!$stmt || count($row) != 1) {
-            header("location: ../public/views/new-password.php?newpwd=error");
+        if (!$stmt || count($row) < 1) {
+            header("location: ../../public/views/new-password.php?newpwd=error");
             exit();
         } else {
 
@@ -73,10 +74,10 @@ if (isset($_POST['new-password-submit'])) {
             $stmt2 -> execute();
 
             if ( !$stmt || !$stmt2) {
-                header("location: ../public/views/new-password.php?newpwd=error");
+                header("location: ../../public/views/new-password.php?newpwd=error");
                 exit();
             } else {
-                header("location: ../public/views/login.php?newpwd=passwordupdated");
+                header("location: ../../public/views/login.php?newpwd=passwordupdated");
                 exit();
             }
         }
@@ -84,6 +85,6 @@ if (isset($_POST['new-password-submit'])) {
     }
 
 } else { //Came from outside our form
-    header("location: ../index.php");  
+    header("location: ../../index.php");  
     exit();
 }

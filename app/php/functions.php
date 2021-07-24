@@ -1,11 +1,15 @@
 <?php
 
 function cleanString($string) {
-    return trim($string);
+    return filter_var(trim($string),FILTER_SANITIZE_STRING);
+}
+
+function cleanEmail($string) {
+    return trim(strtolower(filter_var($string,FILTER_SANITIZE_EMAIL)));
 }
 
 function generateFakePassword() {
-    return password_hash("something", PASSWORD_BCRYPT);
+    return password_hash(random_bytes(16), PASSWORD_BCRYPT);
 }
 
 function getUserIP() {
@@ -17,5 +21,11 @@ function getUserIP() {
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? null;
     }
 
-    return $ip;
+    $ipDetails = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
+    
+    if ( $ip == '::1') {
+        $ipDetails->ip = 'Localhost';
+    }
+
+    return $ipDetails;
 }

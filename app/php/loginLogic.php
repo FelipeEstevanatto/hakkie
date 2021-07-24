@@ -5,14 +5,14 @@ session_start();
 require_once("../database/connect.php");
 require_once("functions.php");
 
-$email_user = filter_var(strtolower( cleanString($_POST['email']) ),FILTER_SANITIZE_EMAIL);
+$email_user = cleanEmail( $_POST['email'] );
 $password_user = cleanString($_POST['password']);
 
 if (!empty($email_user) && !empty($password_user) && isset($_POST['login-user-submit']) ) {
 
     $dbpassword = generateFakePassword();
 
-    $query = "SELECT id_user, email_user, user_password FROM users WHERE email_user = :email_user";
+    $query = "SELECT id_user, email_user, user_password, darkmode FROM users WHERE email_user = :email_user";
 
     $stmt = $conn -> prepare($query);
 
@@ -20,12 +20,12 @@ if (!empty($email_user) && !empty($password_user) && isset($_POST['login-user-su
 
     $stmt -> execute();
 
-    $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+    $return = $stmt -> fetch(PDO::FETCH_ASSOC);
 
     if ( count($return) > 0) {
         
         $password_user = cleanString($_POST['password']);
-        $dbpassword = $return[0]['user_password'];
+        $dbpassword = $return['user_password'];
         
     }
 
@@ -34,7 +34,8 @@ if (!empty($email_user) && !empty($password_user) && isset($_POST['login-user-su
         session_regenerate_id(true);
 
         $_SESSION['isAuth'] = true;
-        $_SESSION['idUser'] = $return[0]['id_user'];
+        $_SESSION['darkMode'] = $return['darkmode'];
+        $_SESSION['idUser'] = $return['id_user'];
 
         header("Location: ../../public/views/home.html");
         exit();

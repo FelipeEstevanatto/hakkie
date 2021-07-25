@@ -45,10 +45,6 @@
   background: #555;
 }
 
-#container h1 {
-  margin-bottom: 1em;
-}
-
 #message-section {
   position: fixed;
   right: 0;
@@ -223,7 +219,10 @@ body.dark #message-btn {
 @media screen and (max-width: 900px) {
   #container {
     margin: 0;
-    padding-top: 8em;
+    padding-top: 6em;
+  }
+  #container h1 {
+    font-size: 1em;
   }
   #tool-bar {
     width: 100vw;

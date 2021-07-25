@@ -31,6 +31,14 @@
                 Log into your account
             </div>
 
+            <?php
+                if (isset($_GET['error']) && $_GET['error'] == 'invalid') {
+                    echo"<div class='error'>Invalid email or password</div><br>";
+                } elseif (isset($_GET['newpwd']) && $_GET['newpwd'] == 'passwordupdated') {
+                    echo"<div class='error'>Now login with your new password</div><br>";
+                }
+            ?>
+
             <form action="../../app/php/loginLogic.php" method="POST">
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email">

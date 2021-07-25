@@ -23,7 +23,7 @@
         </div>
 
         <div class="buttons">
-            <a href="#" class="btn">
+            <a href="home.php" class="btn">
                 <i class="fas fa-home"></i>
                 <span>Home</span>
             </a>
@@ -38,7 +38,7 @@
                 <span>Profile</span>
             </a>
 
-            <a href="settings.html" class="btn">
+            <a href="settings.php" class="btn">
                 <i class="fas fa-cog"></i>
                 <span>Settings</span>
             </a>
@@ -46,7 +46,11 @@
     </div>
 
     <div id="feed">
-
+        <?php
+            for ($i = 0; $i<10; $i++) {
+                echo"aaaaa".random_int(0,1000)."<br>";
+            }
+        ?>
     </div>
 
 

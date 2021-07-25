@@ -41,6 +41,7 @@
 
 #container .settings .form-manage.close {
   height: 0;
+  display: none;
 }
 
 #container .settings .form-manage.close form,
@@ -53,6 +54,10 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   width: 100%;
   margin-bottom: 3em;
   padding: 2em 1em;

@@ -37,15 +37,15 @@ if (!empty($email_user) && !empty($password_user) && isset($_POST['login-user-su
         $_SESSION['darkMode'] = $return['darkmode'];
         $_SESSION['idUser'] = $return['id_user'];
 
-        header("Location: ../../public/views/home.html");
+        header("Location: ../../public/views/home.php");
         exit();
 
     } else {
-        header("Location: login.php");
+        header("Location: ../../public/views/login.php?error=invalid");
         exit();
     }
 
 } else {
-    header("Location: ../../index.html");
+    header("Location: ../../index.php");
     exit();
 }

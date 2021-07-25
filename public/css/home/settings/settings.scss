@@ -39,6 +39,7 @@
 
 #container .settings .form-manage.close {
     height: 0;
+    display: none;
 }
 
 #container .settings .form-manage.close form, 
@@ -49,6 +50,7 @@
 
 #container .settings .form-manage.open {
     display: flex;
+    flex-direction: column;
     width: 100%;
     margin-bottom: 3em;
     padding: 2em 1em;

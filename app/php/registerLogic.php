@@ -25,7 +25,7 @@ if (!empty($email_user) && !empty($password_user) && isset($_POST['register_user
 
         $password_user = password_hash($password_user, PASSWORD_BCRYPT);
 
-        $query = "INSERT INTO users VALUES(DEFAULT, :name_user , :email_user , :password_user, NULL, NULL, DEFAULT, FALSE)";
+        $query = "INSERT INTO users VALUES(DEFAULT, :name_user , :email_user , :password_user, DEFAULT, NULL, NULL, DEFAULT, DEFAULT)";
 
         $stmt = $conn -> prepare($query);
 
@@ -49,7 +49,7 @@ if (!empty($email_user) && !empty($password_user) && isset($_POST['register_user
             $_SESSION['darkMode'] = $return['darkmode'];
             $_SESSION['idUser'] = $return['id_user'];
 
-            header("Location: ../../public/views/home.html");
+            header("Location: ../../public/views/home.php");
             exit();
         }
     } else {

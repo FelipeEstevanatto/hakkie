@@ -5,11 +5,16 @@ function cleanString($string) {
 }
 
 function cleanEmail($string) {
-    return trim(strtolower(filter_var($string,FILTER_SANITIZE_EMAIL)));
+    $string = trim(strtolower(filter_var($string,FILTER_SANITIZE_EMAIL)));
+    if (strlen($string) < 256 && !empty($string)) {
+        return $string;
+    } else {
+        return false;
+    }
 }
 
 function generateFakePassword() {
-    return password_hash(random_bytes(16), PASSWORD_BCRYPT);
+    return password_hash(random_bytes(32), PASSWORD_BCRYPT);
 }
 
 function getUserIP() {

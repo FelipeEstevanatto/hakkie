@@ -1,3 +1,5 @@
+/*Using POSTGRESQL 13*/
+
 CREATE TABLE users (
   id_user SERIAL PRIMARY KEY NOT NULL,
   name_user VARCHAR(64),
@@ -34,7 +36,7 @@ CREATE TABLE comments (
 CREATE TABLE follows (
   id_friend SERIAL NOT NULL PRIMARY KEY,
   user_friend BIGINT NOT NULL,
-  friend_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  friend_date TIMESTAMP DEFAULT CURRENT_DATE,
   fk_user BIGINT NOT NULL,
   FOREIGN KEY (fk_user) REFERENCES users (id_user)
 );
@@ -52,7 +54,7 @@ CREATE TABLE messages (
 CREATE TABLE blocks (
   id_block SERIAL PRIMARY KEY NOT NULL,
   user_blocked BIGINT NOT NULL,
-  block_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  block_date TIMESTAMP DEFAULT CURRENT_DATE,
   fk_user BIGINT NOT NULL,
   FOREIGN KEY (fk_user) REFERENCES users (id_user)
 );

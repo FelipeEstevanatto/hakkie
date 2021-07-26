@@ -9,7 +9,7 @@ $name_user = cleanString($_POST['name']);
 $email_user = cleanEmail($_POST['email']);
 $password_user = cleanString($_POST['password']);
 
-if (!empty($email_user) && !empty($password_user) && isset($_POST['register_user_submit']) ) {
+if ($email_user !== false && !empty($password_user) && isset($_POST['register_user_submit']) ) {
     
     $query = "SELECT email_user FROM users where email_user = :email_user ";
 

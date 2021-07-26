@@ -80,14 +80,24 @@
             $stmt = $conn -> prepare($query);
             $stmt -> bindValue(':id_user', $_SESSION['idUser']);
             $stmt -> execute();
-            
             $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
             if ( count($return) < 1 ) {
                 $hasBlocks = false;
             } else {
                 $hasBlocks = true;
-                $blocks = $return;
+
+                $query = 'SELECT users.name_user, users.user_picture, blocks.block_date FROM users INNER JOIN blocks
+                          ON users.id_user = blocks.user_blocked WHERE blocks.fk_user = :id_user ';
+                $stmt = $conn -> prepare($query);
+                $stmt -> bindValue(':id_user', $_SESSION['idUser']);
+                $stmt -> execute();
+                
+                $blocks = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
             }
+
+           
         ?>
         
         <div class="settings">
@@ -114,38 +124,31 @@
                 <span>Manage Blocks</span>
             </div>
 
-            <div id="block-manage" class="form-manage open">
+            <div id="block-manage" class="form-manage close">
                 <?php
                     if ($hasBlocks) {
-                        foreach ($blocks as $i) {
-
-                            $query = "SELECT name_user, user_picture FROM users WHERE id_user = :id_user";
-                            $stmt = $conn -> prepare($query);
-                            $stmt -> bindValue(':id_user', $i['user_blocked']);
-                            $stmt -> execute();
-                            
-                            $return = $stmt -> fetch(PDO::FETCH_ASSOC);
+                        foreach ($blocks as $blocked_user) {
 
                             echo "<div class='block'>";
 
-                                echo "<div class='left'>";
+                                echo "<div class='left'>";  
 
-                                    if ( is_null($return['user_picture']) ) { 
+                                    if ( is_null($blocked_user['user_picture']) ) { 
                                         echo"<img src='../images/defaultUser.png' width=50px style='clip-path:circle();'>";
                                     } else {
-                                        echo"<img src='the_real_user_image.png' width=50px style='clip-path:circle();'>";
+                                        echo"<img src='../profiles/pictures/".$blocked_user['user_picture']."' width=50px style='clip-path:circle();'>";
                                     }
-                                    echo $return['name_user'];
+                                    echo "<a href='#'>".$blocked_user['name_user']."</a>";
 
-                                    echo "</div>";
+                                echo "</div>";
 
-                                    echo "<div class='right'>";
+                                echo "<div class='right'>";
 
-                                        echo"<i class='fas fa-times'></i>";
+                                    echo"<i class='fas fa-times'></i>";
                             
-                                    echo "</div>";
-
-                                    echo "<div class='time'>26/07/2021</div>";
+                                echo "</div>";
+                
+                                echo "<div class='time'>Blocked since: ".substr($blocked_user['block_date'], 0, 19)."</div>";
 
                             echo "</div>"; 
                         }

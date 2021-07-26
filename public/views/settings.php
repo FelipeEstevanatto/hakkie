@@ -97,9 +97,9 @@
                 <span>Switch Theme: </span>
                 <?php
                     if ($darkMode) {
-                        echo"Darkmode ligado";
+                        echo"Darkmode On";
                     } else {
-                        echo"Darkmode desligado";
+                        echo"Darkmode Off";
                     }
                 ?>
             </div>
@@ -114,7 +114,7 @@
                 <span>Manage Blocks</span>
             </div>
 
-            <div class="form-manage close">
+            <div id="block-manage" class="form-manage open">
                 <?php
                     if ($hasBlocks) {
                         foreach ($blocks as $i) {
@@ -126,17 +126,31 @@
                             
                             $return = $stmt -> fetch(PDO::FETCH_ASSOC);
 
-                            if ( is_null($return['user_picture']) ) { 
-                                echo"<img src='../images/defaultUser.png' width=50px style='clip-path:circle();'>";
-                            } else {
-                                echo"<img src='the_real_user_image.png' width=50px style='clip-path:circle();'>";
-                            }
-                            echo"Usuário: ".$return['name_user']."";
-                            echo"<button>Remove block</button>";
+                            echo "<div class='block'>";
+
+                                echo "<div class='left'>";
+
+                                    if ( is_null($return['user_picture']) ) { 
+                                        echo"<img src='../images/defaultUser.png' width=50px style='clip-path:circle();'>";
+                                    } else {
+                                        echo"<img src='the_real_user_image.png' width=50px style='clip-path:circle();'>";
+                                    }
+                                    echo $return['name_user'];
+
+                                    echo "</div>";
+
+                                    echo "<div class='right'>";
+
+                                        echo"<i class='fas fa-times'></i>";
                             
+                                    echo "</div>";
+
+                                    echo "<div class='time'>26/07/2021</div>";
+
+                            echo "</div>"; 
                         }
                     } else {
-                        echo "You have no blocks, nice!";
+                        echo "<span> <i class='fas fa-thumbs-up'></i> You have no blocks, nice!</span>";
                     }
                     
                 ?>
@@ -150,7 +164,10 @@
 
             <div class="form-manage close">
                 <form action="../../app/php/changeUserData.php" method="POST">
-                    <label for="name">Current name: <?php echo$name ?></label> 
+                    <label for="current-name">Current Name</label> 
+                    <input type="text" placeholder="<?php echo$name ?>" disabled>
+
+                    <label for="name">New Name</label> 
                     <input type="text" name="name" id="name">
 
                     <input type="submit" name='change-user-name' value="Submit">

@@ -1,6 +1,6 @@
 CREATE TABLE users (
   id_user SERIAL PRIMARY KEY NOT NULL,
-  name_user VARCHAR(256),
+  name_user VARCHAR(64),
   email_user VARCHAR(256) NOT NULL,
   user_password VARCHAR(72),
   auth_type VARCHAR(128) DEFAULT 'PASSWORD',
@@ -26,7 +26,7 @@ CREATE TABLE comments (
   comment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   likes INT DEFAULT 0,
   fk_post BIGINT NOT NULL,
-  FOREIGN KEY (fk_post) REFERENCES posts (id_post)
+  FOREIGN KEY (fk_post) REFERENCES posts (id_post),
   fk_user BIGINT NOT NULL,
   FOREIGN KEY (fk_user) REFERENCES users (id_user)
 );

@@ -102,15 +102,85 @@
     }
 }
 
-/* Theme */
+#container .settings #block-manage.open {
 
-body.light #container .settings .form-manage.open {
-    background: rgb(204, 204, 204);
+    .block {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        border-radius: 1em;
+        font-weight: 500;
+        position: relative;
+        flex-wrap: wrap;
+        padding-top: 10px;
+
+        .left {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 90%;
+            word-break: break-all;
+            padding-left: 1em;
+
+            img {
+                margin-right: 10px;
+            }
+        }
+
+        .right {
+            cursor: pointer;    
+            font-size: 1.3em;   
+            padding-right: 1em;
+
+            i {
+                color: rgb(220, 20, 60);
+                text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        .time {
+            width: 100%;
+            text-align: center;
+            font-weight: lighter;
+            color: rgb(128, 128, 128);
+            padding: 5px;
+            border-radius: 0 0 1em 1em;
+            margin-top: 10px;
+        }
+    }
 }
 
-body.dark #container .settings .form-manage.open {
-    background: #10101a;
-    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.151)
+/* Theme */
+
+body.light {
+
+    #container .settings .form-manage.open {
+        background: rgb(204, 204, 204);
+    }
+
+    #container .settings #block-manage.open .block{
+        background: #d8d8d8;
+
+        .time {
+            background: #dfdfdf;
+        }
+    }
+}
+
+body.dark {
+    #container .settings .form-manage.open  {
+        background: #10101a;
+        box-shadow: 0 2px 5px rgba(255, 255, 255, 0.151)
+    }
+
+    #container .settings #block-manage.open .block{
+        background: #1e1e30; 
+
+        .time {
+            background: #282833;
+        }
+    }
 }
 
 @media screen and (max-width: 900px) {
@@ -152,4 +222,16 @@ body.dark #container .settings .form-manage.open {
         width: 100%;
     }
     
+    #container .settings #block-manage.open {
+
+        .block {
+            font-size: .8em;
+
+            .left {
+                img {
+                    display: none;
+                }
+            }
+        }
+    }
 }

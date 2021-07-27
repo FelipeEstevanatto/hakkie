@@ -4,13 +4,13 @@
 
     require("functions.php");
 
-    if(!isset($_SESSION['isAuth'])){
+    if (!isset($_SESSION['isAuth'])) {
         header("Location: ../../public/views/login.php?error=expiredsession");
         exit();
     }
 
     print_r($_POST);
-    if( isset($_POST['change-user-name']) ) {
+    if ( isset($_POST['change-user-name']) ) {
 
         $newName = cleanString($_POST['name']);
 
@@ -23,7 +23,7 @@
         
     }
 
-    if( isset($_POST['change-user-email']) ) {
+    if ( isset($_POST['change-user-email']) ) {
 
         $newEmail = cleanEmail($_POST['email']);
 
@@ -34,7 +34,7 @@
         echo"change user email";
     }
 
-    if( isset($_POST['change-user-password']) ) {
+    if ( isset($_POST['change-user-password']) ) {
 
         $newPass = cleanString($_POST['password']);
 

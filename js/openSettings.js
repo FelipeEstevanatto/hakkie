@@ -15,3 +15,19 @@ buttonSetting.forEach((btn, index) => {
         }
     });
 });
+
+const unblockBtn = window.document.querySelectorAll('#container .settings #block-manage.open .block .right i');
+const userBlocked = window.document.querySelectorAll('#container .settings #block-manage.open .block');
+
+unblockBtn.forEach((i, index) => {
+    i.addEventListener('click', () => {
+        
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '../../app/php/removeBlock.php');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        xhr.send('unblock='+unblockBtn[index].id.slice(16));
+
+        userBlocked[index].remove();
+    });
+});

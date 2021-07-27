@@ -45,7 +45,6 @@
             $stmt -> execute();
         
             $return = $stmt -> fetch(PDO::FETCH_ASSOC);
-            //print_r($return);
 
             $name = $return['name_user'];
             $email = $return['email_user'];
@@ -62,7 +61,7 @@
             } else {
                 $hasBlocks = true;
 
-                $query = 'SELECT users.name_user, users.user_picture, blocks.block_date FROM users INNER JOIN blocks
+                $query = 'SELECT users.name_user, users.user_picture, blocks.block_date, blocks.id_block FROM users INNER JOIN blocks
                           ON users.id_user = blocks.user_blocked WHERE blocks.fk_user = :id_user ';
                 $stmt = $conn -> prepare($query);
                 $stmt -> bindValue(':id_user', $_SESSION['idUser']);
@@ -72,7 +71,6 @@
 
             }
 
-           
         ?>
         
         <div class="settings">
@@ -92,7 +90,7 @@
                 <span>Manage Blocks</span>
             </div>
 
-            <div id="block-manage" class="form-manage close">
+            <div id="block-manage" class="form-manage open">
                 <?php
                     if ($hasBlocks) {
                         foreach ($blocks as $blocked_user) {
@@ -112,11 +110,11 @@
 
                                 echo "<div class='right'>";
 
-                                    echo"<i class='fas fa-times'></i>";
+                                    echo"<i class='fas fa-times' id='unblock-user-btn".$blocked_user['id_block']."'></i>";
                             
                                 echo "</div>";
                 
-                                echo "<div class='time'>Blocked since: ".substr($blocked_user['block_date'], 0, 19)."</div>";
+                                echo "<div class='time'>Blocked since: ".$blocked_user['block_date']."</div>";
 
                             echo "</div>"; 
                         }

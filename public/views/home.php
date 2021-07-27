@@ -1,5 +1,6 @@
 <?php
     session_start();
+    
     if(!isset($_SESSION['isAuth'])){
         header("Location: home.php ");
 	    exit();
@@ -28,7 +29,7 @@
     
     <?php 
 
-    include('../includes/tool-bar.html')
+        include('../includes/tool-bar.html')
 
     ?>
 
@@ -42,7 +43,7 @@
 
     <?php 
 
-    include('../includes/message.html')
+        include('../includes/message.html')
 
     ?>
 

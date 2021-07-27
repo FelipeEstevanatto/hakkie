@@ -25,16 +25,12 @@
 
         $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
-        print_r($_POST);
-
         if (count($return) > 0) {
             $name_user = $return[0]['name_user'];
             $ipDetails = getUserIP();
             $selector = bin2hex(random_bytes(8));
             $token = random_bytes(32);
             $hashedToken = password_hash($token, PASSWORD_BCRYPT);
-
-            //var_dump($hashedToken); exit;
 
             $url = 'http://'.$_SERVER['HTTP_HOST'].'/hakkie/public/views/';
             $url .= 'new-password.php?selector=' . $selector . '&validator='. bin2hex($token);

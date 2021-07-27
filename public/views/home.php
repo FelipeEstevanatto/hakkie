@@ -33,12 +33,9 @@
 
     ?>
 
-    <div id="feed">
-        <?php
-            for ($i = 0; $i<10; $i++) {
-                echo"aaaaa".random_int(0,1000)."<br>";
-            }
-        ?>
+    <div id="container">
+        <a href="user.php?user=<?=1?>">Gabriel</a>
+        <a href="user.php?user=<?=2?>">Felipolas</a>
     </div>
 
     <?php 

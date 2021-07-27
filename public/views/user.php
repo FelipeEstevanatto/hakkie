@@ -5,6 +5,45 @@
         header("Location: home.php ");
 	    exit();
     }
+
+    require("../../app/database/connect.php");
+    if ( !isset($_GET['user']) && !is_numeric($_GET['user'])) {
+        //deu merda
+        exit();
+    }
+
+    $query = "SELECT name_user, user_info, user_picture, user_banner, created_at, darkmode FROM users WHERE id_user = :id_user";
+
+    $stmt = $conn -> prepare($query);
+
+    $stmt -> bindValue(':id_user', $_GET['user']);
+
+    $stmt -> execute();
+
+    $return = $stmt -> fetch(PDO::FETCH_ASSOC);
+    
+    $time = substr($return['created_at'], 5, 2);   
+    $months = [
+        '01' => 'January',
+        '02' => 'February',
+        '03' => 'March',
+        '04' => 'April',
+        '05' => 'May',
+        '06' => 'June',
+        '07' => 'July',
+        '08' => 'August',
+        '09' => 'September',
+        '10' => 'October',
+        '11' => 'November',
+        '12' => 'December'
+    ];
+
+    $user_since = $months[$time]." of ".substr($return['created_at'], 0, 4);
+    
+    $user_name = $return['name_user'];
+    $user_picture = $return['user_picture'];
+    $user_banner = $return['user_banner'];
+    $user_info = $return['user_info'];
 ?>
 
 <!DOCTYPE html>
@@ -35,26 +74,41 @@
     ?>
 
     <div id="container">
-         <div class="top">
-             <div class="banner">
+        <div class="top">
+            <div class="banner">
+                <?php 
+                    if (is_null($user_banner)) {
+                        echo '<img src="../images/defaultBanner.png">';
+                    } else {
+                        echo '<img src="../images/'.$user_banner.'">';
+                    }
+                ?>
+            </div>
 
-             </div>
-
-             <div class="info">
-                <img class="profile-picture" src="https://avatars.githubusercontent.com/u/69210720?s=400&u=e29d62deef9aa07ca86119bb288840449b81a57b&v=4">
+            <div class="info">
+                    <?php 
+                        if (!is_null($user_picture)) {
+                            echo '<img class="profile-picture" src="../images/defaultUser.png">';
+                        } else { //fallback
+                            echo '<img class="profile-picture" src="../images/defaultUser.png">';
+                        }
+                    ?>
 
                 <div class="time">
                     <i class="fas fa-calendar-alt"></i>
-                    Joined February 2019
+                    Joined <?=$user_since?>
                 </div>
 
                 <div class="clear"></div>
 
-                <h2 class="name">Gabriel Gomes Nicolim</h2>
+                <h2 class="name"><?=$user_name?></h2>
 
                 <p class="description">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, sint expedita assumenda non quos et eiu
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, sint expedita assumenda non quos et eiu
+                    <?php 
+                        if (!is_null($user_info)) {
+                            echo $user_info;
+                        } 
+                    ?>
                 </p>
 
                 <div class="bottom-bar">

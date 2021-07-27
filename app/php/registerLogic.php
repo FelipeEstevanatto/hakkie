@@ -25,7 +25,7 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['register_us
 
         $password_user = password_hash($password_user, PASSWORD_BCRYPT);
 
-        $query = "INSERT INTO users VALUES(DEFAULT, :name_user , :email_user , :password_user, DEFAULT, NULL, NULL, DEFAULT, DEFAULT)";
+        $query = "INSERT INTO users VALUES(DEFAULT, :name_user , :email_user , :password_user, DEFAULT, DEFAULT, NULL, NULL, DEFAULT, DEFAULT)";
 
         $stmt = $conn -> prepare($query);
 
@@ -46,7 +46,11 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['register_us
             $return = $stmt -> fetch(PDO::FETCH_ASSOC);
             
             $_SESSION['isAuth'] = true;
-            $_SESSION['darkMode'] = $return['darkmode'];
+            if ($return['darkmode']) {
+                $_SESSION['darkMode'] = 'dark';
+            } else {
+                $_SESSION['darkMode'] = 'light';
+            }
             $_SESSION['idUser'] = $return['id_user'];
 
             header("Location: ../../public/views/home.php");

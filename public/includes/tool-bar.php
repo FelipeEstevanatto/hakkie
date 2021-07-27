@@ -14,7 +14,7 @@
             <span>Notifications</span>
         </a>
     
-        <a href="user.php?user=<?=md5($_SESSION['idUser'])?>" class="btn">
+        <a href="user.php?user=<?=$_SESSION['idUser']?>" class="btn">
             <i class="fas fa-user"></i>
             <span>Profile</span>
         </a>

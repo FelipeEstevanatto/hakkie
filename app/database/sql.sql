@@ -2,10 +2,11 @@
 
 CREATE TABLE users (
   id_user SERIAL PRIMARY KEY NOT NULL,
-  name_user VARCHAR(64),
+  name_user VARCHAR(64) NOT NULL,
   email_user VARCHAR(256) NOT NULL,
   user_password VARCHAR(72),
   auth_type VARCHAR(128) DEFAULT 'PASSWORD',
+  user_info VARCHAR(256) DEFAULT NULL,
   user_picture VARCHAR(256),
   user_banner VARCHAR(256),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -34,9 +35,9 @@ CREATE TABLE comments (
 );
 
 CREATE TABLE follows (
-  id_friend SERIAL NOT NULL PRIMARY KEY,
-  user_friend BIGINT NOT NULL,
-  friend_date TIMESTAMP DEFAULT CURRENT_DATE,
+  id_follow SERIAL NOT NULL PRIMARY KEY,
+  user_followed BIGINT NOT NULL,
+  follow_date TIMESTAMP DEFAULT CURRENT_DATE,
   fk_user BIGINT NOT NULL,
   FOREIGN KEY (fk_user) REFERENCES users (id_user)
 );

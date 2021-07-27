@@ -144,18 +144,20 @@
             </div>
          </div>
 
-         <div class="feed">
-            <div class="tab-list">
-                <div class="tab">
-                    Posts
-                </div>
-                <div class="tab">
-                    Midia
-                </div>
-                <div class="tab">
-                    Curtidas
-                </div>
+         <div class="tab-list">
+            <div class="tab">
+                Posts
             </div>
+            <div class="tab">
+                Midia
+            </div>
+            <div class="tab">
+                Curtidas
+            </div>
+        </div>
+
+         <div class="feed">
+            
          </div>
     </div>
 

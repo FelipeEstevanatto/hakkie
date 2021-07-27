@@ -127,10 +127,12 @@
 #container .settings .form-manage.open textarea {
     outline: none;
     border: none;
+    resize: none;
+    margin-bottom: 1em;
     padding: 1em;
-    width: 70%;
+    width: 100%;
     border-radius: 1em;
-    font-size: 1em;
+    font-size: .8em;
 }
 
 #container .settings .form-manage.open input[type="submit"] {

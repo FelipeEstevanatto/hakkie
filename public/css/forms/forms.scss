@@ -84,6 +84,18 @@ body {
                 }
             }
 
+            .forgot {
+                text-align: center;
+                margin-top: 1em;
+                color: rgba(133, 133, 133, 0.8);
+                font-weight: lighter;
+
+                &:hover {
+                    color: rgba(185, 185, 185, 0.8);
+                    transition: 200ms;
+                }
+            }
+
             .or {
                 margin: 2em 0;
                 position: relative;
@@ -151,6 +163,25 @@ body {
             padding: 25px 30px 20px 15px;
         }
     }
+}
+
+// Feedback 
+
+.feedback {
+    border-radius: 1em;
+    padding: 5px 10px;
+    font-size: .9em;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+.error {
+    background: rgb(220, 20, 60);
+}
+
+.success {
+    background: rgb(21, 79, 117);
 }
 
 @media screen and (max-width: 775px) {

@@ -1,0 +1,126 @@
+.top {
+  position: relative;
+  -webkit-box-shadow: 0px 2px 5px rgba(255, 255, 255, 0.1);
+          box-shadow: 0px 2px 5px rgba(255, 255, 255, 0.1);
+}
+
+.top .banner {
+  width: 100%;
+  background: rgba(255, 0, 0, 0.2);
+  height: 25vh;
+}
+
+.top .banner img {
+  width: 100%;
+  height: 100%;
+}
+
+.top .info {
+  padding: 1em 2em;
+}
+
+.top .info img {
+  position: absolute;
+  border-radius: 90%;
+  width: 25vh;
+  top: 10vh;
+  left: 1em;
+}
+
+.top .info .time {
+  text-align: right;
+  color: silver;
+  font-size: .9em;
+}
+
+.top .info .time i {
+  margin-right: 5px;
+}
+
+.top .info .clear {
+  height: 8vh;
+}
+
+.top .info .name {
+  font-size: 1.4em;
+}
+
+.top .info .description {
+  font-size: .8em;
+  text-align: justify;
+  color: #b8b8b8;
+  margin: .8em 0;
+}
+
+.top .info .follow {
+  font-size: .9em;
+}
+
+.top .info .follow a {
+  padding-right: 1em;
+  color: #646464;
+}
+
+.top .info .follow a span {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.top .info .follow a:hover {
+  text-decoration: underline;
+}
+
+body.light .info .time {
+  color: #333333;
+}
+
+body.light .info .description {
+  color: #333333;
+}
+
+body.light .info .follow a {
+  color: #646464;
+}
+
+body.light .info .follow a span {
+  color: black;
+}
+
+body.dark {
+  -webkit-box-shadow: 0px 2px 5px rgba(255, 255, 255, 0.1);
+          box-shadow: 0px 2px 5px rgba(255, 255, 255, 0.1);
+}
+
+body.dark .info .time {
+  color: silver;
+}
+
+body.dark .info .description {
+  color: #b8b8b8;
+}
+
+body.dark .info .follow a {
+  color: #646464;
+}
+
+body.dark .info .follow a span {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+@media screen and (max-width: 900px) {
+  .top .info {
+    padding: 1em;
+  }
+  .top .info img {
+    width: 20vh;
+    top: 15vh;
+    left: 1em;
+  }
+  .top .info .time {
+    font-size: .7em;
+  }
+  .top .info .name {
+    font-size: 1.2em;
+  }
+}
+/*# sourceMappingURL=user.css.map */

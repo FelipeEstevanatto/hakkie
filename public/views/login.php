@@ -33,9 +33,9 @@
 
             <?php
                 if (isset($_GET['error']) && $_GET['error'] == 'invalid') {
-                    echo"<div class='error'>Invalid email or password</div><br>";
+                    echo"<div class='feedback error'>Invalid email or password</div><br>";
                 } elseif (isset($_GET['newpwd']) && $_GET['newpwd'] == 'passwordupdated') {
-                    echo"<div class='error'>Now login with your new password</div><br>";
+                    echo"<div class='feedback success'>Now login with your new password</div><br>";
                 }
             ?>
 
@@ -48,9 +48,11 @@
                     <input type="password" name="password" id="password">
                     <i class="fas fa-eye-slash" id="show-password-btn"></i>
                 </div>
-                <a href="recover.php"> Forgot you password? </a>
+
                 <input type="submit" value="Submit" name="login-user-submit">
             </form>
+
+            <a class="forgot" href="recover.php"> Forgot you password? </a>
 
             <div class="or">
                 OR

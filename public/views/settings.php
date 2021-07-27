@@ -90,7 +90,7 @@
                 <span>Manage Blocks</span>
             </div>
 
-            <div id="block-manage" class="form-manage open">
+            <div id="block-manage" class="form-manage close">
                 <?php
                     if ($hasBlocks) {
                         foreach ($blocks as $blocked_user) {
@@ -199,7 +199,6 @@
     ?>
 
     <script src="../../js/switchTheme.js"></script>
-    <script src="../../js/openMessages.js"></script>
     <script src="../../js/showPassword.js"></script>
     <script src="../../js/openSettings.js"></script>
 </body>

@@ -18,10 +18,6 @@
 </head>
 <body class="light">
 
-    <div id="switch-theme-btn">
-        <i class="fas fa-adjust"></i>
-    </div>
-
     <div class="container">
         <div class="right" style="width: 100%;">
             <div class="top">
@@ -69,7 +65,6 @@
         </div>
     </a>
 
-    <script src="../../js/switchTheme.js"></script>
     <script src="../../js/showPassword.js"></script>
 </body>
 </html>

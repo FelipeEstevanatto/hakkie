@@ -46,7 +46,5 @@
         include('../includes/message.html')
 
     ?>
-
-    <script src="../../js/openMessages.js"></script>
 </body>
 </html>

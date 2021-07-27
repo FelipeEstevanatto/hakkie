@@ -16,12 +16,7 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon">
 </head>
-<body class="light">
-
-    <div id="switch-theme-btn">
-        <i class="fas fa-adjust"></i>
-    </div>
-
+<body class="dark">
     <div class="container">
         <div class="right" style="width: 100%;">
             <div class="top">
@@ -43,10 +38,10 @@
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email">
 
-                <a href="login.php"> Remembered you password? </a>
                 <input type="submit" value="Submit" name="recover-user-submit">
             </form>
 
+            <a class="forgot" href="login.php"> Remembered you password? </a>
         </div>
     </div>
     
@@ -55,7 +50,5 @@
             I still don't have an account
         </div>
     </a>
-
-    <script src="../../js/switchTheme.js"></script>
 </body>
 </html>

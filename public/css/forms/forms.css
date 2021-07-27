@@ -108,6 +108,19 @@ body .container .right form input[type="submit"] {
   cursor: pointer;
 }
 
+body .container .right .forgot {
+  text-align: center;
+  margin-top: 1em;
+  color: rgba(133, 133, 133, 0.8);
+  font-weight: lighter;
+}
+
+body .container .right .forgot:hover {
+  color: rgba(185, 185, 185, 0.8);
+  -webkit-transition: 200ms;
+  transition: 200ms;
+}
+
 body .container .right .or {
   margin: 2em 0;
   position: relative;
@@ -175,6 +188,24 @@ body #switch-form-btn {
 
 body #switch-form-btn:hover {
   padding: 25px 30px 20px 15px;
+}
+
+.feedback {
+  border-radius: 1em;
+  padding: 5px 10px;
+  font-size: .9em;
+  text-align: center;
+  width: 100%;
+  -webkit-box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+          box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+.error {
+  background: crimson;
+}
+
+.success {
+  background: #154f75;
 }
 
 @media screen and (max-width: 775px) {

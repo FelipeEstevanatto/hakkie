@@ -8,8 +8,10 @@
 
     require("../../app/database/connect.php");
     if ( !isset($_GET['user']) && !is_numeric($_GET['user'])) {
-        //deu merda
+        //invalid id
         exit();
+    } elseif ($_GET['user'] == $_SESSION['idUser']) {
+        $himself = true;
     }
 
     $query = "SELECT name_user, user_info, user_picture, user_banner, created_at, darkmode FROM users WHERE id_user = :id_user";
@@ -78,7 +80,7 @@
             <div class="banner">
                 <?php 
                     if (is_null($user_banner)) {
-                        echo '<img src="../images/defaultBanner.png">';
+                        echo '<img src="../images/defaultBanner.jpg" alt="Banner of user">';
                     } else {
                         echo '<img src="../images/'.$user_banner.'">';
                     }
@@ -88,7 +90,7 @@
             <div class="info">
                     <?php 
                         if (!is_null($user_picture)) {
-                            echo '<img class="profile-picture" src="../images/defaultUser.png">';
+                            echo '<img class="profile-picture" src="../images/defaultUser.png" alt="Picture of user">';
                         } else { //fallback
                             echo '<img class="profile-picture" src="../images/defaultUser.png">';
                         }
@@ -143,7 +145,17 @@
          </div>
 
          <div class="feed">
-
+            <div class="tab-list">
+                <div class="tab">
+                    Posts
+                </div>
+                <div class="tab">
+                    Midia
+                </div>
+                <div class="tab">
+                    Curtidas
+                </div>
+            </div>
          </div>
     </div>
 

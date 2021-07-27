@@ -39,7 +39,7 @@
         <?php
             include("../../app/database/connect.php");
 
-            $query = "SELECT name_user, email_user, darkmode FROM users WHERE id_user = :id_user";
+            $query = "SELECT name_user, email_user, user_info, darkmode FROM users WHERE id_user = :id_user";
             $stmt = $conn -> prepare($query);
             $stmt -> bindValue(':id_user', $_SESSION['idUser']);
             $stmt -> execute();
@@ -48,6 +48,7 @@
 
             $name = $return['name_user'];
             $email = $return['email_user'];
+            $info = $return['user_info'];
             $darkMode = $return['darkmode'];
 
             $query = "SELECT * FROM blocks WHERE fk_user = :id_user";
@@ -143,6 +144,26 @@
                 </form>
             </div>
 
+            <!-- Info -->
+            <div class="btn">
+                <i class="fas fa-info-circle"></i>
+                <span>Edit Info</span>
+            </div>
+            <div class="form-manage close">
+                <form action="../../app/php/changeUserData.php" method="POST">
+                    <label for="update-info">Current info about you:</label>
+                    <textarea name="update-info" type="text" maxlength="256" rows="3">
+                        <?php
+                            if (!is_null($info)) {
+                                echo $info;
+                            } 
+                        ?>
+                    </textarea>
+
+                    <input type="submit" name='change-user-info' value="Submit">
+                </form>
+            </div>
+
             <!-- Email -->
             <div class="btn">
                 <i class="fas fa-at"></i>
@@ -198,6 +219,7 @@
 
     ?>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="../../js/switchTheme.js"></script>
     <script src="../../js/showPassword.js"></script>
     <script src="../../js/openSettings.js"></script>

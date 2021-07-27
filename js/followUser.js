@@ -10,7 +10,7 @@ interactBtn.addEventListener('click', () => {
         xhr.open('GET', '../../app/php/followLogic.php');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-        xhr.send();
+        xhr.send('follow=');
     }
     else {
         interactBtn.classList.remove('unfollow');
@@ -21,6 +21,6 @@ interactBtn.addEventListener('click', () => {
         xhr.open('GET', '../../app/php/followLogic.php');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-        xhr.send();
+        xhr.send('unfollow=');
     }
 });

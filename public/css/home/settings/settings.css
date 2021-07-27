@@ -141,6 +141,15 @@
   font-size: 1em;
 }
 
+#container .settings .form-manage.open textarea {
+  outline: none;
+  border: none;
+  padding: 1em;
+  width: 70%;
+  border-radius: 1em;
+  font-size: 1em;
+}
+
 #container .settings .form-manage.open input[type="submit"] {
   background: seagreen;
   color: #FFF;
@@ -291,6 +300,11 @@ body.dark #switch-theme-btn .slider {
     font-size: .9em;
   }
   #container .settings .form-manage.open input {
+    width: 100%;
+    font-size: 1.1em;
+    margin-bottom: 2em;
+  }
+  #container .settings .form-manage.open textarea {
     width: 100%;
     font-size: 1.1em;
     margin-bottom: 2em;

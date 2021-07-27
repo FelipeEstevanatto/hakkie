@@ -29,7 +29,7 @@
     
     <?php 
 
-    include('../includes/tool-bar.html')
+    include('../includes/tool-bar.php')
 
     ?>
 

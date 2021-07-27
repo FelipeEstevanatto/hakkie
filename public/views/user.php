@@ -30,7 +30,7 @@
     
     <?php 
 
-        include('../includes/tool-bar.html')
+        include('../includes/tool-bar.php')
 
     ?>
 
@@ -53,21 +53,37 @@
                 <h2 class="name">Gabriel Gomes Nicolim</h2>
 
                 <p class="description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, sint expedita assumenda non quos et eius tenetur harum nobis beatae vel id ad exercitationem nesciunt corrupti repellat maxime cum. Magnam.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corrupti nemo nesciunt accusantium quaerat accusamus voluptatum ab quae nihil necessitatibus. Voluptatum adipisci qui alias deserunt ipsum voluptate sint ut a iusto!
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio non, dolor delectus ipsam omnis vitae quas, ipsa sequi blanditiis natus culpa asperiores consequuntur, optio amet similique? Asperiores possimus quo nemo.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, sint expedita assumenda non quos et eiu
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, sint expedita assumenda non quos et eiu
                 </p>
 
-                <div class="follow">
-                    <a href="#">
-                        <span>9</span>
-                        Following
-                    </a>
+                <div class="bottom-bar">
+                    <div class="left">
+                        <a href="#">
+                            <span>9</span>
+                            Following
+                        </a>
 
-                    <a href="#">
-                        <span>9</span> 
-                        Followers
-                    </a>
+                        <a href="#">
+                            <span>9</span> 
+                            Followers
+                        </a>
+                    </div>
+
+                    <div class="right">
+                        <div class="btn follow" id="interact-btn">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Follow</span>
+                        </div>
+
+                        <div class="btn">
+                            <i class="fas fa-comment-dots"></i>
+                        </div>
+
+                        <div class="btn">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
          </div>
@@ -82,5 +98,7 @@
         include('../includes/message.html')
 
     ?>
+
+    <script src="../../js/followUser.js"></script>
 </body>
 </html>

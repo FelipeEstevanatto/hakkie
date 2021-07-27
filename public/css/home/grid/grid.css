@@ -229,13 +229,15 @@ body.dark #message-btn {
 @media screen and (max-width: 900px) {
   #container {
     margin: 0;
-    padding-top: 5em;
+    padding-top: 4em;
   }
   #container h1 {
+    margin-top: 1em;
     font-size: 1em;
   }
   #tool-bar {
     width: 100vw;
+    height: 5em;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;

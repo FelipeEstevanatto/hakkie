@@ -25,38 +25,13 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon">
 </head>
-<body class="dark">
-    <div id="tool-bar">
-        <div class="logo">
-            Hakkie
-        </div>
+<body class="<?= $_SESSION['darkMode'];?>">
+    
+    <?php 
 
-        <div class="buttons">
-            <a href="home.php" class="btn">
-                <i class="fas fa-home"></i>
-                <span>Home</span>
-            </a>
-            
-            <a href="#" class="btn">
-                <i class="fas fa-bell"></i>
-                <span>Notifications</span>
-            </a>
-        
-            <a href="#" class="btn">
-                <i class="fas fa-user"></i>
-                <span>Profile</span>
-            </a>
+    include('../includes/tool-bar.html')
 
-            <a href="" class="btn">
-                <i class="fas fa-cog"></i>
-                <span>Settings</span>
-            </a>
-            <a href="../../app/php/logout.php" class="btn">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
-            </a>
-        </div>  
-    </div>
+    ?>
 
     <div id="container">
         <h1>Settings</h1>
@@ -102,20 +77,13 @@
         
         <div class="settings">
             <!-- Theme -->
-            <div class="btn" id="switch-theme-btn">
-                <i class="fas fa-adjust"></i>
-                <span>Switch Theme: </span>
-                <?php
-                    if ($darkMode) {
-                        echo"Darkmode On";
-                    } else {
-                        echo"Darkmode Off";
-                    }
-                ?>
-            </div>
+            <div class="theme-box">
+                <label for="theme-check" id="switch-theme-btn">
+                    <input type="checkbox" id="theme-check" name="theme-check" <?php if($_SESSION['darkMode'] == 'dark') echo 'checked' ?> >
+                    <span class="slider"></span>
+                </label>
 
-            <div class="form-manage close">
-
+                <span id="theme-state">DarkMode: <?php if($_SESSION['darkMode'] == 'dark') echo 'On'; else echo 'Off'; ?></span>
             </div>
 
             <!-- Block -->
@@ -215,41 +183,22 @@
                     <input type="submit" name='change-user-password' value="Submit">
                 </form>
             </div>
+
+            <a href="../../app/php/logout.php">
+                <div class="btn" id="logout-btn">
+                    <i class="fas fa-door-open"></i>
+                    <span>Logout</span>
+                </div>
+            </a> 
         </div>
     </div>
 
 
-    <!-- Messages -->
-    <div id="message-section" class="message-section-close">
-        <h2>
-            Chats
-        </h2>
+    <?php 
 
-        <div class="talk">
-            <img src="https://avatars.githubusercontent.com/u/69210720?s=400&u=e29d62deef9aa07ca86119bb288840449b81a57b&v=4">
-            <span class="name">
-                Gabriel
-            </span>
-        </div>
+    include('../includes/message.html')
 
-        <div class="talk">
-            <img src="https://avatars.githubusercontent.com/u/69355764?v=4">
-            <span class="name">
-                Felipe
-            </span>
-        </div>
-
-        <div class="talk">
-            <img src="https://avatars.githubusercontent.com/u/68524267?v=4">
-            <span class="name">
-                Duque
-            </span>
-        </div>
-    </div>
-
-    <div id="message-btn" class="message-btn-close">
-        <i class="fas fa-chevron-up"></i>
-    </div>
+    ?>
 
     <script src="../../js/switchTheme.js"></script>
     <script src="../../js/openMessages.js"></script>

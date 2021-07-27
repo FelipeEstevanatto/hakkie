@@ -3,6 +3,56 @@
   position: relative;
 }
 
+.theme-box {
+  margin: 2em 0;
+  display: block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-weight: 500;
+  font-size: .9em;
+}
+
+.theme-box #switch-theme-btn {
+  cursor: pointer;
+  position: relative;
+  width: 60px;
+  border-radius: 1em;
+  height: 30px;
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.theme-box #switch-theme-btn .slider {
+  height: 24px;
+  width: 24px;
+  display: block;
+  position: absolute;
+  border-radius: 90%;
+  top: 3px;
+  -webkit-transition: 500ms;
+  transition: 500ms;
+}
+
+.theme-box input:checked + .slider {
+  left: 4px;
+}
+
+.theme-box input:not(:checked) + .slider {
+  left: 32px;
+}
+
+.theme-box #theme-check {
+  display: none;
+}
+
+#container .settings {
+  padding-bottom: 6em;
+}
+
 #container .settings .btn {
   cursor: pointer;
   padding: 15px 25px;
@@ -28,9 +78,7 @@
 
 #container .settings #logout-btn {
   position: absolute;
-  bottom: 1em;
-  left: 4em;
-  background: linear-gradient(35deg, #ff0000 40%, #940000);
+  background: crimson;
 }
 
 /* Form Manage */
@@ -168,10 +216,10 @@
   width: 100%;
   text-align: center;
   font-weight: lighter;
-  color: gray;
   padding: 5px;
   border-radius: 0 0 1em 1em;
   margin-top: 10px;
+  color: gray;
 }
 
 /* Theme */
@@ -183,8 +231,20 @@ body.light #container .settings #block-manage.open .block {
   background: #d8d8d8;
 }
 
+body.light #container .settings #block-manage.open .block a {
+  color: #0D0D1A;
+}
+
 body.light #container .settings #block-manage.open .block .time {
   background: #dfdfdf;
+}
+
+body.light #switch-theme-btn {
+  background: #dfdfdf;
+}
+
+body.light #switch-theme-btn .slider {
+  background: #0D0D1A;
 }
 
 body.dark #container .settings .form-manage.open {
@@ -197,8 +257,22 @@ body.dark #container .settings #block-manage.open .block {
   background: #1e1e30;
 }
 
+body.dark #container .settings #block-manage.open .block a {
+  color: #EDEDED;
+}
+
 body.dark #container .settings #block-manage.open .block .time {
   background: #282833;
+}
+
+body.dark #switch-theme-btn {
+  background: #1e1e30;
+}
+
+body.dark #switch-theme-btn .slider {
+  background: #eb4808;
+  -webkit-box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.2);
+          box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.2);
 }
 
 @media screen and (max-width: 900px) {

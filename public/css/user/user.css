@@ -53,6 +53,7 @@
   text-align: justify;
   color: #b8b8b8;
   margin: 1em 0;
+  word-break: break-all;
 }
 
 .top .info .bottom-bar {
@@ -89,6 +90,7 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  position: relative;
 }
 
 .top .info .bottom-bar .right .btn {
@@ -101,6 +103,62 @@
 
 .top .info .bottom-bar .right .btn:not(:last-child) {
   margin-right: 10px;
+}
+
+.top .info .bottom-bar .right #ellipsis {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.top .info .bottom-bar .right #ellipsis-modal {
+  -webkit-transition: 0;
+  transition: 0;
+  position: absolute;
+  bottom: 55px;
+  right: 0em;
+}
+
+.top .info .bottom-bar .right #ellipsis-modal.close {
+  height: 100px;
+  width: 0;
+}
+
+.top .info .bottom-bar .right #ellipsis-modal.close .btn {
+  display: none;
+}
+
+.top .info .bottom-bar .right #ellipsis-modal.open {
+  width: 200px;
+  background: #272525;
+  border-radius: 1em;
+}
+
+.top .info .bottom-bar .right #ellipsis-modal.open .btn {
+  display: block;
+  border-radius: 0;
+  margin-right: 0;
+  padding: 10px;
+  text-align: center;
+  height: 50px;
+  border: none;
+}
+
+.top .info .bottom-bar .right #ellipsis-modal.open .btn:first-child {
+  border-radius: 1em 1em 0 0;
+}
+
+.top .info .bottom-bar .right #ellipsis-modal.open .btn:last-child {
+  border-radius: 0 0 1em 1em;
 }
 
 .tab-list {
@@ -123,8 +181,9 @@
 }
 
 .tab-list .tab .underline {
-  background-color: #5f00cc;
+  background-color: rgba(95, 0, 204, 0.5);
   width: 60%;
+  border-radius: 1em;
   height: 4px;
   margin: auto;
 }
@@ -210,7 +269,7 @@ body.dark .tab-list {
     font-size: 1.2em;
   }
   .top .info .bottom-bar .left {
-    font-size: .8em;
+    font-size: .7em;
   }
   .top .info .bottom-bar .right {
     display: -webkit-box;
@@ -236,6 +295,21 @@ body.dark .tab-list {
   }
   .top .info .bottom-bar .right .btn:not(:last-child) {
     margin-right: 10px;
+  }
+  .top .info .bottom-bar .right #ellipsis {
+    width: 30px;
+    height: 30px;
+  }
+  .top .info .bottom-bar .right #ellipsis-modal {
+    -webkit-transition: 0;
+    transition: 0;
+    position: absolute;
+    bottom: 40px;
+    right: 0em;
+  }
+  .top .info .bottom-bar .right #ellipsis-modal .btn {
+    width: 100%;
+    text-align: center;
   }
 }
 /*# sourceMappingURL=user.css.map */

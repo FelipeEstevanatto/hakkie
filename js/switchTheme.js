@@ -13,7 +13,7 @@ switchThemeBtn.addEventListener('click', () => {
         body.classList.remove('light');
         body.classList.add('dark');
 
-        stateTheme.innerHTML = 'DarkMode: On';
+        stateTheme.innerHTML = 'DarkMode: <span>ON</span>';
 
         xhr.send('theme=dark');
     }
@@ -21,7 +21,7 @@ switchThemeBtn.addEventListener('click', () => {
         body.classList.remove('dark');
         body.classList.add('light');
 
-        stateTheme.innerHTML = 'DarkMode: Off';
+        stateTheme.innerHTML = 'DarkMode: <span>OFF</span>';
 
         xhr.send('theme=light');
     }

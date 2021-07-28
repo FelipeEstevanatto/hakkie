@@ -46,6 +46,7 @@
 
 #feed .post .content-post {
   margin: 1em 0;
+  word-break: break-all;
 }
 
 #feed .post .bottom-post .list {

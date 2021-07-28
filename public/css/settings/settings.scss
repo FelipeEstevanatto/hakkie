@@ -15,6 +15,12 @@
     font-weight: 500;
     font-size: .9em;
 
+    #theme-state {
+        span {
+            text-transform: uppercase;
+        }
+    }
+
     #switch-theme-btn {
         cursor: pointer;
         position: relative;
@@ -103,6 +109,8 @@
     padding: 2em 1em;
     margin-top: -1.2em;
     border-radius: 0 0 1em 1em;
+
+    position: relative;
 }
 
 #container .settings .form-manage.open form {
@@ -135,8 +143,22 @@
     margin-bottom: 1em;
     padding: 1em;
     width: 100%;
+    height: 150px;
     border-radius: 1em;
-    font-size: .8em;
+    font-size: .9em;
+
+    & + label {
+        position: absolute;
+        right: 2em;
+        bottom: 9em;
+        text-align: right;
+        color: rgb(255, 255, 255);
+        width: auto;
+        padding: 2px 5px;
+        font-size: .8em;
+        border-radius: 1em;
+        background: rgba(0, 0, 0, 0.4);
+    }
 }
 
 #container .settings .form-manage.open input[type="submit"] {
@@ -293,8 +315,13 @@ body.dark {
 
     #container .settings .form-manage.open textarea {
         width: 100%;
-        font-size: 1.1em;
-        margin-bottom: 2em;
+        font-size: .9em;
+
+        height: 200px;
+
+        & + label {
+            bottom: 11em;
+        }
     }
 
     #container .settings .form-manage.open .show-password {
@@ -311,7 +338,6 @@ body.dark {
     }
     
     #container .settings #block-manage.open {
-
         .block {
             font-size: .8em;
 

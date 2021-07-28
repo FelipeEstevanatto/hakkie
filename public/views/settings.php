@@ -82,7 +82,7 @@
                     <span class="slider"></span>
                 </label>
 
-                <span id="theme-state">DarkMode: <?php if($_SESSION['darkMode'] == 'dark') echo 'On'; else echo 'Off'; ?></span>
+                <span id="theme-state">DarkMode: <?php if($_SESSION['darkMode'] == 'dark') echo '<span>ON</span>'; else echo '<span>OFF</span>'; ?></span>
             </div>
 
             <h3>Profile</h3>
@@ -154,11 +154,13 @@
             <div class="form-manage close">
                 <form action="../../app/php/changeUserData.php" method="POST">
                     <label for="update-info">Current info about you:</label>
-                    <textarea name="update-info" type="text" maxlength="256" rows="3"><?php
+
+                    <textarea id="update-info" name="update-info" type="text" maxlength="256" rows="3"><?php
                         if (!is_null($info)) {
-                            echo$info;
+                            echo $info;
                         } 
                     ?></textarea>
+                    <label id="update-info-count" for="update-info"></label>
 
                     <input type="submit" name='change-user-info' value="Submit">
                 </form>
@@ -221,9 +223,9 @@
 
     ?>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="../../js/switchTheme.js"></script>
     <script src="../../js/showPassword.js"></script>
     <script src="../../js/openSettings.js"></script>
+    <script src="../../js/letterCount.js"></script>
 </body>
 </html>

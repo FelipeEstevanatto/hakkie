@@ -160,7 +160,13 @@
                             <i class="fas fa-comment-dots"></i>
                         </div>
 
-                        <div class="btn">
+                        <div id="ellipsis-modal" class="close">
+                            <div class="btn">Silence User</div>
+                            <div class="btn">Block User</div>
+                            <div class="btn">Copy Profile Link</div>
+                        </div>
+
+                        <div id="ellipsis" class="btn">
                             <i class="fas fa-ellipsis-v"></i>
                         </div>
                     </div>
@@ -320,5 +326,6 @@
     ?>
 
     <script src="../../js/feedbuild.js"></script>
+    <script src="../../js/openMenu.js"></script>
 </body>
 </html>

@@ -49,6 +49,7 @@
             text-align: justify;
             color: rgb(184, 184, 184);
             margin: 1em 0;
+            word-break: break-all;
         }
 
         .bottom-bar {
@@ -76,6 +77,7 @@
 
             .right {
                 display: flex;
+                position: relative;
 
                 .btn {
                     padding: 5px 10px;
@@ -86,6 +88,55 @@
 
                     &:not(:last-child) {
                         margin-right: 10px;
+                    }
+                }
+
+                #ellipsis {
+                    position: relative;
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                #ellipsis-modal {
+                    transition: 0;
+                    position: absolute;
+                    bottom: 55px;
+                    right: 0em;
+                }
+
+                #ellipsis-modal.close {
+                    height: 100px;
+                    width: 0;
+
+                    .btn {
+                        display: none;
+                    }
+                }
+
+                #ellipsis-modal.open {
+                    width: 200px;
+                    background: rgb(39, 37, 37);
+                    border-radius: 1em;
+
+                    .btn {
+                        display: block;
+                        border-radius: 0;
+                        margin-right: 0;
+                        padding: 10px;
+                        text-align: center;
+                        height: 50px;
+                        border: none;
+
+                        &:first-child {
+                            border-radius: 1em 1em 0 0;
+                        }
+
+                        &:last-child {
+                            border-radius: 0 0 1em 1em;
+                        }
                     }
                 }
             }
@@ -110,8 +161,9 @@
     }
 
     .tab .underline {
-        background-color:rgb(95, 0, 204); 
-        width:60%; 
+        background-color:rgba(95, 0, 204, 0.5); 
+        width: 60%; 
+        border-radius: 1em;
         height: 4px; 
         margin: auto;
     }
@@ -218,7 +270,7 @@ body.dark {
 
             .bottom-bar {    
                 .left {
-                    font-size: .8em;
+                    font-size: .7em;
                 }
     
                 .right {
@@ -237,6 +289,23 @@ body.dark {
 
                         &:not(:last-child) {
                             margin-right: 10px;
+                        }
+                    }
+
+                    #ellipsis {
+                        width: 30px;
+                        height: 30px;
+                    }
+                    
+                    #ellipsis-modal {
+                        transition: 0;
+                        position: absolute;
+                        bottom: 40px;
+                        right: 0em;
+
+                        .btn {
+                            width: 100%;
+                            text-align: center;
                         }
                     }
                 }

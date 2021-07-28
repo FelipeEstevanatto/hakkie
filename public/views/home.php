@@ -36,6 +36,10 @@
     <div id="container">
         <a href="user.php?user=<?=1?>">Gabriel</a>
         <a href="user.php?user=<?=2?>">Felipolas</a>
+
+        <div id="feed">
+            
+        </div>
     </div>
 
     <?php 

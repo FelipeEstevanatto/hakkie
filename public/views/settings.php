@@ -15,7 +15,7 @@
     <title>Settings</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="../css/home/settings/settings.css">
+    <link rel="stylesheet" href="../css/settings/settings.css">
     <link rel="stylesheet" href="../css/home/grid/grid.css">
     <link rel="stylesheet" href="../css/style.css">
 
@@ -84,6 +84,8 @@
 
                 <span id="theme-state">DarkMode: <?php if($_SESSION['darkMode'] == 'dark') echo 'On'; else echo 'Off'; ?></span>
             </div>
+
+            <h3>Profile</h3>
 
             <!-- Block -->
             <div class="btn">
@@ -161,6 +163,8 @@
                     <input type="submit" name='change-user-info' value="Submit">
                 </form>
             </div>
+
+            <h3>Security</h3>
 
             <!-- Email -->
             <div class="btn">

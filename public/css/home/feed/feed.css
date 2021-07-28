@@ -1,0 +1,163 @@
+#feed {
+  padding: 1em;
+}
+
+#feed .post {
+  padding: 1.5em;
+  border-radius: 1em;
+  margin-bottom: 1em;
+}
+
+#feed .post .top-post {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+#feed .post .top-post .left {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#feed .post .top-post .left img {
+  margin-right: 10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 90%;
+}
+
+#feed .post .top-post .left a {
+  font-weight: 500;
+}
+
+#feed .post .top-post .right {
+  font-weight: lighter;
+}
+
+#feed .post .content-post {
+  margin: 1em 0;
+}
+
+#feed .post .bottom-post .list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+#feed .post .bottom-post .list .tab {
+  padding: 5px 10px;
+  font-weight: 500;
+  border-radius: 1em;
+  text-align: center;
+  cursor: pointer;
+}
+
+#feed .post .bottom-post .list .tab span {
+  margin-left: 5px;
+}
+
+body.light #feed .post {
+  background: #EDEDED;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+}
+
+body.light #feed .post .top-post .left a {
+  color: #202020;
+}
+
+body.light #feed .post .top-post .right {
+  color: #4e4e4e;
+}
+
+body.light #feed .post .content-post {
+  color: #4e4e4e;
+}
+
+body.light #feed .post .bottom-post .list .tab:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #9233ff;
+}
+
+body.dark #feed .post {
+  background: #0d0d1a;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark #feed .post .top-post .left a {
+  color: #EDEDED;
+}
+
+body.dark #feed .post .top-post .right {
+  color: silver;
+}
+
+body.dark #feed .post .content-post {
+  color: #EDEDED;
+}
+
+body.dark #feed .post .bottom-post .list .tab:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #b97bff;
+  -webkit-transition: 200ms;
+  transition: 200ms;
+}
+
+@media screen and (max-width: 900px) {
+  #feed {
+    padding: 1em;
+  }
+  #feed .post {
+    padding: 1em;
+  }
+  #feed .post .top-post {
+    display: block;
+  }
+  #feed .post .top-post .left {
+    font-size: .9em;
+    margin-bottom: 1em;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  #feed .post .top-post .left img {
+    width: 40px;
+    height: 40px;
+  }
+  #feed .post .top-post .right {
+    text-align: center;
+    font-size: .8em;
+  }
+  #feed .post .content-post {
+    font-size: .9em;
+  }
+  #feed .post .bottom-post .list .tab {
+    height: 50px;
+    width: 50px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    border-radius: 2em;
+  }
+  #feed .post .bottom-post .list .tab span {
+    display: none;
+  }
+}
+/*# sourceMappingURL=feed.css.map */

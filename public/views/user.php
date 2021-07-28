@@ -77,6 +77,7 @@
     <link rel="stylesheet" href="../css/home/grid/grid.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/user/user.css">
+    <link rel="stylesheet" href="../css/home/feed/feed.css">
 
     <!-- Font Awesome-->
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>
@@ -144,10 +145,16 @@
                     </div>
 
                     <div class="right">
-                        <div class="btn follow" id="<?php if($_GET['user'] != $_SESSION['idUser']) echo"interact-btn"?>">
-                            <i class="fas fa-user-plus"></i>
-                            <span>Follow</span>
-                        </div>
+                        <?php 
+                        
+                            if ($_GET['user'] != $_SESSION['idUser']) {
+                                echo '<div class="btn follow" id="interact-btn">';
+                                    echo '<i class="fas fa-user-plus"></i>';
+                                    echo '<span>Follow</span>';
+                                echo '</div>';
+                            } 
+                  
+                        ?>
 
                         <div class="btn">
                             <i class="fas fa-comment-dots"></i>
@@ -176,33 +183,127 @@
             </div>
         </div>
 
-         <div class="feed">
+         <div id="feed">
             <?php
                 //Request posts
             ?>
             <!--Post layout-->
             <div class="post text">
                 <div class="top-post">
-                    <img src="../images/defaultUser.png" width="50px" style="border-radius: 90%;">
-                    Name User - post date
+                    <div class="left">
+                        <img src="../images/defaultUser.png">
+                        <a href="#">Gabriel Gomes Nicolim</a>
+                    </div>
+                    
+                    <div class="right">
+                        <span>28/07/2021</span>
+                    </div>
                 </div>
                 <div class="content-post">
-                    Text
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis veritatis natus voluptatum rem alias odit vel consequatur dignissimos? In eius alias velit, maiores nulla modi sit repellendus iure dolorem sunt?
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto id veniam, distinctio quae consequatur tempora iste maiores totam, corrupti impedit iure laboriosam reiciendis fuga nam perspiciatis sint, deserunt consectetur recusandae.
                 </div>
                 <div class="bottom-post">
                     <div class="list">
                         <div class="tab">
-                            Like
+                            <i class="fas fa-thumbs-up"></i>
+                            <span>Like</span>
                         </div>
                         <div class="tab">
-                            Comment
+                            <i class="fas fa-comment"></i>
+                            <span>Comment</span>
                         </div>
                         <div class="tab">
-                            Share
+                            <i class="fas fa-share-square"></i>
+                            <span>Share</span>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+
+
+
+            <!--Post layout-->
+            <div class="post text">
+                <div class="top-post">
+                    <div class="left">
+                        <img src="../images/defaultUser.png">
+                        <a href="#">Gabriel Gomes Nicolim</a>
+                    </div>
+                    
+                    <div class="right">
+                        <span>28/07/2021</span>
+                    </div>
+                </div>
+                <div class="content-post">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis veritatis natus voluptatum rem alias odit vel consequatur dignissimos? In eius alias velit, maiores nulla modi sit repellendus iure dolorem sunt?
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto id veniam, distinctio quae consequatur tempora iste maiores totam, corrupti impedit iure laboriosam reiciendis fuga nam perspiciatis sint, deserunt consectetur recusandae.
+                </div>
+                <div class="bottom-post">
+                    <div class="list">
+                        <div class="tab">
+                            <i class="fas fa-thumbs-up"></i>
+                            <span>Like</span>
+                        </div>
+                        <div class="tab">
+                            <i class="fas fa-comment"></i>
+                            <span>Comment</span>
+                        </div>
+                        <div class="tab">
+                            <i class="fas fa-share-square"></i>
+                            <span>Share</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--Post layout-->
+            <div class="post text">
+                <div class="top-post">
+                    <div class="left">
+                        <img src="../images/defaultUser.png">
+                        <a href="#">Gabriel Gomes Nicolim</a>
+                    </div>
+                    
+                    <div class="right">
+                        <span>28/07/2021</span>
+                    </div>
+                </div>
+                <div class="content-post">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis veritatis natus voluptatum rem alias odit vel consequatur dignissimos? In eius alias velit, maiores nulla modi sit repellendus iure dolorem sunt?
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto id veniam, distinctio quae consequatur tempora iste maiores totam, corrupti impedit iure laboriosam reiciendis fuga nam perspiciatis sint, deserunt consectetur recusandae.
+                </div>
+                <div class="bottom-post">
+                    <div class="list">
+                        <div class="tab">
+                            <i class="fas fa-thumbs-up"></i>
+                            <span>Like</span>
+                        </div>
+                        <div class="tab">
+                            <i class="fas fa-comment"></i>
+                            <span>Comment</span>
+                        </div>
+                        <div class="tab">
+                            <i class="fas fa-share-square"></i>
+                            <span>Share</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+            
          </div>
     </div>
 
@@ -212,7 +313,12 @@
 
     ?>
 
-    <script src="../../js/followUser.js"></script>
+    <?php 
+        if ($_GET['user'] != $_SESSION['idUser']) {
+            echo '<script src="../../js/followUser.js"></script>';
+        }
+    ?>
+
     <script src="../../js/feedbuild.js"></script>
 </body>
 </html>

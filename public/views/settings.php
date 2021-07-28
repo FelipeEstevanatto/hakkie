@@ -152,13 +152,11 @@
             <div class="form-manage close">
                 <form action="../../app/php/changeUserData.php" method="POST">
                     <label for="update-info">Current info about you:</label>
-                    <textarea name="update-info" type="text" maxlength="256" rows="3">
-                        <?php
-                            if (!is_null($info)) {
-                                echo $info;
-                            } 
-                        ?>
-                    </textarea>
+                    <textarea name="update-info" type="text" maxlength="256" rows="3"><?php
+                        if (!is_null($info)) {
+                            echo$info;
+                        } 
+                    ?></textarea>
 
                     <input type="submit" name='change-user-info' value="Submit">
                 </form>

@@ -122,6 +122,13 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
+.tab-list .tab .underline {
+  background-color: #5f00cc;
+  width: 60%;
+  height: 4px;
+  margin: auto;
+}
+
 body.light .info .time {
   color: #333333;
 }

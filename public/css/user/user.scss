@@ -108,6 +108,13 @@
             background: rgba(255, 255, 255, 0.1);
         }
     }
+
+    .tab .underline {
+        background-color:rgb(95, 0, 204); 
+        width:60%; 
+        height: 4px; 
+        margin: auto;
+    }
 }
 
 body.light {

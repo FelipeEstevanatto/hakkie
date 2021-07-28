@@ -46,6 +46,23 @@
     $user_picture = $return['user_picture'];
     $user_banner = $return['user_banner'];
     $user_info = $return['user_info'];
+
+    $query = "SELECT user_followed, follow_date, fk_user FROM follows WHERE user_followed = :id_user ORDER BY follow_date";
+    $stmt = $conn -> prepare($query);
+    $stmt -> bindValue(':id_user', $_GET['user']);
+    $stmt -> execute();
+    $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
+    $followers = count($return);
+
+    $query = "SELECT user_followed, follow_date, fk_user FROM follows WHERE fk_user = :id_user ORDER BY follow_date";
+    $stmt = $conn -> prepare($query);
+    $stmt -> bindValue(':id_user', $_GET['user']);
+    $stmt -> execute();
+    $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
+    $following = count($return);
+
 ?>
 
 <!DOCTYPE html>
@@ -116,18 +133,18 @@
                 <div class="bottom-bar">
                     <div class="left">
                         <a href="#">
-                            <span>9</span>
+                            <span><?=$following?></span>
                             Following
                         </a>
 
                         <a href="#">
-                            <span>9</span> 
+                            <span><?=$followers?></span>
                             Followers
                         </a>
                     </div>
 
                     <div class="right">
-                        <div class="btn follow" id="interact-btn">
+                        <div class="btn follow" id="<?php if($_GET['user'] != $_SESSION['idUser']) echo"interact-btn"?>">
                             <i class="fas fa-user-plus"></i>
                             <span>Follow</span>
                         </div>
@@ -144,20 +161,48 @@
             </div>
          </div>
 
-         <div class="tab-list">
+        <div class="tab-list">
             <div class="tab">
                 Posts
+                <div class="underline"></div>
             </div>
             <div class="tab">
-                Midia
+                Media
+                <div class=""></div>
             </div>
             <div class="tab">
-                Curtidas
+                Likes
+                <div class=""></div>
             </div>
         </div>
 
          <div class="feed">
-            
+            <?php
+                //Request posts
+            ?>
+            <!--Post layout-->
+            <div class="post text">
+                <div class="top-post">
+                    <img src="../images/defaultUser.png" width="50px" style="border-radius: 90%;">
+                    Name User - post date
+                </div>
+                <div class="content-post">
+                    Text
+                </div>
+                <div class="bottom-post">
+                    <div class="list">
+                        <div class="tab">
+                            Like
+                        </div>
+                        <div class="tab">
+                            Comment
+                        </div>
+                        <div class="tab">
+                            Share
+                        </div>
+                    </div>
+                </div>
+            </div>
          </div>
     </div>
 
@@ -168,5 +213,6 @@
     ?>
 
     <script src="../../js/followUser.js"></script>
+    <script src="../../js/feedbuild.js"></script>
 </body>
 </html>

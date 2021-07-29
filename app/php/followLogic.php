@@ -30,7 +30,10 @@ if (isset($_POST['follow']) && is_numeric($_POST['follow'])) {
     
     $stmt -> execute();
 
-        echo"Sucess following";
+    $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
+    if ($stmt && count($return) == 1) {
+        echo"1";
     }
 
 } elseif (isset($_POST['unfollow']) && is_numeric($_POST['unfollow'])) {

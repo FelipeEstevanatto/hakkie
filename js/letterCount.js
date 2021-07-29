@@ -1,8 +1,8 @@
-const textInput = window.document.querySelector('#update-info');
-const countOut = window.document.querySelector('#update-info-count');
+const textarea = window.document.querySelector('#textarea');
+const count = window.document.querySelector('#count');
 
-textInput.addEventListener('input', () => {
-    countOut.innerHTML = 256 - textInput.value.length;
+textarea.addEventListener('input', () => {
+    count.innerHTML = 256 - textarea.value.length;
 });
 
-countOut.innerHTML = 256 - textInput.value.length;
+count.innerHTML = 256 - textarea.value.length;

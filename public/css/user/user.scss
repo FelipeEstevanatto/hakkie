@@ -152,8 +152,6 @@
         text-align: center;
         padding: 10px;
         cursor: pointer;
-        background: rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.1);
 
         &:hover {
             background: rgba(255, 255, 255, 0.1);
@@ -204,7 +202,9 @@ body.light {
     }
 
     .tab-list {
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        .tab {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
     }
 }
 
@@ -245,7 +245,9 @@ body.dark {
     }
 
     .tab-list {
-        box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+        .tab {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
     }
 }
 

@@ -208,6 +208,27 @@
             </div>
         </div>
 
+        <?php 
+        if ($_GET['user'] == $_SESSION['idUser']) {
+        ?>
+
+        <div class="post-input">
+            <h2>Post</h2>
+            <form action="" method="POST">
+                <textarea name="post-text" id="textarea" maxlength="256" cols="30" rows="10" placeholder="What is going on?"></textarea>
+                <label id="count" for="post-text"></label>
+
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
+        <?php
+        }
+        ?>
+    
+
+        
+
          <div id="feed">
             <?php
                 //Request posts
@@ -335,5 +356,8 @@
 
     <script src="../../js/feedbuild.js"></script>
     <script src="../../js/openMenu.js"></script>
+    <script src="../../js/letterCount.js">
+        letterCount(140, 'post-text', 'post-count')
+    </script>
 </body>
 </html>

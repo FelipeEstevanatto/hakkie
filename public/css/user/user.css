@@ -172,8 +172,6 @@
   text-align: center;
   padding: 10px;
   cursor: pointer;
-  background: rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .tab-list .tab:hover {
@@ -214,9 +212,8 @@ body.light .info .bottom-bar .right .btn:hover {
   transition: 200ms;
 }
 
-body.light .tab-list {
-  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-          box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+body.light .tab-list .tab {
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 body.dark {
@@ -250,9 +247,8 @@ body.dark .info .bottom-bar .right .btn:hover {
   transition: 200ms;
 }
 
-body.dark .tab-list {
-  -webkit-box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
-          box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+body.dark .tab-list .tab {
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 @media screen and (max-width: 900px) {

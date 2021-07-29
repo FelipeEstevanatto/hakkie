@@ -139,8 +139,11 @@
 
 .top .info .bottom-bar .right #ellipsis-modal.open {
   width: 200px;
-  background: #272525;
   border-radius: 1em;
+}
+
+.top .info .bottom-bar .right #ellipsis-modal.open a .btn {
+  border-radius: 1em 1em 0 0 !important;
 }
 
 .top .info .bottom-bar .right #ellipsis-modal.open .btn {
@@ -150,7 +153,6 @@
   padding: 10px;
   text-align: center;
   height: 50px;
-  border: none;
 }
 
 .top .info .bottom-bar .right #ellipsis-modal.open .btn:first-child {
@@ -213,7 +215,19 @@ body.light .info .bottom-bar .right .btn:hover {
 }
 
 body.light .tab-list .tab {
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+body.light #ellipsis-modal.open {
+  background: white;
+}
+
+body.light #ellipsis-modal.open a {
+  color: #252525;
+}
+
+body.light #ellipsis-modal.open .btn {
+  border: 1px solid rgba(0, 0, 0, 0.4);
 }
 
 body.dark {
@@ -248,7 +262,15 @@ body.dark .info .bottom-bar .right .btn:hover {
 }
 
 body.dark .tab-list .tab {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark #ellipsis-modal.open {
+  background: #272525;
+}
+
+body.dark #ellipsis-modal.open a {
+  color: #EDEDED;
 }
 
 @media screen and (max-width: 900px) {

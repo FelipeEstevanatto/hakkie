@@ -96,10 +96,10 @@
         <div class="tab-list">
             <a href="following.php?user=<?=$_GET['user']?>" class="tab">
                 Following
+                <div class="underline"></div>
             </a>
             <a href="followers.php?user=<?=$_GET['user']?>" class="tab">
                 Followers
-                <div class="underline"></div>
             </a>
         </div>
 

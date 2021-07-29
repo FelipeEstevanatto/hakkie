@@ -48,6 +48,8 @@
 
 .post-input {
     margin: 1em;
+    border-radius: 1em;
+    padding: 1em;
 
     h2 {
         font-size: 1.8em;
@@ -66,6 +68,7 @@
             height: 200px;
             width: 100%;
             margin: 1em 0;
+            font-weight: 500;
 
             & + label {
                 position: absolute;
@@ -171,16 +174,16 @@
 
 body.light {
     #container {
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        border: 2px solid rgba(0, 0, 0, 0.1);
     }
 
     #tool-bar {
         background: #EDEDED;
-        box-shadow: 0px 10px 5px rgba(0, 0, 0, 0.1);
+        border: 2px solid rgba(0, 0, 0, 0.1);
         
         .btn {
             color: #0D0D1A;
-            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
 
             &:hover {
                 background: rgb(224, 224, 224);
@@ -191,11 +194,11 @@ body.light {
 
     #message-section {
         background: linear-gradient(45deg, #EDEDED, #dbdbdb);
-        box-shadow: 0 10px 5px rgba(0, 0, 0, 0.1);
+        border: 2px solid rgba(0, 0, 0, 0.1);
 
         .talk {
             color: #0D0D1A;
-            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            border: 2px solid rgba(0, 0, 0, 0.1);
 
             &:hover {
                 background: rgb(204, 204, 204);
@@ -216,8 +219,10 @@ body.light {
     }
 
     .post-input {
+        background: #EDEDED;
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        
         form {
-    
             textarea {
                 border: 2px solid #25252581;
             }
@@ -238,7 +243,7 @@ body.light {
 
 body.dark {
     #container {
-        box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.1);
     }
     
     #tool-bar {
@@ -247,7 +252,7 @@ body.dark {
 
         .btn {
             color: #EDEDED;
-            box-shadow: 0px 0px 5px rgba(134, 134, 134, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
 
             &:hover {
                 background: #1e1e30;
@@ -258,11 +263,11 @@ body.dark {
 
     #message-section {
         background: #0D0D1A;
-        box-shadow: 0px 0px 5px rgba(134, 134, 134, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.1);
 
         .talk {
             color: #EDEDED;
-            box-shadow: 0px 0px 5px rgba(134, 134, 134, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
 
             &:hover {
                 background: #1e1e30;
@@ -283,6 +288,9 @@ body.dark {
     }
 
     .post-input {
+        background: #0d0d1a;
+        border: 4px solid rgba(255, 255, 255, 0.1); 
+        
         form {    
             input {
                 background: #1e1e30;

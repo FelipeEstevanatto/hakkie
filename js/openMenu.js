@@ -3,7 +3,7 @@ const modal = window.document.querySelector('#ellipsis-modal');
 
 const blockUserBtn = window.document.querySelector('#ellipsis-modal .btn#block_user');
 const silenceUserBtn = window.document.querySelector('#ellipsis-modal .btn#silence_user');
-const linkUserBtn = window.document.querySelector('#ellipsis-modal .btn:last-child');
+const linkUserBtn = window.document.querySelector('#ellipsis-modal .btn#link_user');
 
 btn.addEventListener('click', () => {
     if(modal.classList.contains('open')) {
@@ -21,19 +21,21 @@ btn.addEventListener('click', () => {
     }
 });
 
-silenceUserBtn.addEventListener('click', () => {
-    console.log("Silence");
-});
+if(silenceUserBtn != null && blockUserBtn != null) {
+    silenceUserBtn.addEventListener('click', () => {
+        console.log("Silence");
+    });
 
-blockUserBtn.addEventListener('click', () => {
+    blockUserBtn.addEventListener('click', () => {
 
-    let xhr = new XMLHttpRequest();
-    xhr.open('POST', '../../app/php/manageBlock.php');
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-    xhr.send('block='+window.location.href.replace(/\D/g, ''));
-
-});
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '../../app/php/manageBlock.php');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    
+        xhr.send('block='+window.location.href.replace(/\D/g, ''));
+    
+    });
+}
 
 linkUserBtn.addEventListener('click', () => {
     var dummy = document.createElement('input'),

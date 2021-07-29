@@ -118,8 +118,13 @@
 
                 #ellipsis-modal.open {
                     width: 200px;
-                    background: rgb(39, 37, 37);
                     border-radius: 1em;
+
+                    a {
+                        .btn {
+                            border-radius: 1em 1em 0 0 !important;
+                        }
+                    }
 
                     .btn {
                         display: block;
@@ -128,7 +133,7 @@
                         padding: 10px;
                         text-align: center;
                         height: 50px;
-                        border: none;
+                        
 
                         &:first-child {
                             border-radius: 1em 1em 0 0;
@@ -203,7 +208,19 @@ body.light {
 
     .tab-list {
         .tab {
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            border: 2px solid rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    #ellipsis-modal.open {
+        background: rgb(255, 255, 255);
+
+        a {
+            color: #252525;
+        }
+
+        .btn {
+            border: 1px solid rgba(0, 0, 0, 0.4);
         }
     }
 }
@@ -246,8 +263,17 @@ body.dark {
 
     .tab-list {
         .tab {
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.1);
         }
+    }
+
+    #ellipsis-modal.open {
+
+        a {
+            color: #EDEDED;
+        }
+
+        background: rgb(39, 37, 37);
     }
 }
 

@@ -12,7 +12,6 @@
 
     a {
         font-size: 1.1em;
-        color: white;
         word-break: break-all;
     }
 }
@@ -25,9 +24,8 @@
         text-align: center;
         padding: 10px;
         cursor: pointer;
-        background: rgba(0, 0, 0, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.1);
-
+    
         &:hover {
             background: rgba(255, 255, 255, 0.1);
         }
@@ -39,5 +37,35 @@
         border-radius: 1em;
         height: 4px; 
         margin: auto;
+    }
+}
+
+body.light {
+    .top {
+        a {
+            color: #252525;
+        }
+    }
+
+    .tab-list {
+        .tab {
+            color: #252525;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+        }   
+    }
+}
+
+body.dark {
+    .top {
+        a {
+            color: #EDEDED; 
+        }
+    }
+
+    .tab-list {
+        .tab {
+            color: #EDEDED;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }   
     }
 }

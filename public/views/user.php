@@ -152,7 +152,7 @@
 
                 <div class="bottom-bar">
                     <div class="left">
-                        <a href="followers.php?user=<?=$_GET['user']?>">
+                        <a href="following.php?user=<?=$_GET['user']?>">
                             <span><?=$following?></span>
                             Following
                         </a>
@@ -180,9 +180,21 @@
                         </div>
 
                         <div id="ellipsis-modal" class="close">
-                            <div class="btn" id="silence_user">Silence User</div>
-                            <div class="btn" id="block_user">Block User</div>
-                            <div class="btn">Copy Profile Link</div>
+
+                            <?php 
+
+                            if ($_GET['user'] != $_SESSION['idUser']) {
+
+                            echo '<div class="btn" id="silence_user">Silence User</div>';
+                            echo '<div class="btn" id="block_user">Block User</div>';
+
+                            } else {
+                                echo '<a href="settings.php"><div class="btn" id="edit_user">Edit User</div></a>';
+                            }
+
+                            ?>
+
+                            <div class="btn" id="link_user">Copy Profile Link</div>
                         </div>
 
                         <div id="ellipsis" class="btn">
@@ -356,8 +368,15 @@
 
     <script src="../../js/feedbuild.js"></script>
     <script src="../../js/openMenu.js"></script>
+
+    <?php 
+        if ($_GET['user'] == $_SESSION['idUser']) {
+    ?>
+
     <script src="../../js/letterCount.js">
         letterCount(140, 'post-text', 'post-count')
     </script>
+
+    <?php } ?>
 </body>
 </html>

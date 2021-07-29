@@ -81,6 +81,19 @@
 
     $following = count($return);
 
+    $query = "SELECT user_followed FROM follows WHERE fk_user = :id_user";
+    $stmt = $conn -> prepare($query);
+    $stmt -> bindValue(':id_user', $_SESSION['idUser']);
+    $stmt -> execute();
+    $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
+    if ($stmt -> rowCount() == 0) {
+        $follow_status = 'follow';
+    } else {
+        $follow_status = 'unfollow';
+    }
+    
+
 ?>
 
 <!DOCTYPE html>
@@ -153,12 +166,12 @@
                 <div class="bottom-bar">
                     <div class="left">
                         <a href="following.php?user=<?=$_GET['user']?>">
-                            <span><?=$following?></span>
+                            <span id="following"><?=$following?></span>
                             Following
                         </a>
 
                         <a href="followers.php?user=<?=$_GET['user']?>">
-                            <span><?=$followers?></span>
+                            <span id="followers"><?=$followers?></span>
                             Followers
                         </a>
                     </div>
@@ -167,9 +180,9 @@
                         <?php 
                         
                             if ($_GET['user'] != $_SESSION['idUser']) {
-                                echo '<div class="btn follow" id="interact-btn">';
+                                echo '<div class="btn '.$follow_status.'" id="interact-btn">';
                                     echo '<i class="fas fa-user-plus"></i>';
-                                    echo '<span>Follow</span>';
+                                    echo '<span> '.$follow_status.'</span>';
                                 echo '</div>';
                             } 
                   

@@ -99,6 +99,7 @@
   border-radius: .5em;
   cursor: pointer;
   font-weight: 500;
+  text-transform: capitalize;
 }
 
 .top .info .bottom-bar .right .btn:not(:last-child) {

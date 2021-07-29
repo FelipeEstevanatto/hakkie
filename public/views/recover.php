@@ -50,5 +50,11 @@
             I still don't have an account
         </div>
     </a>
+    <script>
+        let imgloading = document.createElement('img');
+        imgloading.src = '../images/loading-buffering.gif';
+        imgloading.className = '';
+
+    </script>
 </body>
 </html>

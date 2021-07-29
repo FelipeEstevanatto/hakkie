@@ -9,6 +9,8 @@ CREATE TABLE users (
   user_info VARCHAR(256) DEFAULT NULL,
   user_picture VARCHAR(256),
   user_banner VARCHAR(256),
+  followers INT DEFAULT 0,
+  following INT DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   darkmode BOOLEAN DEFAULT TRUE
 );
@@ -16,8 +18,17 @@ CREATE TABLE users (
 CREATE TABLE posts (
   id_post SERIAL NOT NULL PRIMARY KEY,
   post_text TEXT,
-  post_media TEXT,
+  post_media TEXT DEFAULT NULL,
+  likes INT DEFAULT 0,
   post_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  fk_user BIGINT NOT NULL,
+  FOREIGN KEY (fk_user) REFERENCES users (id_user)
+);
+
+CREATE TABLE likes (
+  id_like SERIAL NOT NULL PRIMARY KEY,
+  fk_post BIGINT NOT NULL,
+  FOREIGN KEY (fk_post) REFERENCES posts (id_post),
   fk_user BIGINT NOT NULL,
   FOREIGN KEY (fk_user) REFERENCES users (id_user)
 );
@@ -25,7 +36,7 @@ CREATE TABLE posts (
 CREATE TABLE comments (
   id_comment SERIAL NOT NULL PRIMARY KEY,
   comment_text TEXT,
-  comment_media TEXT,
+  comment_media TEXT DEFAULT NULL,
   comment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   likes INT DEFAULT 0,
   fk_post BIGINT NOT NULL,
@@ -39,11 +50,12 @@ CREATE TABLE follows (
   user_followed BIGINT NOT NULL,
   follow_date TIMESTAMP DEFAULT CURRENT_DATE,
   fk_user BIGINT NOT NULL,
-  FOREIGN KEY (fk_user) REFERENCES users (id_user)
+  FOREIGN KEY (fk_user) REFERENCES users (id_user),
+  UNIQUE(user_followed, fk_user)
 );
 
 CREATE TABLE messages (
-  id_message SERIAL NOT NULL PRIMARY KEY,
+  id_message SERIAL PRIMARY KEY NOT NULL,
   message_text TEXT,
   message_media TEXT,
   message_target BIGINT NOT NULL,
@@ -57,7 +69,8 @@ CREATE TABLE blocks (
   user_blocked BIGINT NOT NULL,
   block_date TIMESTAMP DEFAULT CURRENT_DATE,
   fk_user BIGINT NOT NULL,
-  FOREIGN KEY (fk_user) REFERENCES users (id_user)
+  FOREIGN KEY (fk_user) REFERENCES users (id_user),
+  UNIQUE(user_blocked, fk_user)
 );
 
 CREATE TABLE pwdreset (

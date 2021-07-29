@@ -7,11 +7,24 @@
     }
 
     require("../../app/database/connect.php");
-    if ( !isset($_GET['user']) && !is_numeric($_GET['user'])) {
-        //invalid id
+    if ( !isset($_GET['user']) || !is_numeric($_GET['user'])) {
+        include("../includes/user-nonexistent.php"); //This user does not exist in DB!
         exit();
-    } elseif ($_GET['user'] == $_SESSION['idUser']) {
-        $himself = true;
+    } elseif ($_GET['user'] != $_SESSION['idUser']) {
+
+        $query = "SELECT user_blocked FROM blocks WHERE fk_user = :id_user";
+
+        $stmt = $conn -> prepare($query);
+
+        $stmt -> bindValue(':id_user', $_SESSION['idUser']);
+
+        $stmt -> execute();
+
+        if ($stmt -> rowCount() > 0) {
+            include("../includes/user-nonexistent.php"); //This user does not exist in DB!
+            exit();
+        }
+
     }
 
     $query = "SELECT name_user, user_info, user_picture, user_banner, created_at, darkmode FROM users WHERE id_user = :id_user";
@@ -24,6 +37,11 @@
 
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
     
+    if ($stmt -> rowCount() < 1) {
+        include("../includes/user-nonexistent.php"); //This user does not exist in DB!
+        exit();
+    }
+
     $time = substr($return['created_at'], 5, 2);   
     $months = [
         '01' => 'January',
@@ -47,7 +65,7 @@
     $user_banner = $return['user_banner'];
     $user_info = $return['user_info'];
 
-    $query = "SELECT user_followed, follow_date, fk_user FROM follows WHERE user_followed = :id_user ORDER BY follow_date";
+    $query = "SELECT user_followed FROM follows WHERE user_followed = :id_user ORDER BY follow_date";
     $stmt = $conn -> prepare($query);
     $stmt -> bindValue(':id_user', $_GET['user']);
     $stmt -> execute();
@@ -55,7 +73,7 @@
 
     $followers = count($return);
 
-    $query = "SELECT user_followed, follow_date, fk_user FROM follows WHERE fk_user = :id_user ORDER BY follow_date";
+    $query = "SELECT user_followed FROM follows WHERE fk_user = :id_user ORDER BY follow_date";
     $stmt = $conn -> prepare($query);
     $stmt -> bindValue(':id_user', $_GET['user']);
     $stmt -> execute();
@@ -94,6 +112,7 @@
     ?>
 
     <div id="container">
+
         <div class="top">
             <div class="banner">
                 <?php 
@@ -133,12 +152,12 @@
 
                 <div class="bottom-bar">
                     <div class="left">
-                        <a href="#">
+                        <a href="followers.php?user=<?=$_GET['user']?>">
                             <span><?=$following?></span>
                             Following
                         </a>
 
-                        <a href="#">
+                        <a href="followers.php?user=<?=$_GET['user']?>">
                             <span><?=$followers?></span>
                             Followers
                         </a>
@@ -161,8 +180,8 @@
                         </div>
 
                         <div id="ellipsis-modal" class="close">
-                            <div class="btn">Silence User</div>
-                            <div class="btn">Block User</div>
+                            <div class="btn" id="silence_user">Silence User</div>
+                            <div class="btn" id="block_user">Block User</div>
                             <div class="btn">Copy Profile Link</div>
                         </div>
 
@@ -298,18 +317,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-
-
-
-
-
-
-
-
-
-            
+            </div>   
          </div>
     </div>
 

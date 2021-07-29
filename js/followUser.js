@@ -7,10 +7,11 @@ interactBtn.addEventListener('click', () => {
         interactBtn.innerHTML = '<i class="fas fa-user-times"></i> Unfollow';
 
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', '../../app/php/followLogic.php');
+        xhr.open('POST', '../../app/php/followLogic.php');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-        xhr.send('follow=');
+        xhr.send('follow='+window.location.href.replace(/\D/g, ''));
+
     }
     else {
         interactBtn.classList.remove('unfollow');
@@ -18,9 +19,9 @@ interactBtn.addEventListener('click', () => {
         interactBtn.innerHTML = '<i class="fas fa-user-plus"></i> Follow';
 
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', '../../app/php/followLogic.php');
+        xhr.open('POST', '../../app/php/followLogic.php');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-        xhr.send('unfollow=');
+        xhr.send('unfollow='+window.location.href.replace(/\D/g, ''));
     }
 });

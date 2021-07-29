@@ -1,0 +1,43 @@
+.top {
+    display: flex;
+    align-items: center;
+    padding: 1em;
+
+    img {
+        width: 60px;
+        height: 60px;
+        border-radius: 90%;
+        margin-right: 15px;
+    }
+
+    a {
+        font-size: 1.1em;
+        color: white;
+        word-break: break-all;
+    }
+}
+
+.tab-list {
+    display: flex;
+
+    .tab {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+        cursor: pointer;
+        background: rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    }
+
+    .tab .underline {
+        background-color:rgba(95, 0, 204, 0.5); 
+        width: 60%; 
+        border-radius: 1em;
+        height: 4px; 
+        margin: auto;
+    }
+}

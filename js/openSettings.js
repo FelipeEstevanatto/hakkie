@@ -16,17 +16,17 @@ buttonSetting.forEach((btn, index) => {
     });
 });
 
-const unblockBtn = window.document.querySelectorAll('#container .settings #block-manage.open .block .right i');
-const userBlocked = window.document.querySelectorAll('#container .settings #block-manage.open .block');
+const unblockBtn = window.document.querySelectorAll('#container .settings #block-manage .block .right i');
+const userBlocked = window.document.querySelectorAll('#container .settings #block-manage .block');
 
 unblockBtn.forEach((i, index) => {
     i.addEventListener('click', () => {
         
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', '../../app/php/removeBlock.php');
+        xhr.open('POST', '../../app/php/manageBlock.php');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-        xhr.send('unblock='+unblockBtn[index].id.slice(16));
+ 
+        xhr.send('unblock='+unblockBtn[index].id.replace(/\D/g, ''));
 
         userBlocked[index].remove();
     });

@@ -2,10 +2,10 @@
 
     session_start();
 
-    require 'vendor/autoload.php';
-    require "vendor/phpmailer/phpmailer/src/PHPMailer.php";
-    require "vendor/phpmailer/phpmailer/src/Exception.php";
-    require "vendor/phpmailer/phpmailer/src/SMTP.php";
+    require 'composer/vendor/autoload.php';
+    require "composer/vendor/phpmailer/phpmailer/src/PHPMailer.php";
+    require "composer/vendor/phpmailer/phpmailer/src/Exception.php";
+    require "composer/vendor/phpmailer/phpmailer/src/SMTP.php";
 
     require_once("../database/connect.php");
     require_once("../database/env.php");

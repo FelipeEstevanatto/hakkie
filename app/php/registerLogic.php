@@ -2,6 +2,10 @@
 
 session_start();
 
+require_once("vendor/autoload.php");
+require ("vendor/google/auth/src/Credentials/");
+require "vendor/google/phpmailer/src/Exception.php";
+require "vendor/phpmailer/phpmailer/src/SMTP.php";
 require_once("../database/connect.php");
 require_once("functions.php");
 
@@ -62,7 +66,7 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['register_us
         exit();
     }
 
-} else {
+} else { 
     header("Location: ../../index.php");
     exit();
 }

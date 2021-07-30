@@ -12,6 +12,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="1014049574641-u1pcchh1thdc0futl5an649j2m85222a.apps.googleusercontent.com">
+
     <title>Create Account</title>
 
     <!-- Styles -->
@@ -23,6 +27,7 @@
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="public/images/favicon.png" type="image/x-icon">
+
 </head>
 <body class="dark">
     <div class="container">
@@ -61,9 +66,8 @@
                 OR
             </div>
 
-            <div class="google-login">
-                <img src="public/images/g-logo.png" alt="Google">
-                Sign up with Google
+            <div class="google-login" id="my-signin2">
+
             </div>
         </div>
     </div>
@@ -74,6 +78,8 @@
         </div>
     </a>
     
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+    <script src="app/google/google.js"></script>
     <script src="js/showPassword.js"></script>
 </body>
 </html>

@@ -12,7 +12,7 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['login-user-
 
     $dbpassword = generateFakePassword();
 
-    $query = "SELECT id_user, email_user, user_password, darkmode FROM users WHERE email_user = :email_user";
+    $query = "SELECT id_user, user_email, user_password, darkmode FROM users WHERE user_email = :email_user";
 
     $stmt = $conn -> prepare($query);
 

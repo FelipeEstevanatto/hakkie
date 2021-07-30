@@ -93,13 +93,13 @@
             <a href="user.php?user=<?=$_GET['user']?>"><?=$user_name?></a>
          </div>
 
-        <div class="tab-list">
+         <div class="tab-list">
             <a href="following.php?user=<?=$_GET['user']?>" class="tab">
-                Following
+                (<?=$following?>) Following
                 <div class="underline"></div>
             </a>
             <a href="followers.php?user=<?=$_GET['user']?>" class="tab">
-                Followers
+                (<?=$followers?>) Followers
             </a>
         </div>
 

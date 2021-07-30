@@ -15,7 +15,7 @@
 
     if (!empty($email_user) && isset($_POST['sender-ip']) && isset($_POST['recover-user-submit'])) {
 
-        $query = "SELECT email_user, user_password, name_user FROM users WHERE email_user = :email_user";
+        $query = "SELECT user_email, user_password, name_user FROM users WHERE user_email = :email_user";
 
         $stmt = $conn -> prepare($query);
 

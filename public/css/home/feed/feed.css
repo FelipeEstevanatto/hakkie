@@ -115,6 +115,21 @@ body.dark #feed .post .bottom-post .list .tab:hover {
   transition: 200ms;
 }
 
+#images-preview {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 1em;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+#images-preview img {
+  width: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 5%;
+}
+
 @media screen and (max-width: 900px) {
   #feed {
     padding: 1em;

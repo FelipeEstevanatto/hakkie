@@ -3,14 +3,14 @@
 CREATE TABLE users (
   id_user SERIAL PRIMARY KEY NOT NULL,
   name_user VARCHAR(64) NOT NULL,
-  email_user VARCHAR(256) NOT NULL,
+  user_email VARCHAR(256) NOT NULL,
   user_password VARCHAR(72),
   auth_type VARCHAR(128) DEFAULT 'PASSWORD',
   user_info VARCHAR(256) DEFAULT NULL,
   user_picture VARCHAR(256),
   user_banner VARCHAR(256),
-  followers INT DEFAULT 0,
-  following INT DEFAULT 0,
+  user_followers INT DEFAULT 0,
+  user_following INT DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   darkmode BOOLEAN DEFAULT TRUE
 );
@@ -19,18 +19,20 @@ CREATE TABLE posts (
   id_post SERIAL NOT NULL PRIMARY KEY,
   post_text TEXT,
   post_media TEXT DEFAULT NULL,
-  likes INT DEFAULT 0,
+  post_likes INT DEFAULT 0,
+  post_comments INT DEFAULT 0,
   post_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  fk_user BIGINT NOT NULL,
-  FOREIGN KEY (fk_user) REFERENCES users (id_user)
+  fk_owner BIGINT NOT NULL,
+  FOREIGN KEY (fk_owner) REFERENCES users (id_user)
 );
 
 CREATE TABLE likes (
   id_like SERIAL NOT NULL PRIMARY KEY,
   fk_post BIGINT NOT NULL,
   FOREIGN KEY (fk_post) REFERENCES posts (id_post),
-  fk_user BIGINT NOT NULL,
-  FOREIGN KEY (fk_user) REFERENCES users (id_user)
+  fk_like_owner BIGINT NOT NULL,
+  FOREIGN KEY (fk_like_owner) REFERENCES users (id_user),
+  UNIQUE(fk_post, fk_like_owner)
 );
 
 CREATE TABLE comments (
@@ -38,11 +40,11 @@ CREATE TABLE comments (
   comment_text TEXT,
   comment_media TEXT DEFAULT NULL,
   comment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  likes INT DEFAULT 0,
+  comment_likes INT DEFAULT 0,
   fk_post BIGINT NOT NULL,
   FOREIGN KEY (fk_post) REFERENCES posts (id_post),
-  fk_user BIGINT NOT NULL,
-  FOREIGN KEY (fk_user) REFERENCES users (id_user)
+  fk_owner BIGINT NOT NULL,
+  FOREIGN KEY (fk_owner) REFERENCES users (id_user)
 );
 
 CREATE TABLE follows (
@@ -88,6 +90,6 @@ CREATE TABLE pwdreset (
 
 /* Drop tables
 
-DROP TABLE pwdreset,blocks,messages,follows,comments,posts,users;
+DROP TABLE comments,likes,posts,messages,blocks,pwdreset,follows,users;
 
 */

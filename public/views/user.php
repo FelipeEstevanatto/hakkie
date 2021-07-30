@@ -234,14 +234,21 @@
         </div>
 
         <?php 
-        if ($_GET['user'] == $_SESSION['idUser']) {
+            if ($_GET['user'] == $_SESSION['idUser']) {
         ?>
 
         <div class="post-input">
             <h2>Post</h2>
-            <form action="" method="POST">
+            <form action="../../app/php/postLogic.php" method="POST" enctype='multipart/form-data'>
                 <textarea name="post-text" id="textarea" maxlength="256" cols="30" rows="10" placeholder="What is going on?"></textarea>
                 <label id="count" for="post-text"></label>
+
+                <div id="images-preview"></div>
+                    
+                <input type='file' id="uploadfile" name='uploadfile' accept='.png,.PNG,.JPG,.jpg,.JPEG,.webpm,.mp4,.mov,.gif' multiple style='display:none;'/>
+                <label id="uploadfile-label" for="uploadfile">
+                    <span><i class="fas fa-upload"></i></span>     
+                </label>
 
                 <input type="submit" value="Submit">
             </form>
@@ -251,12 +258,11 @@
         }
         ?>
     
-
-        
-
          <div id="feed">
             <?php
-                //Request posts
+                include("../../app/php/showPosts.php");
+
+                showPosts($_GET['user'], 10, 'posts');
             ?>
             <!--Post layout-->
             <div class="post text">
@@ -291,45 +297,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
-
-            <!--Post layout-->
-            <div class="post text">
-                <div class="top-post">
-                    <div class="left">
-                        <img src="../images/defaultUser.png">
-                        <a href="#">Gabriel Gomes Nicolim</a>
-                    </div>
-                    
-                    <div class="right">
-                        <span>28/07/2021</span>
-                    </div>
-                </div>
-                <div class="content-post">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis veritatis natus voluptatum rem alias odit vel consequatur dignissimos? In eius alias velit, maiores nulla modi sit repellendus iure dolorem sunt?
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto id veniam, distinctio quae consequatur tempora iste maiores totam, corrupti impedit iure laboriosam reiciendis fuga nam perspiciatis sint, deserunt consectetur recusandae.
-                </div>
-                <div class="bottom-post">
-                    <div class="list">
-                        <div class="tab">
-                            <i class="fas fa-thumbs-up"></i>
-                            <span>Like</span>
-                        </div>
-                        <div class="tab">
-                            <i class="fas fa-comment"></i>
-                            <span>Comment</span>
-                        </div>
-                        <div class="tab">
-                            <i class="fas fa-share-square"></i>
-                            <span>Share</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
 
             <!--Post layout-->
             <div class="post text">
@@ -381,6 +348,7 @@
 
     <script src="../../js/feedbuild.js"></script>
     <script src="../../js/openMenu.js"></script>
+    <script src="../../js/imagePreview.js"></script>
 
     <?php 
         if ($_GET['user'] == $_SESSION['idUser']) {

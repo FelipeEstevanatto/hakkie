@@ -11,7 +11,7 @@ $password_user = cleanString($_POST['password']);
 
 if ($email_user !== false && !empty($password_user) && isset($_POST['register_user_submit']) ) {
     
-    $query = "SELECT email_user FROM users where email_user = :email_user ";
+    $query = "SELECT user_email FROM users where user_email = :email_user ";
 
     $stmt = $conn -> prepare($query);
 
@@ -25,7 +25,8 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['register_us
 
         $password_user = password_hash($password_user, PASSWORD_BCRYPT);
 
-        $query = "INSERT INTO users VALUES(DEFAULT, :name_user , :email_user , :password_user, DEFAULT, DEFAULT, NULL, NULL, DEFAULT, DEFAULT)";
+        $query = "INSERT INTO users VALUES(DEFAULT, :name_user , :email_user , :password_user, DEFAULT, 
+                  DEFAULT, NULL, NULL, DEFAULT, DEFAULT, DEFAULT, DEFAULT)";
 
         $stmt = $conn -> prepare($query);
 
@@ -35,7 +36,7 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['register_us
 
         if ($stmt) {
 
-            $query = "SELECT id_user, darkmode FROM users WHERE email_user = :email_user";
+            $query = "SELECT id_user, darkmode FROM users WHERE user_email = :email_user";
 
             $stmt = $conn -> prepare($query);
 

@@ -75,7 +75,7 @@
 .post-input form textarea + label {
   position: absolute;
   right: 1em;
-  bottom: 6em;
+  top: 10em;
   text-align: right;
   color: white;
   width: auto;

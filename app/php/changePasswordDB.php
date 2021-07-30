@@ -48,7 +48,7 @@ if (isset($_POST['new-password-submit'])) {
 
         $tokenEmail = $row[0]['pwdresetemail'];
 
-        $query = "SELECT * FROM users WHERE email_user = :email";
+        $query = "SELECT * FROM users WHERE user_email = :email";
         $stmt = $conn -> prepare($query);
         $stmt -> bindValue(":email", $tokenEmail);
         $stmt -> execute();
@@ -62,7 +62,7 @@ if (isset($_POST['new-password-submit'])) {
 
             $new_Password = password_hash($new_password, PASSWORD_BCRYPT);
 
-            $query = "UPDATE users SET user_password = :newpassword WHERE email_user = :email_user";
+            $query = "UPDATE users SET user_password = :newpassword WHERE user_email = :email_user";
             $stmt = $conn -> prepare($query);
             $stmt -> bindValue(":newpassword", $new_Password);
             $stmt -> bindValue(":email_user", $tokenEmail);

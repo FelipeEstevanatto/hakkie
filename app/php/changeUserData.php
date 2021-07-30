@@ -10,7 +10,7 @@
         exit();
     }
 
-    $query = "SELECT name_user, email_user, user_password, user_info FROM users WHERE id_user = :id_user";
+    $query = "SELECT name_user, user_email, user_password, user_info FROM users WHERE id_user = :id_user";
     $stmt = $conn -> prepare($query);
     $stmt -> bindValue(':id_user', $_SESSION['idUser']);
     $stmt -> execute();
@@ -37,13 +37,13 @@
 
         $newEmail = cleanEmail($_POST['email']);
 
-        if ($newEmail === false && $newEmail !== $return['email_user']) {
+        if ($newEmail === false && $newEmail !== $return['user_email']) {
             header("Location: ../../public/views/settings.php?error=invalidemail");
             exit();
         }
 
         echo"change user email";
-        $query = "UPDATE users SET email_user = :newEmail WHERE id_user = :id_user";
+        $query = "UPDATE users SET user_email = :newEmail WHERE id_user = :id_user";
         $stmt = $conn -> prepare($query);
         $stmt -> bindValue(':newEmail', $newEmail);
         $stmt -> bindValue(':id_user', $_SESSION['idUser']);

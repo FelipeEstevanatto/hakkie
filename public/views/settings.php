@@ -1,8 +1,49 @@
 <?php
     session_start();
+
     if(!isset($_SESSION['isAuth'])){
         header("Location: home.php ");
 	    exit();
+    }
+
+    include("../../app/database/connect.php");
+
+    $query = "SELECT name_user, user_email, user_info, darkmode FROM users WHERE id_user = :id_user";
+    $stmt = $conn -> prepare($query);
+    $stmt -> bindValue(':id_user', $_SESSION['idUser']);
+    $stmt -> execute();
+
+    if ($stmt -> rowCount() < 1) {
+        header("Location: login.php"); //This user does not exist in DB!
+        exit();
+    }
+
+    $return = $stmt -> fetch(PDO::FETCH_ASSOC);
+
+    $name = $return['name_user'];
+    $email = $return['user_email'];
+    $info = $return['user_info'];
+    $darkMode = $return['darkmode'];
+
+    $query = "SELECT * FROM blocks WHERE fk_user = :id_user";
+    $stmt = $conn -> prepare($query);
+    $stmt -> bindValue(':id_user', $_SESSION['idUser']);
+    $stmt -> execute();
+    $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
+    if ( count($return) < 1 ) {
+        $hasBlocks = false;
+    } else {
+        $hasBlocks = true;
+
+        $query = 'SELECT users.name_user, users.user_picture, blocks.block_date, blocks.id_block FROM users INNER JOIN blocks
+                    ON users.id_user = blocks.user_blocked WHERE blocks.fk_user = :id_user ';
+        $stmt = $conn -> prepare($query);
+        $stmt -> bindValue(':id_user', $_SESSION['idUser']);
+        $stmt -> execute();
+        
+        $blocks = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
     }
 ?>
 
@@ -28,51 +69,11 @@
 <body class="<?= $_SESSION['darkMode'];?>">
     
     <?php 
-
-    include('../includes/tool-bar.php')
-
+        include('../includes/tool-bar.php')
     ?>
 
     <div id="container">
         <h1>Settings</h1>
-
-        <?php
-            include("../../app/database/connect.php");
-
-            $query = "SELECT name_user, email_user, user_info, darkmode FROM users WHERE id_user = :id_user";
-            $stmt = $conn -> prepare($query);
-            $stmt -> bindValue(':id_user', $_SESSION['idUser']);
-            $stmt -> execute();
-        
-            $return = $stmt -> fetch(PDO::FETCH_ASSOC);
-
-            $name = $return['name_user'];
-            $email = $return['email_user'];
-            $info = $return['user_info'];
-            $darkMode = $return['darkmode'];
-
-            $query = "SELECT * FROM blocks WHERE fk_user = :id_user";
-            $stmt = $conn -> prepare($query);
-            $stmt -> bindValue(':id_user', $_SESSION['idUser']);
-            $stmt -> execute();
-            $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-
-            if ( count($return) < 1 ) {
-                $hasBlocks = false;
-            } else {
-                $hasBlocks = true;
-
-                $query = 'SELECT users.name_user, users.user_picture, blocks.block_date, blocks.id_block FROM users INNER JOIN blocks
-                          ON users.id_user = blocks.user_blocked WHERE blocks.fk_user = :id_user ';
-                $stmt = $conn -> prepare($query);
-                $stmt -> bindValue(':id_user', $_SESSION['idUser']);
-                $stmt -> execute();
-                
-                $blocks = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-
-            }
-
-        ?>
         
         <div class="settings">
             <!-- Theme -->
@@ -218,9 +219,7 @@
 
 
     <?php 
-
-    include('../includes/message.html')
-
+        include('../includes/message.html')
     ?>
 
     <script src="../../js/switchTheme.js"></script>

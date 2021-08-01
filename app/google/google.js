@@ -10,22 +10,23 @@ function renderButton() {
     });
 }
 
+function sendToBack(id_token) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '../../app/google/verifyIntegrity.php');
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    
+    xhr.send('id_token=' + id_token);
+    console.log("Here");
+    console.log(xhr.responseText);
+    window.location.href = 'http://localhost/hakkie/public/views/home.php'
+}
+
 function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
 
     sendToBack(id_token)
 }
 
-function sendToBack(id_token) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'app/google/verifyIntegrity.php');
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    
-    xhr.send('idtoken=' + id_token);
-
-    window.location.href = 'http://localhost/google_login/home.php'
-}
-
 function onFailure(error) {
-    console.log(error); 
+    console.log(error);
 }

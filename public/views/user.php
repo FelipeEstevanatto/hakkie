@@ -93,7 +93,11 @@
         $follow_status = 'unfollow';
     }
     
-
+    if ($_GET['user'] == $_SESSION['idUser']){
+        $own_profile = true;
+    } else {
+        $own_profile = false;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -179,7 +183,7 @@
                     <div class="right">
                         <?php 
                         
-                            if ($_GET['user'] != $_SESSION['idUser']) {
+                            if (!$own_profile) {
                                 echo '<div class="btn '.$follow_status.'" id="interact-btn">';
                                     echo '<i class="fas fa-user-plus"></i>';
                                     echo '<span> '.$follow_status.'</span>';
@@ -188,7 +192,7 @@
                   
                         ?>
 
-                        <div class="btn">
+                        <div class="btn" id="direct_message">
                             <i class="fas fa-comment-dots"></i>
                         </div>
 
@@ -196,7 +200,7 @@
 
                             <?php 
 
-                            if ($_GET['user'] != $_SESSION['idUser']) {
+                            if (!$own_profile) {
 
                             echo '<div class="btn" id="silence_user">Silence User</div>';
                             echo '<div class="btn" id="block_user">Block User</div>';
@@ -234,7 +238,7 @@
         </div>
 
         <?php 
-            if ($_GET['user'] == $_SESSION['idUser']) {
+            if ($own_profile) {
         ?>
 
         <div class="post-input">
@@ -262,6 +266,7 @@
             <?php
                 include("../../app/php/showPosts.php");
 
+                // Post layout
                 showPosts($_GET['user'], 10, 'posts');
             ?>
             <!--Post layout-->
@@ -282,15 +287,15 @@
                 </div>
                 <div class="bottom-post">
                     <div class="list">
-                        <div class="tab">
+                        <div class="tab" id="like">
                             <i class="fas fa-thumbs-up"></i>
                             <span>Like</span>
                         </div>
-                        <div class="tab">
+                        <div class="tab" id="comment">
                             <i class="fas fa-comment"></i>
                             <span>Comment</span>
                         </div>
-                        <div class="tab">
+                        <div class="tab" id="share">
                             <i class="fas fa-share-square"></i>
                             <span>Share</span>
                         </div>
@@ -298,39 +303,6 @@
                 </div>
             </div>
 
-            <!--Post layout-->
-            <div class="post text">
-                <div class="top-post">
-                    <div class="left">
-                        <img src="../images/defaultUser.png">
-                        <a href="#">Gabriel Gomes Nicolim</a>
-                    </div>
-                    
-                    <div class="right">
-                        <span>28/07/2021</span>
-                    </div>
-                </div>
-                <div class="content-post">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis veritatis natus voluptatum rem alias odit vel consequatur dignissimos? In eius alias velit, maiores nulla modi sit repellendus iure dolorem sunt?
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto id veniam, distinctio quae consequatur tempora iste maiores totam, corrupti impedit iure laboriosam reiciendis fuga nam perspiciatis sint, deserunt consectetur recusandae.
-                </div>
-                <div class="bottom-post">
-                    <div class="list">
-                        <div class="tab">
-                            <i class="fas fa-thumbs-up"></i>
-                            <span>Like</span>
-                        </div>
-                        <div class="tab">
-                            <i class="fas fa-comment"></i>
-                            <span>Comment</span>
-                        </div>
-                        <div class="tab">
-                            <i class="fas fa-share-square"></i>
-                            <span>Share</span>
-                        </div>
-                    </div>
-                </div>
-            </div>   
          </div>
     </div>
 
@@ -340,18 +312,14 @@
 
     ?>
 
-    <?php 
-        if ($_GET['user'] != $_SESSION['idUser']) {
-            echo '<script src="../../js/followUser.js"></script>';
-        }
-    ?>
-
     <script src="../../js/feedbuild.js"></script>
     <script src="../../js/openMenu.js"></script>
     <script src="../../js/imagePreview.js"></script>
 
     <?php 
-        if ($_GET['user'] == $_SESSION['idUser']) {
+        if (!$own_profile) {
+            echo '<script src="../../js/followUser.js"></script>';
+        } else {
     ?>
 
     <script src="../../js/letterCount.js">

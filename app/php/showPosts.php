@@ -36,12 +36,12 @@ function showPosts($user, $posts, $tab) {
                 $path = $_SERVER['DOCUMENT_ROOT']."/hakkie/public/profiles/".$post['post_media'];
                 //If file exists in database but not in the folder
                 if (!file_exists($path)) {
-                    //echo"Image lost in the DB";
-                    $query = "UPDATE SET post_media = 'NULL' FROM posts WHERE post_media = '".$post['post_media']."' AND fk_owner = ".$_SESSION['idUser'];
+
+                    $query = "UPDATE posts SET post_media = 'NULL' WHERE post_media = '".$post['post_media']."' AND fk_owner = ".$_SESSION['idUser'];
 
                     $stmt = $conn -> query($query);
 
-                    $altImage = $post['post_media'];
+                    $altImage = "Image lost :(";
                 }
             }
 

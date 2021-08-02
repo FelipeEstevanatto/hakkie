@@ -14,7 +14,7 @@
         $himself = true;
     }
 
-    $query = "SELECT name_user, user_info, user_picture, user_banner, created_at, darkmode FROM users WHERE id_user = :id_user";
+    $query = "SELECT name_user, user_info, user_picture, user_banner, created_at, auth_type, darkmode FROM users WHERE id_user = :id_user";
 
     $stmt = $conn -> prepare($query);
 
@@ -27,6 +27,12 @@
     if ($stmt -> rowCount() < 1) {
         include("../includes/user-nonexistent.php"); //This user does not exist in DB!
         exit();
+    }
+
+    if ($return['auth_type'] == "GOOGLE") {
+        $isGoogle = true;
+    } else {
+        $isGoogle = false;
     }
     
     $user_name = $return['name_user'];
@@ -82,8 +88,10 @@
     <div id="container">
 
         <div class="top">
-            <?php 
-                if (!is_null($user_picture)) {
+            <?php
+                if ($isGoogle) {
+                    echo '<img class="profile-picture" src="'.$user_picture.'" alt="Picture of user">';
+                } elseif (!is_null($user_picture)) {
                     echo '<img class="profile-picture" src="../images/defaultUser.png" alt="Picture of user">';
                 } else { //fallback
                     echo '<img class="profile-picture" src="../images/defaultUser.png">';
@@ -108,6 +116,9 @@
                 //Request posts
             ?>
             <!--Follow layout-->
+            <div class="user_follow">
+                a
+            </div>
             
          </div>
     </div>
@@ -118,10 +129,5 @@
 
     ?>
 
-    <?php 
-        if ($_GET['user'] != $_SESSION['idUser']) {
-            echo '<script src="../../js/followUser.js"></script>';
-        }
-    ?>
 </body>
 </html>

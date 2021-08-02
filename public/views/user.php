@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
     session_start();
     
@@ -71,21 +72,25 @@
     $user_banner = $return['user_banner'];
     $user_info = $return['user_info'];
 
-    $query = "SELECT user_followed FROM follows WHERE user_followed = :id_user ORDER BY follow_date";
+    // ===================================================
+    // To be removed once the following/follower count in the user table gets more reliable
+    // ===================================================
+    $query = "SELECT count(user_followed) FROM follows WHERE user_followed = :id_user";
     $stmt = $conn -> prepare($query);
     $stmt -> bindValue(':id_user', $_GET['user']);
     $stmt -> execute();
-    $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+    $return = $stmt -> fetch(PDO::FETCH_ASSOC);
 
-    $followers = count($return);
+    $followers = $return['count'];
 
-    $query = "SELECT user_followed FROM follows WHERE fk_user = :id_user ORDER BY follow_date";
+    $query = "SELECT count(user_followed) FROM follows WHERE fk_user = :id_user";
     $stmt = $conn -> prepare($query);
     $stmt -> bindValue(':id_user', $_GET['user']);
     $stmt -> execute();
-    $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+    $return = $stmt -> fetch(PDO::FETCH_ASSOC);
 
-    $following = count($return);
+    $following = $return['count'];
+    // ===================================================
 
     $query = "SELECT user_followed FROM follows WHERE fk_user = :id_user";
     $stmt = $conn -> prepare($query);
@@ -106,7 +111,6 @@
     }
 ?>
 
-<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">

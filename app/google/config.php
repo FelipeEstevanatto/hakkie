@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+use Google\Auth\OAuth2;
 
 require_once('../php/composer/vendor/autoload.php');
 require_once('google.php');

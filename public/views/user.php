@@ -27,7 +27,7 @@
 
     }
 
-    $query = "SELECT name_user, user_info, user_picture, user_banner, created_at, darkmode FROM users WHERE id_user = :id_user";
+    $query = "SELECT name_user, user_info, user_picture, user_banner, created_at, darkmode, auth_type FROM users WHERE id_user = :id_user";
 
     $stmt = $conn -> prepare($query);
 
@@ -59,6 +59,12 @@
     ];
 
     $user_since = $months[$time]." of ".substr($return['created_at'], 0, 4);
+    
+    if ($return['auth_type'] == "GOOGLE") {
+        $isGoogle = true;
+    } else {
+        $isGoogle = false;
+    }
     
     $user_name = $return['name_user'];
     $user_picture = $return['user_picture'];
@@ -142,8 +148,10 @@
             </div>
 
             <div class="info">
-                    <?php 
-                        if (!is_null($user_picture)) {
+                    <?php
+                        if ($isGoogle) {
+                            echo '<img class="profile-picture" src="'.$user_picture.'" alt="Picture of user">';
+                        } elseif (!is_null($user_picture)) {
                             echo '<img class="profile-picture" src="../images/defaultUser.png" alt="Picture of user">';
                         } else { //fallback
                             echo '<img class="profile-picture" src="../images/defaultUser.png">';
@@ -163,7 +171,9 @@
                     <?php 
                         if (!is_null($user_info)) {
                             echo $user_info;
-                        } 
+                        } else {
+                            echo "Nothing to say.";
+                        }
                     ?>
                 </p>
 
@@ -313,13 +323,13 @@
     ?>
 
     <script src="../../js/feedbuild.js"></script>
-    <script src="../../js/openMenu.js"></script>
-    <script src="../../js/imagePreview.js"></script>
+    <script src="../../js/openMenu.js"></script>   
 
     <?php 
-        if (!$own_profile) {
-            echo '<script src="../../js/followUser.js"></script>';
+        if (!$own_profile) {   
+            echo '<script src="../../js/followUser.js"></script>';         
         } else {
+            echo '<script src="../../js/imagePreview.js"></script>';
     ?>
 
     <script src="../../js/letterCount.js">

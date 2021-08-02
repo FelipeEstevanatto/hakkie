@@ -1,10 +1,9 @@
 <?php
 
     require_once("../database/connect.php");
-    include('config.php');
 
     if (isset($google_client)) {
-        $google_client->revokeToken();
+        $google_client = null;
     }
 
     session_destroy();

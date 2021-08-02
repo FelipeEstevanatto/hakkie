@@ -11,14 +11,25 @@ function renderButton() {
 }
 
 function sendToBack(id_token) {
+    if (document.location.pathname == "/hakkie/public/views/login.php") {
+        var path = '../../app/google/verifyIntegrity.php';
+    } else {
+        var path = 'app/google/verifyIntegrity.php';
+    }
+
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '../../app/google/verifyIntegrity.php');
+
+    xhr.open('POST', path);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     
     xhr.send('id_token=' + id_token);
-    console.log("Here");
-    console.log(xhr.responseText);
-    window.location.href = 'http://localhost/hakkie/public/views/home.php'
+
+    xhr.onreadystatechange = () => {
+        if(xhr.readyState == 4 && xhr.status == 200) {
+            window.location.href = 'http://localhost/hakkie/public/views/home.php'
+        }
+    };
+    
 }
 
 function onSignIn(googleUser) {

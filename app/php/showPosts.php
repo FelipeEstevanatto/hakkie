@@ -5,7 +5,7 @@ function showPosts($user, $posts, $tab) {
     include("../../app/database/connect.php");
     include("functions.php");
     
-    $query = "SELECT name_user, user_picture FROM users WHERE id_user = :id_user";
+    $query = "SELECT name_user, user_picture, auth_type FROM users WHERE id_user = :id_user";
 
     $stmt = $conn -> prepare($query);
 
@@ -17,6 +17,11 @@ function showPosts($user, $posts, $tab) {
 
     $username = $return['name_user'];
     $userpicture = $return['user_picture'];
+    if ($return['auth_type'] == "GOOGLE") {
+        $isGoogle = true;
+    } else {
+        $isGoogle = false;
+    }
 
     if ( count($return) > 0) {
         
@@ -51,8 +56,10 @@ function showPosts($user, $posts, $tab) {
                         
                         <img src="';
                         //================== User Picture and name ==================
-                        if ($userpicture != NULL) {
-                            $actual_post.='../profiles/a.png';
+                        if ($isGoogle) {
+                            $actual_post.=$userpicture;
+                        } elseif ($userpicture != NULL) {
+                            $actual_post.='../profiles/'.$userpicture.'.png';
                         } else {//fallback
                             $actual_post.='../images/defaultUser.png';
                         }

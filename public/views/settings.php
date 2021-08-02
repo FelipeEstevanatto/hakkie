@@ -166,7 +166,7 @@
                     <input type="submit" name='change-user-info' value="Submit">
                 </form>
             </div>
-
+            <?php if($_SESSION['authType'] != 'GOOGLE') {?>
             <h3>Security</h3>
 
             <!-- Email -->
@@ -207,7 +207,7 @@
                     <input type="submit" name='change-user-password' value="Submit">
                 </form>
             </div>
-
+            <?php   } ?>
             <a href="../../app/php/logout.php">
                 <div class="btn" id="logout-btn">
                     <i class="fas fa-door-open"></i>

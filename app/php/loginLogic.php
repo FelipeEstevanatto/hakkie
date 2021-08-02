@@ -42,6 +42,7 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['login-user-
         }
         
         $_SESSION['idUser'] = $return['id_user'];
+        $_SESSION['authType'] = 'PASSWORD';
 
         header("Location: ../../public/views/home.php");
         exit();

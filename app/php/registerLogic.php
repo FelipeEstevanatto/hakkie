@@ -2,10 +2,8 @@
 
 session_start();
 
-require_once("vendor/autoload.php");
-require ("vendor/google/auth/src/Credentials/");
-require "vendor/google/phpmailer/src/Exception.php";
-require "vendor/phpmailer/phpmailer/src/SMTP.php";
+require_once("composer/vendor/autoload.php");
+
 require_once("../database/connect.php");
 require_once("functions.php");
 
@@ -15,7 +13,7 @@ $password_user = cleanString($_POST['password']);
 
 if ($email_user !== false && !empty($password_user) && isset($_POST['register_user_submit']) ) {
     
-    $query = "SELECT user_email FROM users where user_email = :email_user ";
+    $query = "SELECT user_email, auth_type FROM users where user_email = :email_user ";
 
     $stmt = $conn -> prepare($query);
 
@@ -57,14 +55,18 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['register_us
                 $_SESSION['darkMode'] = 'light';
             }
             $_SESSION['idUser'] = $return['id_user'];
+            $_SESSION['authType'] = 'PASSWORD';
 
             header("Location: ../../public/views/home.php");
             exit();
         }
-    } else {
-        header("Location: ../../index.php?error=emailalreadyregistered");
-        exit();
-    }
+    } else if($return['auth_type'] == 'GOOGLE'){
+                header("Location: ../../index.php?error=googleemailalreadyregistered");
+                exit();
+            } else {
+                header("Location: ../../index.php?error=emailalreadyregistered");
+                exit();
+            }
 
 } else { 
     header("Location: ../../index.php");

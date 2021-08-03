@@ -17,6 +17,7 @@ function showPosts($user, $posts, $tab) {
 
     $username = $return['name_user'];
     $userpicture = $return['user_picture'];
+    
     if ($return['auth_type'] == "GOOGLE") {
         $isGoogle = true;
     } else {
@@ -59,7 +60,7 @@ function showPosts($user, $posts, $tab) {
                         if ($isGoogle) {
                             $actual_post.=$userpicture;
                         } elseif ($userpicture != NULL) {
-                            $actual_post.='../profiles/'.$userpicture.'.png';
+                            $actual_post.='../profiles/'.$userpicture;
                         } else {//fallback
                             $actual_post.='../images/defaultUser.png';
                         }
@@ -69,11 +70,9 @@ function showPosts($user, $posts, $tab) {
                     
                     <div class="right">
                         <span>';
-                        if (true) {
-                            $actual_post.='29/07/2021';
-                        } else {
-                            $actual_post.= $post['post_text'];
-                        }
+
+                            $actual_post.=substr($post['post_date'],0,16);
+
                         $actual_post.=' 
                         <i class="fas fa-ellipsis-v"></i>
                         </span>

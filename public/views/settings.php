@@ -166,7 +166,7 @@
                     <input type="submit" name='change-user-info' value="Submit">
                 </form>
             </div>
-            <?php if($_SESSION['authType'] != 'GOOGLE') {?>
+            <?php if( isset($_SESSION['authType']) && $_SESSION['authType'] != 'GOOGLE') {?>
             <h3>Security</h3>
 
             <!-- Email -->
@@ -223,7 +223,9 @@
     ?>
 
     <script src="../../js/switchTheme.js"></script>
+    <?php if( isset($_SESSION['authType']) && $_SESSION['authType'] != 'GOOGLE') {?>
     <script src="../../js/showPassword.js"></script>
+    <?php } ?>
     <script src="../../js/openSettings.js"></script>
     <script src="../../js/letterCount.js"></script>
 </body>

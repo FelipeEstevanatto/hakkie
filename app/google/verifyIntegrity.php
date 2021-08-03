@@ -13,7 +13,7 @@ if(isset($_POST['id_token'])) {
 
     $id_token = cleanString($_POST['id_token']);
 
-    if (empty($id_token) || is_null($id_token)){
+    if (empty($id_token) || is_null($id_token) && $_POST['id_token'] != $id_token){
         echo "Error in ID_Token sanitization";
         exit();
     }
@@ -65,11 +65,11 @@ if(isset($_POST['id_token'])) {
         } else {
 
             $query = "INSERT INTO users VALUES(DEFAULT, :name_user , :email_user , :password_user, 'GOOGLE', 
-                  DEFAULT, :picture_user , NULL, DEFAULT, DEFAULT, DEFAULT, DEFAULT)";
+                    DEFAULT, :picture_user , NULL, DEFAULT, DEFAULT, DEFAULT, DEFAULT)";
 
             $stmt = $conn -> prepare($query);
 
-            $stmt -> execute( array(':name_user' => $data->name ,
+            $stmt -> execute( array(':name_user' => $data->name,
                                     ':email_user' => $data->email,
                                     ':password_user' => $data->sub,
                                     ':picture_user' => $data->picture) );

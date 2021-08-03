@@ -25,7 +25,7 @@ function sendToBack(id_token) {
     xhr.send('id_token=' + id_token);
 
     xhr.onreadystatechange = () => {
-        if(xhr.readyState == 4 && xhr.status == 200) {
+        if(xhr.readyState == 4 && xhr.status == 200 && xhr.responseText == 'Sucess') {
             window.location.href = 'http://localhost/hakkie/public/views/home.php'
         }
     };

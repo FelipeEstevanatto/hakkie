@@ -36,7 +36,8 @@ function showPosts($user, $posts, $tab) {
 
         $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
-        foreach ($return as $post) {
+        foreach ($return as $key=>$post) {
+            if ($key >= $posts) break;
             if (isset($post['post_media']) && $post['post_media'] != 'NULL') {
 
                 $path = $_SERVER['DOCUMENT_ROOT']."/hakkie/public/profiles/".$post['post_media'];

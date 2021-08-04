@@ -12,7 +12,7 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['login-user-
 
     $dbpassword = generateFakePassword();
 
-    $query = "SELECT id_user, user_email, user_password, darkmode FROM users WHERE user_email = :email_user";
+    $query = "SELECT id_user, user_email, user_password, auth_type, darkmode FROM users WHERE user_email = :email_user";
 
     $stmt = $conn -> prepare($query);
 
@@ -23,6 +23,11 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['login-user-
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
 
     if ( count($return) > 0) {
+
+        if ($return['auth_type'] == 'GOOGLE'){
+            header("Location: ../../public/views/login.php?error=invalid");
+            exit();
+        }
         
         $password_user = cleanString($_POST['password']);
         $dbpassword = $return['user_password'];

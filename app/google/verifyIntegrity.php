@@ -7,7 +7,7 @@ require('../database/connect.php');
 require('../php/functions.php');
 
 if(isset($_POST['id_token'])) {
-
+    
     $jwt = new \Firebase\JWT\JWT; //https://github.com/googleapis/google-api-php-client/issues/1172
     $jwt::$leeway = 5;
 
@@ -64,6 +64,8 @@ if(isset($_POST['id_token'])) {
 
         } else {
 
+            $picture = str_replace('=s96-c', '=s400-c', $data->picture);
+
             $query = "INSERT INTO users VALUES(DEFAULT, :name_user , :email_user , :password_user, 'GOOGLE', 
                     DEFAULT, :picture_user , NULL, DEFAULT, DEFAULT, DEFAULT, DEFAULT)";
 
@@ -72,7 +74,7 @@ if(isset($_POST['id_token'])) {
             $stmt -> execute( array(':name_user' => $data->name,
                                     ':email_user' => $data->email,
                                     ':password_user' => $data->sub,
-                                    ':picture_user' => $data->picture) );
+                                    ':picture_user' => $picture) );
 
             if ($stmt) {
 

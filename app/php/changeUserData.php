@@ -16,8 +16,6 @@
     $stmt -> execute();
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
 
-    print_r($_POST);
-
     if ( isset($_POST['change-user-name']) ) {
 
         $newName = cleanString($_POST['name']);

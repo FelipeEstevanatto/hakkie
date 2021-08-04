@@ -1,7 +1,7 @@
 <?php
 
 function cleanString($string) {
-    return filter_var(trim($string),FILTER_SANITIZE_STRING);
+    return filter_var(htmlspecialchars(trim($string),FILTER_SANITIZE_STRING));
 }
 
 function cleanEmail($string) {

@@ -123,26 +123,10 @@ body {
                 }
             }
 
-            .google-login {
-                width: 80%;
-                margin: 0 auto;
-                margin-top: 1em;
-                border-radius: 3em;
-                font-size: 1em;
-                font-weight: 500;
-                padding: 1em;
-                border: 2px solid #4285F4;
-                background: #FFF;
+            .google-login{
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                cursor: pointer;
-                color: rgb(77, 77, 77);
-
-                img {
-                    width: 2em;
-                    margin-right: 1em;
-                }
             }
         }
     }
@@ -220,11 +204,6 @@ body {
 
                 .top {
                     font-size: 1.5em;
-                }
-
-                .google-login {
-                    width: 100%;
-                    margin-bottom: 4em;
                 }
             }
         }

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
     session_start();
     
@@ -27,7 +28,7 @@
 
     }
 
-    $query = "SELECT name_user, user_info, user_picture, user_banner, created_at, darkmode FROM users WHERE id_user = :id_user";
+    $query = "SELECT name_user, user_info, user_picture, user_banner, created_at, darkmode, auth_type FROM users WHERE id_user = :id_user";
 
     $stmt = $conn -> prepare($query);
 
@@ -60,26 +61,36 @@
 
     $user_since = $months[$time]." of ".substr($return['created_at'], 0, 4);
     
+    if ($return['auth_type'] == "GOOGLE") {
+        $isGoogle = true;
+    } else {
+        $isGoogle = false;
+    }
+    
     $user_name = $return['name_user'];
     $user_picture = $return['user_picture'];
     $user_banner = $return['user_banner'];
     $user_info = $return['user_info'];
 
-    $query = "SELECT user_followed FROM follows WHERE user_followed = :id_user ORDER BY follow_date";
+    // ===================================================
+    // To be removed once the following/follower count in the user table gets more reliable
+    // ===================================================
+    $query = "SELECT count(user_followed) FROM follows WHERE user_followed = :id_user";
     $stmt = $conn -> prepare($query);
     $stmt -> bindValue(':id_user', $_GET['user']);
     $stmt -> execute();
-    $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+    $return = $stmt -> fetch(PDO::FETCH_ASSOC);
 
-    $followers = count($return);
+    $followers = $return['count'];
 
-    $query = "SELECT user_followed FROM follows WHERE fk_user = :id_user ORDER BY follow_date";
+    $query = "SELECT count(user_followed) FROM follows WHERE fk_user = :id_user";
     $stmt = $conn -> prepare($query);
     $stmt -> bindValue(':id_user', $_GET['user']);
     $stmt -> execute();
-    $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+    $return = $stmt -> fetch(PDO::FETCH_ASSOC);
 
-    $following = count($return);
+    $following = $return['count'];
+    // ===================================================
 
     $query = "SELECT user_followed FROM follows WHERE fk_user = :id_user";
     $stmt = $conn -> prepare($query);
@@ -93,10 +104,13 @@
         $follow_status = 'unfollow';
     }
     
-
+    if ($_GET['user'] == $_SESSION['idUser']){
+        $own_profile = true;
+    } else {
+        $own_profile = false;
+    }
 ?>
 
-<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -138,8 +152,10 @@
             </div>
 
             <div class="info">
-                    <?php 
-                        if (!is_null($user_picture)) {
+                    <?php
+                        if ($isGoogle) {
+                            echo '<img class="profile-picture" src="'.$user_picture.'" alt="Picture of user">';
+                        } elseif (!is_null($user_picture)) {
                             echo '<img class="profile-picture" src="../images/defaultUser.png" alt="Picture of user">';
                         } else { //fallback
                             echo '<img class="profile-picture" src="../images/defaultUser.png">';
@@ -159,7 +175,9 @@
                     <?php 
                         if (!is_null($user_info)) {
                             echo $user_info;
-                        } 
+                        } else {
+                            echo "Nothing to say.";
+                        }
                     ?>
                 </p>
 
@@ -179,7 +197,7 @@
                     <div class="right">
                         <?php 
                         
-                            if ($_GET['user'] != $_SESSION['idUser']) {
+                            if (!$own_profile) {
                                 echo '<div class="btn '.$follow_status.'" id="interact-btn">';
                                     echo '<i class="fas fa-user-plus"></i>';
                                     echo '<span> '.$follow_status.'</span>';
@@ -188,7 +206,7 @@
                   
                         ?>
 
-                        <div class="btn">
+                        <div class="btn" id="direct_message">
                             <i class="fas fa-comment-dots"></i>
                         </div>
 
@@ -196,7 +214,7 @@
 
                             <?php 
 
-                            if ($_GET['user'] != $_SESSION['idUser']) {
+                            if (!$own_profile) {
 
                             echo '<div class="btn" id="silence_user">Silence User</div>';
                             echo '<div class="btn" id="block_user">Block User</div>';
@@ -234,7 +252,7 @@
         </div>
 
         <?php 
-            if ($_GET['user'] == $_SESSION['idUser']) {
+            if ($own_profile) {
         ?>
 
         <div class="post-input">
@@ -262,6 +280,7 @@
             <?php
                 include("../../app/php/showPosts.php");
 
+                // Post layout
                 showPosts($_GET['user'], 10, 'posts');
             ?>
             <!--Post layout-->
@@ -282,15 +301,15 @@
                 </div>
                 <div class="bottom-post">
                     <div class="list">
-                        <div class="tab">
+                        <div class="tab" id="like">
                             <i class="fas fa-thumbs-up"></i>
                             <span>Like</span>
                         </div>
-                        <div class="tab">
+                        <div class="tab" id="comment">
                             <i class="fas fa-comment"></i>
                             <span>Comment</span>
                         </div>
-                        <div class="tab">
+                        <div class="tab" id="share">
                             <i class="fas fa-share-square"></i>
                             <span>Share</span>
                         </div>
@@ -298,39 +317,6 @@
                 </div>
             </div>
 
-            <!--Post layout-->
-            <div class="post text">
-                <div class="top-post">
-                    <div class="left">
-                        <img src="../images/defaultUser.png">
-                        <a href="#">Gabriel Gomes Nicolim</a>
-                    </div>
-                    
-                    <div class="right">
-                        <span>28/07/2021</span>
-                    </div>
-                </div>
-                <div class="content-post">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis veritatis natus voluptatum rem alias odit vel consequatur dignissimos? In eius alias velit, maiores nulla modi sit repellendus iure dolorem sunt?
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto id veniam, distinctio quae consequatur tempora iste maiores totam, corrupti impedit iure laboriosam reiciendis fuga nam perspiciatis sint, deserunt consectetur recusandae.
-                </div>
-                <div class="bottom-post">
-                    <div class="list">
-                        <div class="tab">
-                            <i class="fas fa-thumbs-up"></i>
-                            <span>Like</span>
-                        </div>
-                        <div class="tab">
-                            <i class="fas fa-comment"></i>
-                            <span>Comment</span>
-                        </div>
-                        <div class="tab">
-                            <i class="fas fa-share-square"></i>
-                            <span>Share</span>
-                        </div>
-                    </div>
-                </div>
-            </div>   
          </div>
     </div>
 
@@ -340,18 +326,14 @@
 
     ?>
 
-    <?php 
-        if ($_GET['user'] != $_SESSION['idUser']) {
-            echo '<script src="../../js/followUser.js"></script>';
-        }
-    ?>
-
     <script src="../../js/feedbuild.js"></script>
-    <script src="../../js/openMenu.js"></script>
-    <script src="../../js/imagePreview.js"></script>
+    <script src="../../js/openMenu.js"></script>   
 
     <?php 
-        if ($_GET['user'] == $_SESSION['idUser']) {
+        if (!$own_profile) {   
+            echo '<script src="../../js/followUser.js"></script>';         
+        } else {
+            echo '<script src="../../js/imagePreview.js"></script>';
     ?>
 
     <script src="../../js/letterCount.js">

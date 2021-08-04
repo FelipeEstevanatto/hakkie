@@ -4,13 +4,13 @@ session_start();
 
 require_once("../database/connect.php");
 require_once("functions.php");
-//var_dump($_POST); exit();
-if (!empty($_POST['post-text']) || !empty($_FILES["uploadfile"]["tmp_name"])) {
+
+if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empty($_FILES["uploadfile"]["tmp_name"])) {
     
     $message = cleanString($_POST['post-text']);
     
     if (isset($_FILES) && !empty($_FILES["uploadfile"]["tmp_name"])) {
-        if ( $_FILES['uploadfile']['size'] >= 33554432 ) {
+        if ( $_FILES['uploadfile']['size'] >= 33554432 ) { //32Mb max size
             header("Location: ../../public/views/user.php?user=".$_SESSION['idUser']."&error=bigfile");
             exit();
         }
@@ -55,7 +55,6 @@ if (!empty($_POST['post-text']) || !empty($_FILES["uploadfile"]["tmp_name"])) {
     if (!isset($post_media) || empty($post_media)) {
         $stmt -> bindValue(':post_media', 'NULL');
     } else {
-
         $stmt -> bindValue(':post_media', $post_media);
     }
     
@@ -67,9 +66,6 @@ if (!empty($_POST['post-text']) || !empty($_FILES["uploadfile"]["tmp_name"])) {
         header("Location: ../../public/views/user.php?user=".$_SESSION['idUser']);
         exit();
 
-    } elseif ($stmt) {
-        header("Location: ../../public/views/user.php?user=".$_SESSION['idUser']);
-        exit();
     } else {
         header("Location: ../../public/views/user.php?user=".$_SESSION['idUser']."&error=dberror");
         exit();

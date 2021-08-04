@@ -2,10 +2,7 @@
 
     session_start();
 
-    require 'vendor/autoload.php';
-    require "vendor/phpmailer/phpmailer/src/PHPMailer.php";
-    require "vendor/phpmailer/phpmailer/src/Exception.php";
-    require "vendor/phpmailer/phpmailer/src/SMTP.php";
+    require 'composer/vendor/autoload.php';
 
     require_once("../database/connect.php");
     require_once("../database/env.php");
@@ -15,7 +12,7 @@
 
     if (!empty($email_user) && isset($_POST['sender-ip']) && isset($_POST['recover-user-submit'])) {
 
-        $query = "SELECT user_email, user_password, name_user FROM users WHERE user_email = :email_user";
+        $query = "SELECT user_email, user_password, name_user, auth_type FROM users WHERE user_email = :email_user";
 
         $stmt = $conn -> prepare($query);
 
@@ -26,6 +23,12 @@
         $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
         if (count($return) > 0) {
+
+            if ($return[0]['auth_type'] == 'GOOGLE') {
+                header("Location: ../../public/views/recover.php?error=googleaccount");
+                exit();
+            }
+
             $name_user = $return[0]['name_user'];
             $ipDetails = getUserIP();
             $selector = bin2hex(random_bytes(8));
@@ -172,6 +175,9 @@
                 echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                 exit();
             }
+        } else {
+            header("Location: ../../public/views/recover.php?error=emailnotfound");
+            exit();
         }
 
     } else {

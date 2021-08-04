@@ -148,15 +148,6 @@ body .container .right .or::before, body .container .right .or::after {
 }
 
 body .container .right .google-login {
-  width: 80%;
-  margin: 0 auto;
-  margin-top: 1em;
-  border-radius: 3em;
-  font-size: 1em;
-  font-weight: 500;
-  padding: 1em;
-  border: 2px solid #4285F4;
-  background: #FFF;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -166,13 +157,6 @@ body .container .right .google-login {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  cursor: pointer;
-  color: #4d4d4d;
-}
-
-body .container .right .google-login img {
-  width: 2em;
-  margin-right: 1em;
 }
 
 body #switch-form-btn {
@@ -246,10 +230,6 @@ body #switch-form-btn:hover {
   }
   body .container .right .top {
     font-size: 1.5em;
-  }
-  body .container .right .google-login {
-    width: 100%;
-    margin-bottom: 4em;
   }
   body #switch-form-btn {
     position: absolute;

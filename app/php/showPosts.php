@@ -5,7 +5,7 @@ function showPosts($user, $posts, $tab) {
     include("../../app/database/connect.php");
     include("functions.php");
     
-    $query = "SELECT name_user, user_picture FROM users WHERE id_user = :id_user";
+    $query = "SELECT name_user, user_picture, auth_type FROM users WHERE id_user = :id_user";
 
     $stmt = $conn -> prepare($query);
 
@@ -17,6 +17,12 @@ function showPosts($user, $posts, $tab) {
 
     $username = $return['name_user'];
     $userpicture = $return['user_picture'];
+    
+    if ($return['auth_type'] == "GOOGLE") {
+        $isGoogle = true;
+    } else {
+        $isGoogle = false;
+    }
 
     if ( count($return) > 0) {
         
@@ -30,18 +36,19 @@ function showPosts($user, $posts, $tab) {
 
         $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
-        foreach ($return as $post) {
+        foreach ($return as $key=>$post) {
+            if ($key >= $posts) break;
             if (isset($post['post_media']) && $post['post_media'] != 'NULL') {
 
                 $path = $_SERVER['DOCUMENT_ROOT']."/hakkie/public/profiles/".$post['post_media'];
                 //If file exists in database but not in the folder
                 if (!file_exists($path)) {
-                    //echo"Image lost in the DB";
-                    $query = "UPDATE SET post_media = 'NULL' FROM posts WHERE post_media = '".$post['post_media']."' AND fk_owner = ".$_SESSION['idUser'];
+
+                    $query = "UPDATE posts SET post_media = 'NULL' WHERE post_media = '".$post['post_media']."' AND fk_owner = ".$_SESSION['idUser'];
 
                     $stmt = $conn -> query($query);
 
-                    $altImage = $post['post_media'];
+                    $altImage = "Image lost :(";
                 }
             }
 
@@ -51,8 +58,10 @@ function showPosts($user, $posts, $tab) {
                         
                         <img src="';
                         //================== User Picture and name ==================
-                        if ($userpicture != NULL) {
-                            $actual_post.='../profiles/a.png';
+                        if ($isGoogle) {
+                            $actual_post.=$userpicture;
+                        } elseif ($userpicture != NULL) {
+                            $actual_post.='../profiles/'.$userpicture;
                         } else {//fallback
                             $actual_post.='../images/defaultUser.png';
                         }
@@ -62,11 +71,9 @@ function showPosts($user, $posts, $tab) {
                     
                     <div class="right">
                         <span>';
-                        if (true) {
-                            $actual_post.='29/07/2021';
-                        } else {
-                            $actual_post.= $post['post_text'];
-                        }
+
+                            $actual_post.=substr($post['post_date'],0,16);
+
                         $actual_post.=' 
                         <i class="fas fa-ellipsis-v"></i>
                         </span>

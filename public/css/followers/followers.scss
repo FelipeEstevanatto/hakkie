@@ -61,6 +61,7 @@ body.light {
     .user-box {
         background: #EDEDED;
         border: 4px solid rgba(0, 0, 0, 0.1);
+        margin-top: 0.5em;
 
         .box-top {
             .info {
@@ -71,6 +72,10 @@ body.light {
                         text-decoration: underline;
                     }
                 }
+            }
+
+            a:link, a:visited {
+                color: #EDEDED;
             }
     
             .btn {
@@ -109,6 +114,7 @@ body.dark {
     .user-box {
         background: #0d0d1a;
         border: 4px solid rgba(255, 255, 255, 0.1);
+        margin-top: 0.5em;
 
         .box-top {
             .info {
@@ -117,6 +123,10 @@ body.dark {
                 }
             }
     
+            a:link, a:visited {
+                color: #EDEDED;
+            }
+
             .btn {
                 border: 1px solid silver;
 

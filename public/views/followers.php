@@ -115,9 +115,34 @@
             <?php
                 //Request posts
             ?>
+
             <!--Follow layout-->
-            <div class="user_follow">
-                a
+            <div class="user-box">
+                <div class="box-top">
+                    <div class="info">
+                        <img src="https://avatars.githubusercontent.com/u/69210720?s=400&u=e29d62deef9aa07ca86119bb288840449b81a57b&v=4">
+
+                        <a href="">Gabriel Gomes Nicolim</a>
+                    </div>
+                    
+                    <div class="btn follow">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Follow</span>
+                    </div>
+                </div>
+
+                <div class="box-date">
+                    <span>Seguindo desde: 04/08/2021</span>
+                </div>
+
+                <div class="box-about">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit esse nam voluptate, impedit minima reprehenderit itaque laboriosam dolore distinctio consectetur deleniti aliquam eos consequatur dolorem aspernatur! Fugit aut officia recusandae.
+                </div>
+
+                <div class="btn-responsive">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Follow</span>
+                </div>
             </div>
             
          </div>

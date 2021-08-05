@@ -132,9 +132,10 @@
 </head>
 <body class="<?= $_SESSION['darkMode'];?>">
     
-    <?php 
+    <?php
 
-        include('../includes/tool-bar.php')
+        include('../includes/no-script.php');
+        include('../includes/tool-bar.php');
 
     ?>
 
@@ -276,48 +277,15 @@
         }
         ?>
     
-         <div id="feed">
+        <div id="feed">        
             <?php
                 include("../../app/php/showPosts.php");
 
                 // Post layout
                 showPosts($_GET['user'], 10, 'posts');
             ?>
-            <!--Post layout-->
-            <div class="post text">
-                <div class="top-post">
-                    <div class="left">
-                        <img src="../images/defaultUser.png">
-                        <a href="#">Gabriel Gomes Nicolim</a>
-                    </div>
-                    
-                    <div class="right">
-                        <span>28/07/2021</span>
-                    </div>
-                </div>
-                <div class="content-post">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis veritatis natus voluptatum rem alias odit vel consequatur dignissimos? In eius alias velit, maiores nulla modi sit repellendus iure dolorem sunt?
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto id veniam, distinctio quae consequatur tempora iste maiores totam, corrupti impedit iure laboriosam reiciendis fuga nam perspiciatis sint, deserunt consectetur recusandae.
-                </div>
-                <div class="bottom-post">
-                    <div class="list">
-                        <div class="tab" id="like">
-                            <i class="fas fa-thumbs-up"></i>
-                            <span>Like</span>
-                        </div>
-                        <div class="tab" id="comment">
-                            <i class="fas fa-comment"></i>
-                            <span>Comment</span>
-                        </div>
-                        <div class="tab" id="share">
-                            <i class="fas fa-share-square"></i>
-                            <span>Share</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-         </div>
+ 
+        </div>
     </div>
 
     <?php 

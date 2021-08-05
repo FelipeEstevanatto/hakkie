@@ -68,8 +68,11 @@
 </head>
 <body class="<?= $_SESSION['darkMode'];?>">
     
-    <?php 
+    <?php
+
+        include('../includes/no-script.php');
         include('../includes/tool-bar.php')
+        
     ?>
 
     <div id="container">

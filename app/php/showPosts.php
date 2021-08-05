@@ -52,7 +52,8 @@ function showPosts($user, $posts, $tab) {
                 }
             }
 
-            $actual_post='<div class="post text">
+            $actual_post='<!--Post layout-->
+            <div class="post text">
                 <div class="top-post">
                     <div class="left">
                         
@@ -115,6 +116,10 @@ function showPosts($user, $posts, $tab) {
             
             echo$actual_post;
         }
+
+        echo'<div class="post text">
+        No more posts from this user to show!
+        </div>';
         
     } else {
         echo"This user doesn't exist, so he doesn't have posts";

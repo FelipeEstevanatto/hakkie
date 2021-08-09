@@ -88,23 +88,21 @@
     
     <?php 
 
-        include('../includes/tool-bar.php')
+        include('../includes/tool-bar.php');
 
+        if (!$isGoogle) {
+            if (!is_null($user_picture)) {
+                $user_picture = '../images/defaultUser.png';
+            } else { //fallback
+                $user_picture = '../images/defaultUser.png';
+            }
+        }
     ?>
 
     <div id="container">
 
         <div class="top">
-            <?php
-                if ($isGoogle) {
-                    echo '<img class="profile-picture" src="'.$user_picture.'" alt="Picture of user">';
-                } elseif (!is_null($user_picture)) {
-                    echo '<img class="profile-picture" src="../images/defaultUser.png" alt="Picture of user">';
-                } else { //fallback
-                    echo '<img class="profile-picture" src="../images/defaultUser.png">';
-                }
-            ?>
-
+            <img class="profile-picture" src="<?=$user_picture?>" alt="Picture of user">
             <a href="user.php?user=<?=$GET_user?>"><?=$user_name?></a>
          </div>
 
@@ -124,15 +122,16 @@
                     $each_user = '
                             <div class="user-box">
                         <div class="box-top">
-                            <div class="info">';
+                            <div class="info">
+                                <img src="';
                                 if ($users['auth_type'] == 'GOOGLE') {
-                                    $each_user .='<img src="'.$users['user_picture'].'" alt="Picture of user">';
+                                    $each_user .= $users['user_picture'];
                                 } elseif (!is_null($user_picture)) {
-                                    echo '<img src="../images/'.$users['user_picture'].'.png" alt="Picture of user">';
+                                    $each_user .= '../images/'.$users['user_picture'].'.png';
                                 } else { //fallback
-                                    echo '<img src="../images/defaultUser.png">';
+                                    $each_user .= '../images/defaultUser.png';
                                 }
-                        $each_user .='
+                        $each_user .='" alt="Picture of user">
                                 <a href="user.php?user='.$users['fk_user'].'">'.$users['name_user'].'</a>
                             </div>
                             

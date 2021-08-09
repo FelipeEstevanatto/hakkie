@@ -24,6 +24,7 @@
 
     <!-- Font Awesome-->
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="public/images/favicon.png" type="image/x-icon">
@@ -66,7 +67,7 @@
                 OR
             </div>
 
-            <div class="google-login" id="my-signin2">
+            <div class="google-login" id="my-signin2" data-prompt="select_account">
 
             </div>
         </div>
@@ -78,7 +79,6 @@
         </div>
     </a>
     
-    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
     <script src="app/google/google.js"></script>
     <script src="js/showPassword.js"></script>
 </body>

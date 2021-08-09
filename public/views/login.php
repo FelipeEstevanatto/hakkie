@@ -1,8 +1,8 @@
 <?php
     session_start();
     if(isset($_SESSION['isAuth'])){
-        //header("Location: home.php ");
-	    //exit();
+        header("Location: home.php ");
+	    exit();
     }
 ?>
 
@@ -24,6 +24,7 @@
 
     <!-- Font Awesome-->
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon">
@@ -64,8 +65,7 @@
             
             <a>
             <div class="google-login" id="my-signin2">
-                <img src="../images/g-logo.png" alt="Google">
-                Login with Google
+                
             </div>
             </a>
         </div>
@@ -77,7 +77,6 @@
         </div>
     </a>
 
-    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
     <script src="../../app/google/google.js"></script>
     <script src="../../js/showPassword.js"></script>
 

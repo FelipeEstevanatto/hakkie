@@ -11,10 +11,17 @@ function renderButton() {
 }
 
 function sendToBack(id_token) {
-    if (document.location.pathname == "/hakkie/public/views/login.php") {
+
+    var redirect = document.location.href;
+
+    if (redirect.slice(-9) == 'login.php') {
+        console.log('Login');
         var path = '../../app/google/verifyIntegrity.php';
+        redirect = redirect.slice(0, redirect.lastIndexOf('login.php')) + 'home.php';
     } else {
+        console.log('Index');
         var path = 'app/google/verifyIntegrity.php';
+        redirect = redirect.slice(0, redirect.lastIndexOf('/')) + '/public/views/home.php';
     }
 
     var xhr = new XMLHttpRequest();
@@ -25,8 +32,9 @@ function sendToBack(id_token) {
     xhr.send('id_token=' + id_token);
 
     xhr.onreadystatechange = () => {
+        console.log('StateChange');
         if(xhr.readyState == 4 && xhr.status == 200 && xhr.responseText == 'Sucess') {
-            window.location.href = 'http://localhost/hakkie/public/views/home.php'
+            window.location.href = redirect;
         }
     };
     

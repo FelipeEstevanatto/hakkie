@@ -8,7 +8,10 @@ If you want to make it easier to 'plug and play' you can use the same combo [XAM
 ```extension=pgsql```  
 ```extension=opensll```  
 
-Then just rename the ```env_example.php``` file to ```env.php``` and fill the blank spaces with the correct database info and PHPMailer account (to use a google one you will need to go Security tab and allow Acess to a less safe app)
+To use all features of the project you will need to install the packages it uses using [Composer](https://getcomposer.org/), opening it in the root folder, and requiring the packages:  
+```composer require google/apiclient```
+```composer require phpmailer/phpmailer``` 
+
+Then you will need to rename the ```env_example.php``` file to ```env.php``` and fill the blank spaces with the correct database info and PHPMailer account (to use a google one you will need to go Security tab and allow Acess to a less safe app)
 
 Then you should be ready to go and create your account to user the project.
- 

@@ -25,8 +25,16 @@ function showPosts($user, $posts, $tab) {
     }
 
     if ( count($return) > 0) {
+
         
-        $query = "SELECT post_text, post_media, post_likes, post_date FROM posts WHERE fk_owner = :id_user ORDER BY post_date DESC";
+        $query = "SELECT fk_post,fk_like_owner FROM likes WHERE fk_like_owner = :id_user";
+        $stmt = $conn -> prepare($query);
+        $stmt -> bindValue(':id_user', $user);
+        $stmt -> execute();
+
+        $likes = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+        
+        $query = "SELECT id_post, post_text, post_media, post_likes, post_comments, post_date FROM posts WHERE fk_owner = :id_user ORDER BY post_date DESC";
 
         $stmt = $conn -> prepare($query);
 
@@ -53,7 +61,7 @@ function showPosts($user, $posts, $tab) {
             }
 
             $actual_post='<!--Post layout-->
-            <div class="post text">
+            <div class="post text" id="post_id'.$post['id_post'].'">
                 <div class="top-post">
                     <div class="left">
                         
@@ -71,14 +79,9 @@ function showPosts($user, $posts, $tab) {
                     </div>
                     
                     <div class="right">
-                        <span>';
-
-                            $actual_post.=substr($post['post_date'],0,16);
-
-                        $actual_post.=' 
+                        <span>'.substr($post['post_date'],0,16).'
                         <i class="fas fa-ellipsis-v"></i>
                         </span>
-                        
                     </div>
                 </div>';
                 //================== Post Text ==================
@@ -95,18 +98,26 @@ function showPosts($user, $posts, $tab) {
                     }
                     $actual_post.='style="border-radius: 5%; margin: 10px 0; width:100%;">';
                 }
+                //================== Post Footer ==================
+                $alreadylike = '';
+                foreach($likes as $v) {
+                    if ($v['fk_post'] == $post['id_post']) {
+                        $alreadylike = ' class="my-like" ';
+                    }
+                 }
+
                 $actual_post.='
                 <div class="bottom-post">
                     <div class="list">
-                        <div class="tab">
+                        <div class="tab" id="tab-like">
                             <i class="fas fa-thumbs-up"></i>
-                            <span>'.$post['post_likes'].' Likes</span>
+                            <span'.$alreadylike.'>'.$post['post_likes'].' Likes</span>
                         </div>
-                        <div class="tab">
+                        <div class="tab" id="tab-comment">
                             <i class="fas fa-comment"></i>
-                            <span>0 Comments</span>
+                            <span>'.$post['post_comments'].' Comments</span>
                         </div>
-                        <div class="tab">
+                        <div class="tab" id="tab-share">
                             <i class="fas fa-share-square"></i>
                             <span>Share</span>
                         </div>

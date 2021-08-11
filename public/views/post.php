@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="../css/home/grid/grid.css">
     <link rel="stylesheet" href="../css/style.css">
 
+    <link rel="stylesheet" href="../css/home/feed/feed.css">
+
     <!-- Font Awesome-->
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>
 
@@ -29,16 +31,17 @@
     
     <?php 
 
-        include('../includes/tool-bar.php')
+        include('../includes/tool-bar.php');
 
     ?>
 
     <div id="container">
-        <a href="user.php?user=<?=1?>">Gabriel</a>
-        <a href="user.php?user=<?=2?>">Felipolas</a>
-
         <div id="feed">
-            
+            <?php
+                include('../../app/php/showPosts.php');
+                //print_r();
+                showPosts( 8 , 10 , 'posts');
+            ?>
         </div>
     </div>
 

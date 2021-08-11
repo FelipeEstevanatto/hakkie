@@ -119,17 +119,17 @@
          <div id="feed">
             <?php
                 foreach ($data as $users) {
-                    $each_user = '
-                            <div class="user-box">
+                    $each_user ='
+                    <div class="user-box">
                         <div class="box-top">
                             <div class="info">
                                 <img src="';
                                 if ($users['auth_type'] == 'GOOGLE') {
                                     $each_user .= $users['user_picture'];
                                 } elseif (!is_null($user_picture)) {
-                                    $each_user .= '../images/'.$users['user_picture'].'.png';
-                                } else { //fallback
-                                    $each_user .= '../images/defaultUser.png';
+                                    $each_user .= '../images/'.$users['user_picture'];
+                                } else {
+                                    $each_user .= '../images/defaultUser.png'; // Fallback
                                 }
                         $each_user .='" alt="Picture of user">
                                 <a href="user.php?user='.$users['fk_user'].'">'.$users['name_user'].'</a>

@@ -121,19 +121,20 @@
          <div id="feed">
             <?php
                 foreach ($data as $users) {
-                    $each_user = '
-                            <div class="user-box">
+                    $each_user ='
+                    <div class="user-box">
                         <div class="box-top">
-                            <div class="info">';
+                            <div class="info">
+                                <img src="';
                                 if ($users['auth_type'] == 'GOOGLE') {
-                                    $each_user .='<img src="'.$users['user_picture'].'" alt="Picture of user">';
+                                    $each_user .= $users['user_picture'];
                                 } elseif (!is_null($user_picture)) {
-                                    echo '<img src="../images/'.$users['user_picture'].'.png" alt="Picture of user">';
-                                } else { //fallback
-                                    echo '<img src="../images/defaultUser.png">';
+                                    $each_user .= '../images/'.$users['user_picture'];
+                                } else { 
+                                    $each_user .= '../images/defaultUser.png'; // Fallback
                                 }
-                        $each_user .='
-                                <a href="user.php?user='.$users['fk_user'].'">'.$users['name_user'].'</a>
+                        $each_user .='" alt="Picture of user">
+                                <a href="user.php?user='.$users['user_followed'].'">'.$users['name_user'].'</a>
                             </div>
                             
                             <div class="btn follow">

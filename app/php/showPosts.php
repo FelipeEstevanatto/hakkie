@@ -4,7 +4,8 @@ function showPosts($user, $posts, $tab) {
 
     include("../../app/database/connect.php");
     include("functions.php");
-    
+    $user = intval($user);
+
     $query = "SELECT name_user, user_picture, auth_type FROM users WHERE id_user = :id_user";
 
     $stmt = $conn -> prepare($query);
@@ -26,7 +27,6 @@ function showPosts($user, $posts, $tab) {
 
     if ( count($return) > 0) {
 
-        
         $query = "SELECT fk_post,fk_like_owner FROM likes WHERE fk_like_owner = :id_user";
         $stmt = $conn -> prepare($query);
         $stmt -> bindValue(':id_user', $user);
@@ -60,7 +60,7 @@ function showPosts($user, $posts, $tab) {
                 }
             }
 
-            $actual_post='<!--Post layout-->
+            $actual_post = '<!--Post layout-->
             <div class="post text" id="post_id'.$post['id_post'].'">
                 <div class="top-post">
                     <div class="left">
@@ -88,7 +88,7 @@ function showPosts($user, $posts, $tab) {
                 if ($post['post_text'] != 'NULL') {
                 $actual_post.='<div class="content-post">
                                     '.$post['post_text'].'
-                                </div>';
+                            </div>';
                 }
                 //================== Post Media ==================
                 if ($post['post_media'] != 'NULL') {
@@ -99,10 +99,10 @@ function showPosts($user, $posts, $tab) {
                     $actual_post.='style="border-radius: 5%; margin: 10px 0; width:100%;">';
                 }
                 //================== Post Footer ==================
-                $alreadylike = '';
-                foreach($likes as $v) {
-                    if ($v['fk_post'] == $post['id_post']) {
-                        $alreadylike = ' class="my-like" ';
+                $alreadyliked = '';
+                foreach($likes as $i) {
+                    if ($i['fk_post'] == $post['id_post']) {
+                        $alreadyliked = ' class="my-like" ';
                     }
                  }
 
@@ -111,7 +111,7 @@ function showPosts($user, $posts, $tab) {
                     <div class="list">
                         <div class="tab" id="tab-like">
                             <i class="fas fa-thumbs-up"></i>
-                            <span'.$alreadylike.'>'.$post['post_likes'].' Likes</span>
+                            <span'.$alreadyliked.'>'.$post['post_likes'].' Likes</span>
                         </div>
                         <div class="tab" id="tab-comment">
                             <i class="fas fa-comment"></i>

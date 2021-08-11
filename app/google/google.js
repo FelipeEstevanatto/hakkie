@@ -41,6 +41,9 @@ function sendToBack(id_token) {
 }
 
 function onSignIn(googleUser) {
+
+    document.body.innerHTML += '<div id="loading-div"><img id="loading-gif" src="public/images/loading-buffering.gif" alt="loading-gif"></div>';
+
     var id_token = googleUser.getAuthResponse().id_token;
 
     sendToBack(id_token)

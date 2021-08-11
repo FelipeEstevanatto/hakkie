@@ -20,7 +20,7 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['login-user-
 
     $stmt -> execute();
 
-    $return = $stmt -> fetch(PDO::FETCH_ASSOC);
+    $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
     if ( count($return) > 0) {
 
@@ -30,7 +30,7 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['login-user-
         }
         
         $password_user = cleanString($_POST['password']);
-        $dbpassword = $return['user_password'];
+        $dbpassword = $return[0]['user_password'];
         
     }
 
@@ -46,7 +46,7 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['login-user-
             $_SESSION['darkMode'] = 'light';
         }
         
-        $_SESSION['idUser'] = $return['id_user'];
+        $_SESSION['idUser'] = $return[0]['id_user'];
         $_SESSION['authType'] = 'PASSWORD';
 
         header("Location: ../../public/views/home.php");
@@ -58,6 +58,6 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['login-user-
     }
 
 } else {
-    header("Location: ../../index.php");
+    header("Location: ../../public/views/login.php?error=emptyfiels");
     exit();
 }

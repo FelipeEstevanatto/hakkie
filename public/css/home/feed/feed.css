@@ -137,9 +137,6 @@ body.dark #feed .post .bottom-post .list .tab:hover {
   #feed .post {
     padding: 1em;
   }
-  #feed .post .top-post {
-    display: block;
-  }
   #feed .post .top-post .left {
     font-size: .9em;
     margin-bottom: 1em;

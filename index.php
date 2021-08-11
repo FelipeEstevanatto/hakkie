@@ -31,6 +31,7 @@
 
 </head>
 <body class="dark">
+
     <div class="container">
         <div class="left">
             <div class="top">
@@ -49,14 +50,14 @@
 
             <form action="app/php/registerLogic.php" method="POST">
                 <label for="name">Name</label>
-                <input type="text" name="name" id="name">
+                <input type="text" name="name" id="name" required>
 
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email">
+                <input type="email" name="email" id="email" required>
 
                 <label for="password">Password</label>
                 <div class="show-password">
-                    <input type="password" name="password" id="password">
+                    <input type="password" name="password" id="password" required>
                     <i class="fas fa-eye-slash" id="show-password-btn"></i>
                 </div>
 
@@ -81,5 +82,6 @@
     
     <script src="app/google/google.js"></script>
     <script src="js/showPassword.js"></script>
+    <script src="js/loading.js"></script>
 </body>
 </html>

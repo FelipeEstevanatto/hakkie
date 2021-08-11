@@ -46,11 +46,11 @@
 
             <form action="../../app/php/loginLogic.php" method="POST">
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email">
+                <input type="email" name="email" id="email" required>
 
                 <label for="password">Password</label>
                 <div class="show-password">
-                    <input type="password" name="password" id="password">
+                    <input type="password" name="password" id="password" required>
                     <i class="fas fa-eye-slash" id="show-password-btn"></i>
                 </div>
 
@@ -79,6 +79,7 @@
 
     <script src="../../app/google/google.js"></script>
     <script src="../../js/showPassword.js"></script>
+    <script src="js/loading.js"></script>
 
 </body>
 </html>

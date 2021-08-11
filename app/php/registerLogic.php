@@ -2,7 +2,7 @@
 
 session_start();
 
-require_once("composer/vendor/autoload.php");
+require_once("../../vendor/autoload.php");
 
 require_once("../database/connect.php");
 require_once("functions.php");
@@ -69,6 +69,6 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['register_us
             }
 
 } else { 
-    header("Location: ../../index.php");
+    header("Location: ../../index.php?error=emptyfields");
     exit();
 }

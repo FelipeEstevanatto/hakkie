@@ -6,14 +6,20 @@ include('config.php');
 require('../database/connect.php');
 require('../php/functions.php');
 
-if(isset($_POST['id_token'])) {
+//Verify ['g_csrf_token'] cookie, and POST id_token/credentials
+if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_csrf_token'] || !isset($_POST['credential'])) {
     
+    echo "Something went very wrong with you Login request<br>
+    <a href='../public/views/login.php'>Back to login</a>";
+
+} else {
+  
     $jwt = new \Firebase\JWT\JWT; //https://github.com/googleapis/google-api-php-client/issues/1172
     $jwt::$leeway = 5;
 
-    $id_token = cleanString($_POST['id_token']);
+    $id_token = cleanString($_POST['credential']);
 
-    if (empty($id_token) || is_null($id_token) && $_POST['id_token'] != $id_token){
+    if (empty($id_token) || is_null($id_token) && $_POST['credential'] != $id_token){
         echo "Error in ID_Token sanitization";
         exit();
     }
@@ -54,7 +60,8 @@ if(isset($_POST['id_token'])) {
                 $_SESSION['idUser'] = $return[0]['id_user'];
                 $_SESSION['authType'] = 'GOOGLE';
                 
-                echo "Sucess";
+                //Home after sign in
+                header("Location: ../../public/views/home.php");
                 exit();
 
             } else {
@@ -98,13 +105,13 @@ if(isset($_POST['id_token'])) {
                 $_SESSION['idUser'] = $return['id_user'];
                 $_SESSION['authType'] = 'GOOGLE';
 
-                echo "Sucess";
+                //Home after registering user
+                header("Location: ../../public/views/home.php");
+                exit();
             }
 
         }
     }
 
-} else {
-    echo "Something went Wrong with you ID";
 }
     

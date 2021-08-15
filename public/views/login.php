@@ -4,6 +4,14 @@
         header("Location: home.php ");
 	    exit();
     }
+
+    if ( getenv('GOOGLE_LOGIN_URI') != null) {
+        $data_login_uri = getenv('GOOGLE_LOGIN_URI')."/app/google/verifyIntegrity.php";
+    } else {
+        //Console errors on localhost because of relative path but it will work
+        $data_login_uri = 'hakkie/app/google/verifyIntegrity.php';
+    }
+    
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +32,9 @@
 
     <!-- Font Awesome-->
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>
-    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+    
+    <!--API Google login-->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon">
@@ -62,12 +72,27 @@
             <div class="or">
                 OR
             </div>
-            
-            <a>
-            <div class="google-login" id="my-signin2">
-                
+            <div class="google-login">
+                <div id="g_id_onload"
+                    data-client_id="1014049574641-u1pcchh1thdc0futl5an649j2m85222a.apps.googleusercontent.com"
+                    data-context="signin"
+                    data-ux_mode="popup"
+                    data-login_uri="<?=$data_login_uri?>"
+                    data-auto_prompt="false"
+                    style="transform: scale(1.25);">
+                </div>
+
+                <div class="g_id_signin"
+                    data-type="standard"
+                    data-shape="pill"
+                    data-theme="outline"
+                    data-text="signin_with"
+                    data-size="large"
+                    data-logo_alignment="left"
+                    style="transform: scale(1.25);">
+                </div>
             </div>
-            </a>
+            
         </div>
     </div>
     
@@ -77,9 +102,8 @@
         </div>
     </a>
 
-    <script src="../../app/google/google.js"></script>
     <script src="../../js/showPassword.js"></script>
-    <script src="js/loading.js"></script>
+    <script src="../../js/loading.js"></script>
 
 </body>
 </html>

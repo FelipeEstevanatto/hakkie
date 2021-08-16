@@ -8,8 +8,7 @@
     if ( getenv('GOOGLE_LOGIN_URI') != null) {
         $data_login_uri = getenv('GOOGLE_LOGIN_URI')."/app/google/verifyIntegrity.php";
     } else {
-        //Console errors on localhost because of relative path but it will work
-        $data_login_uri = 'hakkie/app/google/verifyIntegrity.php';
+        $data_login_uri = 'http://localhost/hakkie/app/google/verifyIntegrity.php';
     }
     
 ?>
@@ -20,9 +19,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="1014049574641-u1pcchh1thdc0futl5an649j2m85222a.apps.googleusercontent.com">
 
     <title>Login</title>
 

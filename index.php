@@ -1,9 +1,16 @@
 <?php
     session_start();
     if(isset($_SESSION['isAuth'])){
-        //header("Location: public/views/home.php ");
-	    //exit();
+        header("Location: public/views/home.php ");
+	    exit();
     }
+
+    if ( getenv('GOOGLE_LOGIN_URI') != null) {
+        $data_login_uri = getenv('GOOGLE_LOGIN_URI')."/app/google/verifyIntegrity.php";
+    } else {
+        $data_login_uri = 'http://localhost/hakkie/app/google/verifyIntegrity.php';
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -13,18 +20,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="1014049574641-u1pcchh1thdc0futl5an649j2m85222a.apps.googleusercontent.com">
-
     <title>Create Account</title>
 
     <!-- Styles -->
     <link rel="stylesheet" href="public/css/style.css">
     <link rel="stylesheet" href="public/css/forms/forms.css">
 
+    <!--API Google login-->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <!-- Font Awesome-->
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>
-    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="public/images/favicon.png" type="image/x-icon">
@@ -39,7 +45,7 @@
             </div>
 
             <div class="content">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quod placeat nam nobis dolorum hic neque qui, esse ratione obcaecati quos quis voluptatem sapiente, quo maiores? Voluptate perspiciatis atque hic ratione?
+            A Social Media project in a Twitter like design, created just for fun and learning more. You can create you account with your Email or Google, and then go to your profile and post something nice, and share it with your friends!
             </div>
         </div>
 
@@ -68,7 +74,26 @@
                 OR
             </div>
 
-            <div class="google-login" id="my-signin2" data-prompt="select_account">
+            <div class="google-login">
+                <div id="g_id_onload"
+                    data-client_id="1014049574641-u1pcchh1thdc0futl5an649j2m85222a.apps.googleusercontent.com"
+                    data-context="signin"
+                    data-ux_mode="popup"
+                    data-login_uri="<?=$data_login_uri?>"
+                    data-auto_prompt="false"
+                    style="transform: scale(1.25);">
+                </div>
+
+                <div class="g_id_signin"
+                    data-type="standard"
+                    data-shape="pill"
+                    data-theme="outline"
+                    data-text="signin_with"
+                    data-size="large"
+                    data-logo_alignment="left"
+                    style="transform: scale(1.25);">
+                </div>
+            </div>
 
             </div>
         </div>
@@ -80,7 +105,6 @@
         </div>
     </a>
     
-    <script src="app/google/google.js"></script>
     <script src="js/showPassword.js"></script>
     <script src="js/loading.js"></script>
 </body>

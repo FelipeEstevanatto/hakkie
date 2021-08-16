@@ -3,14 +3,20 @@
     session_start();
     
     if(!isset($_SESSION['isAuth'])){
+
+        if (isset($_GET["user"])) {
+            setcookie("resumeU", $_GET["user"], time()+3600, "/");
+        }
+
         header("Location: home.php ");
 	    exit();
     }
 
     require("../../app/database/connect.php");
+
     if ( !isset($_GET['user']) || !is_numeric($_GET['user'])) {
         include("../includes/user-nonexistent.php"); //This user does not exist in DB!
-        exit();
+        exit();      
     } elseif ($_GET['user'] != $_SESSION['idUser']) {
 
         $query = "SELECT user_blocked FROM blocks WHERE fk_user = :id_user";
@@ -22,7 +28,7 @@
         $stmt -> execute();
 
         if ($stmt -> rowCount() > 0) {
-            include("../includes/user-nonexistent.php"); //This user does not exist in DB!
+            include("../includes/user-nonexistent.php"); //This user does not exist in DB! (we don't have blocked page yet)
             exit();
         }
 
@@ -75,21 +81,18 @@
     // ===================================================
     // To be removed once the following/follower count in the user table gets more reliable
     // ===================================================
-    $query = "SELECT count(user_followed) FROM follows WHERE user_followed = :id_user";
+    $query = 'SELECT 
+                COUNT(CASE WHEN user_followed = :id_user THEN 1 END) AS followers,
+                COUNT(CASE WHEN fk_user = :id_user THEN 1 END) AS followings
+              FROM follows';
     $stmt = $conn -> prepare($query);
+    $stmt -> bindValue(':id_user', $_GET['user']);
     $stmt -> bindValue(':id_user', $_GET['user']);
     $stmt -> execute();
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
 
-    $followers = $return['count'];
-
-    $query = "SELECT count(user_followed) FROM follows WHERE fk_user = :id_user";
-    $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', $_GET['user']);
-    $stmt -> execute();
-    $return = $stmt -> fetch(PDO::FETCH_ASSOC);
-
-    $following = $return['count'];
+    $followers = $return['followers'];
+    $following = $return['followings'];
     // ===================================================
 
     $query = "SELECT user_followed FROM follows WHERE fk_user = :id_user";

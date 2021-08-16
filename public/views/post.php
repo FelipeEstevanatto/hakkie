@@ -1,8 +1,13 @@
 <?php
     session_start();
-    
+
     if (!isset($_SESSION['isAuth'])) {
-        header("Location: login.php ");
+
+        if (isset($_GET["id"])) {
+            setcookie("resumeP", $_GET["id"], time()+3600, "/");
+        }
+
+        header("Location: login.php");
 	    exit();
     }
 ?>

@@ -9,6 +9,9 @@
         setcookie("g_state", null, -1);
     }
 
+    setcookie("resumeP", "", -1, "/");
+    setcookie("resumeU", "", -1, "/");
+
     session_destroy();
 
     $conn = null;

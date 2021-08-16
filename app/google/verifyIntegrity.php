@@ -60,6 +60,16 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
                 $_SESSION['idUser'] = $return[0]['id_user'];
                 $_SESSION['authType'] = 'GOOGLE';
                 
+                if (isset($_COOKIE['resumeP'])) {
+                    header("Location: ../../public/views/post.php?id=".$_COOKIE['resumeP']);
+                    setcookie("resumeP", "", -1 , "/");
+                    exit();
+                } else if (isset($_COOKIE['resumeU'])) {
+                    header("Location: ../../public/views/user.php?user=".$_COOKIE['resumeU']);
+                    setcookie("resumeU", "", -1 , "/");
+                    exit();
+                }
+
                 //Home after sign in
                 header("Location: ../../public/views/home.php");
                 exit();

@@ -2,8 +2,9 @@
 
 function showPosts($user, $posts, $tab) {
 
-    include("../../app/database/connect.php");
-    include("functions.php");
+    require("../../app/database/connect.php");
+    require_once("functions.php");
+
     $user = intval($user);
 
     $query = "SELECT name_user, user_picture, auth_type FROM users WHERE id_user = :id_user";
@@ -27,7 +28,7 @@ function showPosts($user, $posts, $tab) {
 
     if ( count($return) > 0) {
 
-        $query = "SELECT fk_post,fk_like_owner FROM likes WHERE fk_like_owner = :id_user";
+        $query = "SELECT fk_post, fk_like_owner FROM likes WHERE fk_like_owner = :id_user";
         $stmt = $conn -> prepare($query);
         $stmt -> bindValue(':id_user', $user);
         $stmt -> execute();
@@ -75,7 +76,7 @@ function showPosts($user, $posts, $tab) {
                             $actual_post.='../images/defaultUser.png';
                         }
                         $actual_post.='">
-                        <a href="#">'.$username.'</a>
+                        <a href="user.php?user='.$user.'">'.$username.'</a>
                     </div>
                     
                     <div class="right">
@@ -127,10 +128,6 @@ function showPosts($user, $posts, $tab) {
             
             echo$actual_post;
         }
-
-        echo'<div class="post text">
-        No more posts from this user to show!
-        </div>';
         
     } else {
         echo"This user doesn't exist, so he doesn't have posts";

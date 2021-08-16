@@ -1,10 +1,17 @@
 <?php
-    session_start();
-    
+
     if (!isset($_SESSION['isAuth'])) {
         header("Location: ../home.php ");
 	    exit();
     }
+
+    require("../../app/database/connect.php");
+
+    $query = "SELECT user_blocked FROM blocks WHERE fk_user = :id_user";
+    $stmt = $conn -> prepare($query);
+    $stmt -> bindValue(':id_user', 1);
+    $stmt -> execute();
+
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +20,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Undefined User</title>
+    <title>User page</title>
 
     <!-- Styles -->
     <link rel="stylesheet" href="../css/home/grid/grid.css">
@@ -47,7 +54,7 @@
 
                 <div class="clear"></div>
 
-                <h2 class="name">This user does not exist!</h2>
+                <h2 class="name">This user has blocked you!</h2>
             </div>
          </div>
 
@@ -55,7 +62,7 @@
         <div class="undefined">
             <i class="fas fa-frown-open"></i>
             <span>
-                This user does not exist!
+                Unfortunately this user has blocked you, but you can go to the <a href="../views/settings.php">settings page</a> and unblock him
             </span>
         </div>
     </div>

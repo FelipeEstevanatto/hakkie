@@ -56,7 +56,8 @@ if(silenceUserBtn != null && blockUserBtn != null) {
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     
         xhr.send('block='+window.location.href.replace(/\D/g, ''));
-    
+        
+        window.location.reload();
     });
 }
 

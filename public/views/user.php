@@ -17,18 +17,22 @@
     if ( !isset($_GET['user']) || !is_numeric($_GET['user'])) {
         include("../includes/user-nonexistent.php"); //This user does not exist in DB!
         exit();      
-    } elseif ($_GET['user'] != $_SESSION['idUser']) {
+    } elseif ($_GET['user'] == $_SESSION['idUser']){
+        $own_profile = true;
+    } else {
+        $own_profile = false;
 
-        $query = "SELECT user_blocked FROM blocks WHERE fk_user = :id_user";
+        $query = "SELECT user_blocked FROM blocks WHERE fk_user = :id_user OR user_blocked = :id_user";
 
         $stmt = $conn -> prepare($query);
 
+        $stmt -> bindValue(':id_user', $_SESSION['idUser']);
         $stmt -> bindValue(':id_user', $_SESSION['idUser']);
 
         $stmt -> execute();
 
         if ($stmt -> rowCount() > 0) {
-            include("../includes/user-nonexistent.php"); //This user does not exist in DB! (we don't have blocked page yet)
+            include("../includes/user-blocked.php"); //This user does not exist in DB! (we don't have blocked page yet)
             exit();
         }
 
@@ -37,11 +41,8 @@
     $query = "SELECT name_user, user_info, user_picture, user_banner, created_at, darkmode, auth_type FROM users WHERE id_user = :id_user";
 
     $stmt = $conn -> prepare($query);
-
     $stmt -> bindValue(':id_user', $_GET['user']);
-
     $stmt -> execute();
-
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
     
     if ($stmt -> rowCount() < 1) {
@@ -78,40 +79,28 @@
     $user_banner = $return['user_banner'];
     $user_info = $return['user_info'];
 
-    // ===================================================
-    // To be removed once the following/follower count in the user table gets more reliable
-    // ===================================================
+    // Get followers, following number and if SESSION is following 
     $query = 'SELECT 
                 COUNT(CASE WHEN user_followed = :id_user THEN 1 END) AS followers,
-                COUNT(CASE WHEN fk_user = :id_user THEN 1 END) AS followings
-              FROM follows';
+                COUNT(CASE WHEN fk_user = :id_user THEN 1 END) AS followings,
+                EXISTS (SELECT user_followed FROM follows WHERE fk_user = :fk_user AND 
+                fk_user IS NOT NULL AND fk_user != :id_user ) AS isfollowing
+              FROM follows;';
+
     $stmt = $conn -> prepare($query);
     $stmt -> bindValue(':id_user', $_GET['user']);
     $stmt -> bindValue(':id_user', $_GET['user']);
+    $stmt -> bindValue(':fk_user', $_SESSION['idUser']);
+    $stmt -> bindValue(':id_user', $_GET['user']);
     $stmt -> execute();
+ 
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
-
+ 
     $followers = $return['followers'];
     $following = $return['followings'];
+    $follow_status = $return['isfollowing'] ? 'unfollow' : 'follow';
     // ===================================================
-
-    $query = "SELECT user_followed FROM follows WHERE fk_user = :id_user";
-    $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', $_SESSION['idUser']);
-    $stmt -> execute();
-    $stmt -> fetchAll(PDO::FETCH_ASSOC);
-
-    if ($stmt -> rowCount() == 0) {
-        $follow_status = 'follow';
-    } else {
-        $follow_status = 'unfollow';
-    }
     
-    if ($_GET['user'] == $_SESSION['idUser']){
-        $own_profile = true;
-    } else {
-        $own_profile = false;
-    }
 ?>
 
 <html lang="pt-br">
@@ -119,7 +108,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>User <?=$user_name?></title>
 
     <!-- Styles -->
     <link rel="stylesheet" href="../css/home/grid/grid.css">
@@ -202,10 +191,10 @@
                         <?php 
                         
                             if (!$own_profile) {
-                                echo '<div class="btn '.$follow_status.'" id="interact-btn">';
-                                    echo '<i class="fas fa-user-plus"></i>';
-                                    echo '<span> '.$follow_status.'</span>';
-                                echo '</div>';
+                                echo'<div class="btn '.$follow_status.'" id="interact-btn">
+                                        <i class="fas fa-user-plus"></i>
+                                        <span> '.$follow_status.'</span>
+                                    </div>';
                             } 
                   
                         ?>
@@ -220,8 +209,8 @@
 
                             if (!$own_profile) {
 
-                            echo '<div class="btn" id="silence_user">Silence User</div>';
-                            echo '<div class="btn" id="block_user">Block User</div>';
+                            echo '<div class="btn" id="silence_user">Silence User</div>
+                                  <div class="btn" id="block_user">Block User</div>';
 
                             } else {
                                 echo '<a href="settings.php"><div class="btn" id="edit_user">Edit User</div></a>';
@@ -286,6 +275,10 @@
 
                 // Post layout
                 showPosts($_GET['user'], 10, 'posts');
+
+                echo'<div class="post text">
+                No more posts from this user to show!
+                </div>';
             ?>
  
         </div>

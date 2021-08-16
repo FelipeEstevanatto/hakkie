@@ -10,6 +10,33 @@
         header("Location: login.php");
 	    exit();
     }
+
+    if ( !isset($_GET['id']) || !is_numeric($_GET['id'])) {
+        include("../includes/user-nonexistent.php"); //This user does not exist in DB!
+        exit();      
+    }
+
+    require("../../app/database/connect.php");
+    $post = $_GET['id'];
+
+    $query = "SELECT user_blocked FROM blocks WHERE fk_user = :id_user";
+    $stmt = $conn -> prepare($query);
+    $stmt -> bindValue(':id_user', $post);
+    $stmt -> execute();
+
+    if ($stmt -> rowCount() > 0) {
+        include("../includes/user-blocked.php"); //This user does not exist in DB! (we don't have blocked page yet)
+        exit();
+    }
+
+    $query = "SELECT id_user FROM users INNER JOIN posts ON fk_owner = id_user WHERE id_post = :id_post";
+    $stmt = $conn -> prepare($query);
+    $stmt -> bindValue(':id_post', $post);
+    $stmt -> execute();
+
+    $return = $stmt -> fetch(PDO::FETCH_ASSOC);
+    $id_user = $return['id_user'];
+
 ?>
 
 <!DOCTYPE html>
@@ -44,8 +71,9 @@
         <div id="feed">
             <?php
                 include('../../app/php/showPosts.php');
-                //print_r();
-                showPosts( 8 , 10 , 'posts');
+
+                showPosts( $id_user , 1 , $post);
+
             ?>
         </div>
     </div>
@@ -55,5 +83,8 @@
         include('../includes/message.html')
 
     ?>
+
+    <script src="../../js/feedbuild.js"></script>
+
 </body>
 </html>

@@ -1,3 +1,11 @@
+<?php
+
+    if (!isset($_SESSION['isAuth'])) {
+        header("Location: ../home.php ");
+	    exit();
+    }
+?>
+
 <div id="tool-bar">
     <div class="logo">
         Hakkie
@@ -21,7 +29,7 @@
             <span>Home</span>
         </a>
         <?php if ($logged) {?>
-        <a href="#" class="btn">
+        <a href="notifications.php" class="btn">
             <i class="fas fa-bell"></i>
             <span>Notifications</span>
         </a>

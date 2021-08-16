@@ -36,7 +36,7 @@
     } else {
         $hasBlocks = true;
 
-        $query = 'SELECT users.name_user, users.user_picture, blocks.block_date, blocks.id_block FROM users INNER JOIN blocks
+        $query = 'SELECT users.name_user, users.user_picture, users.auth_type, blocks.block_date, blocks.id_block FROM users INNER JOIN blocks
                     ON users.id_user = blocks.user_blocked WHERE blocks.fk_user = :id_user ';
         $stmt = $conn -> prepare($query);
         $stmt -> bindValue(':id_user', $_SESSION['idUser']);
@@ -101,29 +101,30 @@
                 <?php
                     if ($hasBlocks) {
                         foreach ($blocks as $blocked_user) {
-
-                            echo "<div class='block'>";
-
-                                echo "<div class='left'>";  
-
-                                    if ( is_null($blocked_user['user_picture']) ) { 
-                                        echo"<img src='../images/defaultUser.png' width=50px style='clip-path:circle();'>";
+                            $div = '
+                            <div class="block">
+                                <div class="left">  
+                                    <img src="';
+                                    if ($blocked_user['auth_type'] == 'GOOGLE') {
+                                        $div .= $blocked_user['user_picture'];
+                                    } else if ( !is_null($blocked_user['user_picture']) ) { 
+                                        $div .= '../profiles/pictures/'.$blocked_user['user_picture'];
                                     } else {
-                                        echo"<img src='../profiles/pictures/".$blocked_user['user_picture']."' width=50px style='clip-path:circle();'>";
+                                        $div .= '../images/defaultUser.png';
                                     }
-                                    echo "<a href='#'>".$blocked_user['name_user']."</a>";
+                                    $div .= '" alt="user-blocked-picture" width=50px style="clip-path:circle();">
+                                    <a href="#">'.$blocked_user['name_user'].'</a>';
+                                 $div .='
+                                </div>
 
-                                echo "</div>";
-
-                                echo "<div class='right'>";
-
-                                    echo"<i class='fas fa-times' id='unblock-user-btn".$blocked_user['id_block']."'></i>";
-                            
-                                echo "</div>";
+                                <div class="right">
+                                    <i class="fas fa-times" id="unblock-user-btn'.$blocked_user['id_block'].'"></i>                    
+                                </div>
                 
-                                echo "<div class='time'>Blocked since: ".$blocked_user['block_date']."</div>";
+                                    <div class="time">Blocked since: '.$blocked_user['block_date'].'</div>
 
-                            echo "</div>"; 
+                            </div>';
+                            echo $div;
                         }
                     } else {
                         echo "<span> <i class='fas fa-thumbs-up'></i> You have no blocks, nice!</span>";
@@ -220,14 +221,13 @@
         </div>
     </div>
 
-
     <?php 
         include('../includes/message.html')
     ?>
 
     <script src="../../js/switchTheme.js"></script>
     <?php if( isset($_SESSION['authType']) && $_SESSION['authType'] != 'GOOGLE') {?>
-    <script src="../../js/showPassword.js"></script>
+        <script src="../../js/showPassword.js"></script>
     <?php } ?>
     <script src="../../js/openSettings.js"></script>
     <script src="../../js/letterCount.js"></script>

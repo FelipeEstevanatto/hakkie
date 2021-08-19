@@ -42,6 +42,39 @@
 
 #feed .post .top-post .right {
   font-weight: lighter;
+  position: relative;
+}
+
+#feed .post .top-post .right .fa-ellipsis-v {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+#feed .post .top-post .right .interative-form.close {
+  display: none;
+}
+
+#feed .post .top-post .right .interative-form.open {
+  position: absolute;
+  display: block;
+  top: 30px;
+  right: 0;
+}
+
+#feed .post .top-post .right .interative-form.open .btn-form {
+  padding: 10px 15px;
+  cursor: pointer;
+  width: 150px;
+  text-align: center;
+  font-weight: 500;
+}
+
+#feed .post .top-post .right .interative-form.open .btn-form:first-child {
+  border-radius: 1em 1em 0 0;
+}
+
+#feed .post .top-post .right .interative-form.open .btn-form:last-child {
+  border-radius: 0 0 1em 1em;
 }
 
 #feed .post .content-post {
@@ -74,6 +107,17 @@ body.light #feed .post {
   border: 4px solid rgba(0, 0, 0, 0.1);
 }
 
+body.light #feed .post .interative-form.open .btn-form {
+  background: #ffffff;
+  color: #252525;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+body.light #feed .post .interative-form.open .btn-form:hover {
+  background: #e0e0e0;
+  color: #252525;
+}
+
 body.light #feed .post .top-post .left a {
   color: #202020;
 }
@@ -94,6 +138,16 @@ body.light #feed .post .bottom-post .list .tab:hover {
 body.dark #feed .post {
   background: #0d0d1a;
   border: 4px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark #feed .post .interative-form.open .btn-form {
+  background: #272525;
+  color: #EDEDED;
+  border: 1px solid silver;
+}
+
+body.dark #feed .post .interative-form.open .btn-form:hover {
+  background: #504d4d;
 }
 
 body.dark #feed .post .top-post .left a {

@@ -35,7 +35,8 @@ body {
 
 #loading-gif {
   image-rendering: -moz-crisp-edges;
-  width: 10%;
+  width: 15%;
+  margin: 0;
   position: absolute;
   top: 50%;
   left: 50%;

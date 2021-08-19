@@ -81,8 +81,14 @@ function showPosts($user, $posts, $tab) {
                     
                     <div class="right">
                         <span>'.substr($post['post_date'],0,16).'
-                        <i class="fas fa-ellipsis-v"></i>
+                        <i class="fas fa-ellipsis-v" class="interative-form-btn"></i>
                         </span>
+
+                        <div class="interative-form close">
+                            <div class="btn-form">Follow User</div>
+                            <div class="btn-form">Block User</div>
+                            <div class="btn-form">Delete Post</div>
+                        </div>
                     </div>
                 </div>';
                 //================== Post Text ==================

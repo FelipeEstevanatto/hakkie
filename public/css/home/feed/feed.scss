@@ -29,6 +29,39 @@
 
             .right {
                 font-weight: lighter;
+                position: relative;
+
+                .fa-ellipsis-v {
+                    margin-left: 10px;
+                    cursor: pointer;
+                }
+
+                .interative-form.close {
+                    display: none;
+                }
+
+                .interative-form.open {
+                    position: absolute;
+                    display: block;
+                    top: 30px;
+                    right: 0;
+
+                    .btn-form {
+                        padding: 10px 15px;
+                        cursor: pointer;
+                        width: 150px;
+                        text-align: center;
+                        font-weight: 500;
+                        
+                        &:first-child {
+                            border-radius: 1em 1em 0 0;
+                        }
+
+                        &:last-child {
+                            border-radius: 0 0 1em 1em;
+                        }
+                    }
+                }
             }
         }
 
@@ -63,9 +96,21 @@ body.light {
     #feed {
         .post {
             background: #EDEDED;
-
             border: 4px solid rgba(0, 0, 0, 0.1);
     
+            .interative-form.open {
+                .btn-form {
+                    background: #ffffff;
+                    color: #252525;
+                    border: 1px solid rgba(0, 0, 0, 0.4);
+
+                    &:hover {
+                        background: rgb(224, 224, 224);
+                        color: #252525;
+                    }
+                }
+            }
+
             .top-post {
                 .left {     
                     a {
@@ -102,6 +147,18 @@ body.dark {
             background: #0d0d1a;
             border: 4px solid rgba(255, 255, 255, 0.1);
     
+            .interative-form.open {
+                .btn-form {
+                    background: #272525;
+                    color: #EDEDED;
+                    border: 1px solid silver;
+
+                    &:hover {
+                        background: #504d4d;
+                    }
+                }
+            }
+
             .top-post {
                 .left {     
                     a {

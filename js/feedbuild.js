@@ -11,19 +11,28 @@ tab_index.forEach((i, index) => {
     });
 });
 
-const menupost = window.document.querySelectorAll('body.dark #feed .post .top-post .right i.fas.fa-ellipsis-v');
+const menupost = window.document.querySelectorAll('#feed .post .top-post .right i.fas.fa-ellipsis-v');
 const likebtn = window.document.querySelectorAll('#feed .post .bottom-post .list #tab-like');
 const commentbtn = window.document.querySelectorAll('#feed .post .bottom-post .list #tab-comment');
 const sharebtn = window.document.querySelectorAll('#feed .post .bottom-post .list #tab-share');
 const post_ids = window.document.querySelectorAll('#feed .post');
+const interativeForm = window.document.querySelectorAll('.interative-form');
 
 menupost.forEach((btn, index) => {
     btn.addEventListener('click', () => {
 
         var post_id = post_ids[index].id.replace(/\D/g,'')
 
-        console.log('Open menu' + post_id);
+        // console.log('Open menu' + post_id);
 
+        if(interativeForm[index].classList.contains('open')) {
+            interativeForm[index].classList.remove('open');
+            interativeForm[index].classList.add('close');
+        }
+        else {
+            interativeForm[index].classList.add('open');
+            interativeForm[index].classList.remove('close');
+        }
     });
 });
 

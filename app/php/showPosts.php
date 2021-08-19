@@ -35,7 +35,7 @@ function showPosts($user, $posts, $tab) {
 
         $likes = $stmt -> fetchAll(PDO::FETCH_ASSOC);
         
-        $query = "SELECT id_post, post_text, post_media, post_likes, post_comments, post_date FROM posts WHERE fk_owner = :id_user ORDER BY post_date DESC";
+        $query = "SELECT id_post, post_text, post_media, post_likes, post_comments, post_date, fk_owner FROM posts WHERE fk_owner = :id_user ORDER BY post_date DESC";
 
         $stmt = $conn -> prepare($query);
 
@@ -86,8 +86,10 @@ function showPosts($user, $posts, $tab) {
 
                         <div class="interative-form close">
                             <div class="btn-form">Follow User</div>
-                            <div class="btn-form">Block User</div>
-                            <div class="btn-form">Delete Post</div>
+                            <div class="btn-form">Block User</div>';
+                            if ($post['fk_owner'] == $_SESSION['idUser'])
+                                $actual_post.='<div class="btn-form">Delete Post</div>';
+                        $actual_post.='
                         </div>
                     </div>
                 </div>';
@@ -99,11 +101,18 @@ function showPosts($user, $posts, $tab) {
                 }
                 //================== Post Media ==================
                 if ($post['post_media'] != 'NULL') {
-                    $actual_post.='<img src="../profiles/'.$post['post_media'].'" ';
-                    if (isset($altImage)) {
-                        $actual_post.='alt="'.$altImage.'"';
-                    }
-                    $actual_post.='style="border-radius: 5%; margin: 10px 0; width:100%;">';
+                    if (substr($post['post_media'],-4) == '.mp4') {
+                        $actual_post.='<video width="100%" controls style="border-radius: 5%;">
+                            <source src="../profiles/'.$post['post_media'].'" type="video/mp4" >
+                            Your browser do not support the video tag
+                        </video>';
+                    } else {
+                        $actual_post.='<img src="../profiles/'.$post['post_media'].'" ';
+                        if (isset($altImage)) {
+                            $actual_post.='alt="'.$altImage.'"';
+                        }
+                        $actual_post.='style="border-radius: 5%; margin: 10px 0; width:100%;">';
+                    } 
                 }
                 //================== Post Footer ==================
                 $alreadyliked = '';

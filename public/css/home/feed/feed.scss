@@ -202,6 +202,12 @@ body.dark {
         border: 2px solid rgba(255, 255, 255, 0.2);
         border-radius: 5%;
     }
+
+    video {
+        width: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 5%;
+    }
 }
 
 @media screen and (max-width: 900px) {

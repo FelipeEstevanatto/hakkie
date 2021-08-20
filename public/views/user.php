@@ -250,7 +250,7 @@
 
         <div class="post-input">
             <h2>Post</h2>
-            <form action="../../app/php/postLogic.php" method="POST" enctype='multipart/form-data'>
+            <form action="../../app/php/posts/postLogic.php" method="POST" enctype='multipart/form-data'>
                 <textarea name="post-text" id="textarea" maxlength="256" cols="30" rows="10" placeholder="What is going on?"></textarea>
                 <label id="count" for="post-text"></label>
 

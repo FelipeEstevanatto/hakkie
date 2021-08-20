@@ -265,8 +265,14 @@ body.dark {
         box-shadow: 0 2px 5px rgba(255, 255, 255, 0.151)
     }
 
+    #container .settings .form-manage.open textarea {
+        color: white;
+        background: #1e1e30;
+        box-shadow: 0 2px 5px rgba(255, 255, 255, 0.151)
+    }
+
     #container .settings #block-manage.open .block{
-        background: #1e1e30; 
+        background: #1e1e30;
 
         a {
             color: #EDEDED;

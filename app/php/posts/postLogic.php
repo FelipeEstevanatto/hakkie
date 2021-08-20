@@ -2,8 +2,12 @@
 
 session_start();
 
-require_once("../database/connect.php");
-require_once("functions.php");
+require_once("../../database/connect.php");
+require_once("../functions.php");
+
+if(!isset($_SESSION['isAuth'])){
+    exit();
+}
 
 if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empty($_FILES["uploadfile"]["tmp_name"])) {
     
@@ -21,12 +25,12 @@ if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empt
         $extension = end($temparray);
 
         if ( !in_array( $extension , $permitedFormats ) ) {
-            header("location: ../public/views/user.php?user=".$_SESSION['idUser']."&error=fileformat");
+            header("location: ../../public/views/user.php?user=".$_SESSION['idUser']."&error=fileformat");
             exit;
         }
         
         $tempname = $_FILES["uploadfile"]["tmp_name"];
-        $folder = "../../public/profiles/";
+        $folder = "../../../public/profiles/";
 
         $rename = $_SESSION['idUser'].'Upload'.date('Ymd').$_SESSION['idUser']*100+rand(0,100000).".".$extension;
 
@@ -38,7 +42,7 @@ if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empt
     
         } else {
             //Failed to upload image
-            header("Location: ../../public/views/user.php?user=".$_SESSION['idUser']."&error=failedupload");
+            header("Location: ../../../public/views/user.php?user=".$_SESSION['idUser']."&error=failedupload");
             exit();
         }
     }
@@ -63,14 +67,14 @@ if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empt
     $stmt -> execute();
 
     if (isset($uploadfine) && $stmt && $uploadfine) {
-        header("Location: ../../public/views/user.php?user=".$_SESSION['idUser']);
+        header("Location: ../../../public/views/user.php?user=".$_SESSION['idUser']);
         exit();
 
     } else {
-        header("Location: ../../public/views/user.php?user=".$_SESSION['idUser']."&error=dberror");
+        header("Location: ../../../public/views/user.php?user=".$_SESSION['idUser']."&error=dberror");
         exit();
     }
 } else {
-    header("Location: ../../public/views/user.php?user=".$_SESSION['idUser']);
+    header("Location: ../../../public/views/user.php?user=".$_SESSION['idUser']);
     exit();
 }

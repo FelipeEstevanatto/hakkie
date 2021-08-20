@@ -2,7 +2,8 @@
 
 session_start();
 
-require_once("../database/connect.php");
+require_once("../../database/connect.php");
+require_once("../functions.php");
 
 if(!isset($_SESSION['isAuth'])){
     exit();

@@ -106,6 +106,5 @@
     </a>
     
     <script src="js/showPassword.js"></script>
-    <script src="js/loading.js"></script>
 </body>
 </html>

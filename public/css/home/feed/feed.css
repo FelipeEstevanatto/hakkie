@@ -140,6 +140,10 @@ body.dark #feed .post {
   border: 4px solid rgba(255, 255, 255, 0.1);
 }
 
+body.dark #feed .post .interative-form.open {
+  z-index: 99;
+}
+
 body.dark #feed .post .interative-form.open .btn-form {
   background: #272525;
   color: #EDEDED;

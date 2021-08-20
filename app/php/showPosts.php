@@ -27,12 +27,12 @@ function showPosts($user, $posts, $tab) {
     }
 
     if ( count($return) > 0) {
-
-        $query = "SELECT fk_post, fk_like_owner FROM likes WHERE fk_like_owner = :id_user";
+        //$query = 'SELECT COUNT(fk_like_owner) FROM likes WHERE fk_post = 12 AND fk_like_owner = 8'
+        $query = 'SELECT fk_post, fk_like_owner
+                  FROM likes WHERE fk_like_owner = :id_user';
         $stmt = $conn -> prepare($query);
         $stmt -> bindValue(':id_user', $user);
         $stmt -> execute();
-
         $likes = $stmt -> fetchAll(PDO::FETCH_ASSOC);
         
         $query = "SELECT id_post, post_text, post_media, post_likes, post_comments, post_date, fk_owner FROM posts WHERE fk_owner = :id_user ORDER BY post_date DESC";
@@ -85,10 +85,10 @@ function showPosts($user, $posts, $tab) {
                         </span>
 
                         <div class="interative-form close">
-                            <div class="btn-form">Follow User</div>
-                            <div class="btn-form">Block User</div>';
+                            <div class="btn-form" id="follow">Follow User</div>
+                            <div class="btn-form" id="block">Block User</div>';
                             if ($post['fk_owner'] == $_SESSION['idUser'])
-                                $actual_post.='<div class="btn-form">Delete Post</div>';
+                                $actual_post.='<div class="btn-form" id="delete">Delete Post</div>';
                         $actual_post.='
                         </div>
                     </div>
@@ -120,7 +120,7 @@ function showPosts($user, $posts, $tab) {
                     if ($i['fk_post'] == $post['id_post']) {
                         $alreadyliked = ' class="my-like" ';
                     }
-                 }
+                }
 
                 $actual_post.='
                 <div class="bottom-post">

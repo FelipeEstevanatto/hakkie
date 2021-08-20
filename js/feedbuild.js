@@ -20,11 +20,7 @@ const interativeForm = window.document.querySelectorAll('.interative-form');
 
 menupost.forEach((btn, index) => {
     btn.addEventListener('click', () => {
-
-        var post_id = post_ids[index].id.replace(/\D/g,'')
-
-        // console.log('Open menu' + post_id);
-
+        
         if(interativeForm[index].classList.contains('open')) {
             interativeForm[index].classList.remove('open');
             interativeForm[index].classList.add('close');
@@ -32,9 +28,44 @@ menupost.forEach((btn, index) => {
         else {
             interativeForm[index].classList.add('open');
             interativeForm[index].classList.remove('close');
+
+            const follow_op = window.document.querySelectorAll('.right .interative-form.open #follow');
+            const block_op = window.document.querySelectorAll('.right .interative-form.open #block');
+            const delete_post = window.document.querySelectorAll('.right .interative-form.open #delete');
+            var post_id = post_ids[index].id.replace(/\D/g,'');
+
+            let xhr = new XMLHttpRequest();
+            
+            follow_op.forEach((btn, index) => {
+                btn.addEventListener('click', () => {
+                    console.log('Follow'+post_id);
+                    xhr.open('POST', '../../app/php/posts/postMenuLogic.php');
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.send('follow='+post_id);
+
+                    if (xhr.responseText = '1' ) {
+                        follow_op[index].innerHTML = 'Unfollow';
+                        follow_op[index].classList.add('my-like')
+                    }
+                });
+            });
+
+            block_op.forEach((btn, index) => {
+                btn.addEventListener('click', () => {
+                    console.log('Follow'+post_id);
+                });
+            });
+
+            delete_post.forEach((btn, index) => {
+                btn.addEventListener('click', () => {
+                    console.log('Follow'+post_id);
+                });
+            });
         }
     });
 });
+
+
 
 likebtn.forEach((btn, index) => {
     btn.addEventListener('click', () => {
@@ -55,10 +86,6 @@ likebtn.forEach((btn, index) => {
                 span[index].innerHTML = parseInt(span[index].innerHTML.replace(/\D/g,'')) + 1 + ' Likes';
                 span[index].classList.add('my-like')
             }
-
-            
-
-            
 
         } else {  
             span[index].innerHTML = parseInt(span[index].innerHTML.replace(/\D/g,'')) - 1 + ' Likes';

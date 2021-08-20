@@ -10,12 +10,13 @@ require('../php/functions.php');
 if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_csrf_token'] || !isset($_POST['credential'])) {
     
     echo "Something went very wrong with you Login request<br>
-    <a href='../public/views/login.php'>Back to login</a>";
+    <a href='../../public/views/login.php'>Back to login</a>";
 
 } else {
-  
+    date_default_timezone_set('America/Sao_Paulo');
+
     $jwt = new \Firebase\JWT\JWT; //https://github.com/googleapis/google-api-php-client/issues/1172
-    $jwt::$leeway = 5;
+    $jwt::$leeway = 60;
 
     $id_token = cleanString($_POST['credential']);
 

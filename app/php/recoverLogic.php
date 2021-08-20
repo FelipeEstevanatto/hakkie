@@ -35,10 +35,14 @@
             $token = random_bytes(32);
             $hashedToken = password_hash($token, PASSWORD_BCRYPT);
 
-            $url = 'http://'.$_SERVER['HTTP_HOST'].'/hakkie/public/views/';
+            if (getenv('GOOGLE_LOGIN_URI')){
+                $url = getenv('GOOGLE_LOGIN_URI').'public/views/'; 
+            } else {
+                $url = 'http://'.$_SERVER['HTTP_HOST'].'/hakkie/public/views/';
+            }
             $url .= 'new-password.php?selector=' . $selector . '&validator='. bin2hex($token);
             
-            $expires = date("U") + 3600; // 1 hour token validation
+            $expires = date("U") + 3600; // 1 hour token validation in UNIX time
 
             $query = "DELETE FROM pwdreset WHERE pwdresetEmail = :email_user";
             $stmt = $conn -> prepare($query);

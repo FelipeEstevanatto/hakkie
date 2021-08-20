@@ -22,7 +22,7 @@
     } else {
         $own_profile = false;
 
-        $query = "SELECT user_blocked FROM blocks WHERE fk_user = :id_user OR user_blocked = :id_user";
+        $query = "SELECT user_blocked, fk_user FROM blocks WHERE fk_user = :id_user OR user_blocked = :id_user";
 
         $stmt = $conn -> prepare($query);
 
@@ -32,6 +32,13 @@
         $stmt -> execute();
 
         if ($stmt -> rowCount() > 0) {
+
+            $details = $stmt -> fetch(PDO::FETCH_ASSOC);
+
+            if ($details['fk_user'] == $_SESSION['idUser']) {
+                $details = 'own_block';
+            }
+
             include("../includes/user-blocked.php"); //This user does not exist in DB! (we don't have blocked page yet)
             exit();
         }

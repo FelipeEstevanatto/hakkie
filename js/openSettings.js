@@ -18,6 +18,7 @@ buttonSetting.forEach((btn, index) => {
 
 const unblockBtn = window.document.querySelectorAll('#container .settings #block-manage .block .right i');
 const userBlocked = window.document.querySelectorAll('#container .settings #block-manage .block');
+const blockedBox = window.document.getElementById('block-manage');
 
 unblockBtn.forEach((i, index) => {
     i.addEventListener('click', () => {
@@ -28,6 +29,11 @@ unblockBtn.forEach((i, index) => {
  
         xhr.send('unblock='+unblockBtn[index].id.replace(/\D/g, ''));
 
-        userBlocked[index].remove();
+        if (xhr.responseText = 'Sucess blocking' ) {
+            userBlocked[index].remove();
+            if (index == 0) {
+                blockedBox.innerHTML = '<span> <i class="fas fa-thumbs-up"></i> You have no blocks, nice!</span>'
+            }
+        }
     });
 });

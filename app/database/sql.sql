@@ -9,8 +9,6 @@ CREATE TABLE users (
   user_info VARCHAR(256) DEFAULT NULL,
   user_picture VARCHAR(256),
   user_banner VARCHAR(256),
-  user_followers INT DEFAULT 0,
-  user_following INT DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   darkmode BOOLEAN DEFAULT TRUE
 );
@@ -19,8 +17,6 @@ CREATE TABLE posts (
   id_post SERIAL NOT NULL PRIMARY KEY,
   post_text TEXT,
   post_media TEXT DEFAULT NULL,
-  post_likes INT DEFAULT 0,
-  post_comments INT DEFAULT 0,
   post_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   fk_owner BIGINT NOT NULL,
   FOREIGN KEY (fk_owner) REFERENCES users (id_user)
@@ -29,6 +25,7 @@ CREATE TABLE posts (
 CREATE TABLE likes (
   id_like SERIAL NOT NULL PRIMARY KEY,
   fk_post BIGINT NOT NULL,
+  type_like VARCHAR(32) DEFAULT 'POST',
   FOREIGN KEY (fk_post) REFERENCES posts (id_post),
   fk_like_owner BIGINT NOT NULL,
   FOREIGN KEY (fk_like_owner) REFERENCES users (id_user),

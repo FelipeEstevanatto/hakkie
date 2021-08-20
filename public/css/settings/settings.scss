@@ -67,12 +67,13 @@
     font-size: 1.1vw;
     color: #FFF;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.377);
-    margin-bottom: .9em; 
+    margin-bottom: .9em;
     transition: 400ms;
 }
 
 #container .settings .btn.open {
     border-radius: 1em 1em 0 0;
+    margin-bottom: 0em; 
 }
 
 #container .settings .btn i {
@@ -107,7 +108,6 @@
     width: 100%;
     margin-bottom: 3em;
     padding: 2em 1em;
-    margin-top: -1.2em;
     border-radius: 0 0 1em 1em;
 
     position: relative;
@@ -306,6 +306,7 @@ body.dark {
 
     #container .settings .form-manage.open {
         padding: 2em 1em 1em 1em;
+        margin-top: -1.2em;
     }
 
     #container .settings .form-manage.open form {

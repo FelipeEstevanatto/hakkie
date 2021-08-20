@@ -78,6 +78,7 @@
 
 #container .settings .btn.open {
   border-radius: 1em 1em 0 0;
+  margin-bottom: 0em;
 }
 
 #container .settings .btn i {
@@ -117,7 +118,6 @@
   width: 100%;
   margin-bottom: 3em;
   padding: 2em 1em;
-  margin-top: -1.2em;
   border-radius: 0 0 1em 1em;
   position: relative;
 }
@@ -326,6 +326,7 @@ body.dark #switch-theme-btn .slider {
   /* Form manage */
   #container .settings .form-manage.open {
     padding: 2em 1em 1em 1em;
+    margin-top: -1.2em;
   }
   #container .settings .form-manage.open form {
     display: block;

@@ -28,7 +28,7 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['register_us
         $password_user = password_hash($password_user, PASSWORD_BCRYPT);
 
         $query = "INSERT INTO users VALUES(DEFAULT, :name_user , :email_user , :password_user, DEFAULT, 
-                  DEFAULT, NULL, NULL, DEFAULT, DEFAULT, DEFAULT, DEFAULT)";
+                  DEFAULT, NULL, DEFAULT, DEFAULT, DEFAULT)";
 
         $stmt = $conn -> prepare($query);
 
@@ -60,13 +60,13 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['register_us
             header("Location: ../../public/views/home.php");
             exit();
         }
-    } else if($return['auth_type'] == 'GOOGLE'){
-                header("Location: ../../index.php?error=googleemailalreadyregistered");
-                exit();
-            } else {
-                header("Location: ../../index.php?error=emailalreadyregistered");
-                exit();
-            }
+    } elseif($return['auth_type'] == 'GOOGLE'){
+        header("Location: ../../index.php?error=googleemailalreadyregistered");
+        exit();
+    } else {
+        header("Location: ../../index.php?error=emailalreadyregistered");
+        exit();
+    }
 
 } else { 
     header("Location: ../../index.php?error=emptyfields");

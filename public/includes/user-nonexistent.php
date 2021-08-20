@@ -55,7 +55,7 @@
         <div class="undefined">
             <i class="fas fa-frown-open"></i>
             <span>
-                This user does not exist!
+                This user does not exist, why are you here!
             </span>
         </div>
     </div>

@@ -75,7 +75,7 @@ likebtn.forEach((btn, index) => {
 
         let xhr = new XMLHttpRequest();
 
-        xhr.open('POST', '../../app/php/likeLogic.php');
+        xhr.open('POST', '../../app/php/posts/likeLogic.php');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
         if (span[index].classList != 'my-like') {

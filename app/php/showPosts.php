@@ -10,9 +10,7 @@ function showPosts($user, $posts, $tab) {
     $query = "SELECT name_user, user_picture, auth_type FROM users WHERE id_user = :id_user";
 
     $stmt = $conn -> prepare($query);
-
     $stmt -> bindValue(':id_user', $user);
-
     $stmt -> execute();
 
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
@@ -26,26 +24,24 @@ function showPosts($user, $posts, $tab) {
         $isGoogle = false;
     }
 
-    if ( count($return) > 0) {
-        //$query = 'SELECT COUNT(fk_like_owner) FROM likes WHERE fk_post = 12 AND fk_like_owner = 8'
-        $query = 'SELECT fk_post, fk_like_owner
-                  FROM likes WHERE fk_like_owner = :id_user';
-        $stmt = $conn -> prepare($query);
-        $stmt -> bindValue(':id_user', $user);
-        $stmt -> execute();
-        $likes = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-        
-        $query = "SELECT id_post, post_text, post_media, post_likes, post_comments, post_date, fk_owner FROM posts WHERE fk_owner = :id_user ORDER BY post_date DESC";
+    if ( count($return) > 0) { 
+        //Coalesce returns 0 instead of null, so don't need an if
+        $query = 'SELECT id_post, post_text, post_media, post_date, fk_owner, 
+                        COALESCE((SELECT COUNT(id_like) FROM likes WHERE fk_post = id_post GROUP BY fk_post),0) AS post_likes,
+                        COALESCE((SELECT COUNT(id_comment) FROM comments WHERE fk_post = id_post GROUP BY fk_post),0) AS post_comments,
+                        (SELECT COUNT(*) FROM likes WHERE fk_post = id_post AND fk_like_owner = :session_user ) AS already_liked
+                  FROM posts WHERE fk_owner = :id_user ORDER BY post_date DESC';
 
         $stmt = $conn -> prepare($query);
 
+        $stmt -> bindValue(':session_user', $_SESSION['idUser']);
         $stmt -> bindValue(':id_user', $user);
 
         $stmt -> execute();
 
-        $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+        $returnPosts = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
-        foreach ($return as $key=>$post) {
+        foreach ($returnPosts as $key=>$post) {
             if ($key >= $posts) break;
             if (isset($post['post_media']) && $post['post_media'] != 'NULL') {
 
@@ -61,11 +57,11 @@ function showPosts($user, $posts, $tab) {
                 }
             }
 
+            //================== Start of post DIV ==================
             $actual_post = '<!--Post layout-->
             <div class="post text" id="post_id'.$post['id_post'].'">
                 <div class="top-post">
                     <div class="left">
-                        
                         <img src="';
                         //================== User Picture and name ==================
                         if ($isGoogle) {
@@ -115,11 +111,10 @@ function showPosts($user, $posts, $tab) {
                     } 
                 }
                 //================== Post Footer ==================
-                $alreadyliked = '';
-                foreach($likes as $i) {
-                    if ($i['fk_post'] == $post['id_post']) {
-                        $alreadyliked = ' class="my-like" ';
-                    }
+                if ($post['already_liked'] == 1) {
+                    $alreadyliked = ' class="my-like" ';
+                } else {
+                    $alreadyliked = '';
                 }
 
                 $actual_post.='
@@ -140,7 +135,8 @@ function showPosts($user, $posts, $tab) {
                     </div>
                 </div>
             </div>';
-            
+            //================== End of Post Footer ==================
+
             echo$actual_post;
         }
         

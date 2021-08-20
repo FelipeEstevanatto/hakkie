@@ -85,7 +85,7 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
             $picture = str_replace('=s96-c', '=s400-c', $data->picture);
 
             $query = "INSERT INTO users VALUES(DEFAULT, :name_user , :email_user , :password_user, 'GOOGLE', 
-                    DEFAULT, :picture_user , NULL, DEFAULT, DEFAULT, DEFAULT, DEFAULT)";
+                    DEFAULT, :picture_user , DEFAULT, DEFAULT, DEFAULT)";
 
             $stmt = $conn -> prepare($query);
 

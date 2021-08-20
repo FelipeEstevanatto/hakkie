@@ -47,7 +47,7 @@ if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empt
         }
     }
 
-    $query = "INSERT INTO posts VALUES(DEFAULT, :post_text, :post_media, DEFAULT, DEFAULT, DEFAULT, :id_user)";
+    $query = "INSERT INTO posts VALUES(DEFAULT, :post_text, :post_media, DEFAULT, :id_user)";
     
     $stmt = $conn -> prepare($query);  
 

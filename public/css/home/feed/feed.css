@@ -2,6 +2,16 @@
   padding: 1em;
 }
 
+#feed .animate {
+  opacity: 0;
+  -webkit-transform: translate3d(0, -12em, 0) scaleY(0);
+          transform: translate3d(0, -12em, 0) scaleY(0);
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-transition: 400ms;
+  transition: 400ms;
+}
+
 #feed .post {
   padding: 1.5em;
   border-radius: 1em;

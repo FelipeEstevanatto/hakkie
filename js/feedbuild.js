@@ -38,14 +38,23 @@ menupost.forEach((btn, index) => {
             
             follow_op.forEach((btn, index) => {
                 btn.addEventListener('click', () => {
-                    console.log('Follow'+post_id);
-                    xhr.open('POST', '../../app/php/posts/postMenuLogic.php');
+                    xhr.open('POST', '../../app/php/posts/followLogic.php');
                     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                    xhr.send('follow='+post_id);
 
-                    if (xhr.responseText = '1' ) {
+                    if (follow_op[index].classList.contains('Follow')){
+                        xhr.send('followbypost='+post_id);
+                        
+                    } else if (follow_op[index].classList.contains('Unfollow')) {
+                        xhr.send('unfollowbypost='+post_id);
+                    }
+                    if (xhr.responseText = '1') {
+                        follow_op[index].classList.add('Unfollow');
+                        follow_op[index].classList.remove('Follow');
                         follow_op[index].innerHTML = 'Unfollow';
-                        follow_op[index].classList.add('my-like')
+                    } else {
+                        follow_op[index].classList.add('Follow');
+                        follow_op[index].classList.remove('Unfollow');
+                        follow_op[index].innerHTML = 'Follow';
                     }
                 });
             });
@@ -53,12 +62,33 @@ menupost.forEach((btn, index) => {
             block_op.forEach((btn, index) => {
                 btn.addEventListener('click', () => {
                     console.log('Follow'+post_id);
+                    xhr.open('POST', '../../app/php/posts/manageBlock.php');
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.send('blockbypost='+post_id);
+
+                    if (window.location.href.slice(-8) == 'home.php') {
+                        post_ids[index].classList.add('animate');
+                        const interval = setTimeout(()=>{
+                            post_ids[index].remove(); 
+                        },400);
+                    } else
+                        document.location.reload();
                 });
             });
 
             delete_post.forEach((btn, index) => {
                 btn.addEventListener('click', () => {
                     console.log('Follow'+post_id);
+                    xhr.open('POST', '../../app/php/posts/deletePost.php');
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.send('deletePost='+post_id);
+
+                    if (xhr.responseText = 'Deleted') {
+                        post_ids[index].classList.add('animate');
+                        const interval = setTimeout(()=>{
+                            post_ids[index].remove(); 
+                        },400);
+                    }
                 });
             });
         }
@@ -78,21 +108,22 @@ likebtn.forEach((btn, index) => {
         xhr.open('POST', '../../app/php/posts/likeLogic.php');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-        if (span[index].classList != 'my-like') {
+        if (span[index].classList.contains('my-like')) {
 
+            xhr.send('unlike=' + post_id);
+
+            if (xhr.responseText = '0' ) {
+            span[index].innerHTML = parseInt(span[index].innerHTML.replace(/\D/g,'')) - 1 + ' Likes';
+            span[index].classList.remove('my-like')
+            }
+        } else {  
+            
             xhr.send('like=' + post_id);
 
             if (xhr.responseText = '1' ) {
                 span[index].innerHTML = parseInt(span[index].innerHTML.replace(/\D/g,'')) + 1 + ' Likes';
                 span[index].classList.add('my-like')
             }
-
-        } else {  
-            span[index].innerHTML = parseInt(span[index].innerHTML.replace(/\D/g,'')) - 1 + ' Likes';
-            span[index].classList.remove('my-like')
-
-            xhr.send('unlike=' + post_id);
-
         }
 
     });

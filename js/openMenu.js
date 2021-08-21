@@ -57,7 +57,7 @@ if(silenceUserBtn != null && blockUserBtn != null) {
     
         xhr.send('block='+window.location.href.replace(/\D/g, ''));
         
-        window.location.reload();
+        window.location.reload(true);
     });
 }
 

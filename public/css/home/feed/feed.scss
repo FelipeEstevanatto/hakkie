@@ -1,6 +1,13 @@
 #feed {
     padding: 1em;
     
+    .animate {
+            opacity: 0;
+            transform: translate3d(0,-12em,0) scaleY(0);
+            transform-style: preserve-3d;
+            transition: 400ms;
+    }
+
     .post {
         padding: 1.5em;
         border-radius: 1em;

@@ -8,6 +8,26 @@ if(!isset($_SESSION['isAuth'])){
     exit();
 }
 
+if ( (isset($_POST['followbypost']) && is_numeric($_POST['followbypost'])) || (isset($_POST['unfollowbypost']) && is_numeric($_POST['unfollowbypost'])) ) {
+    
+    $query = 'SELECT id_user FROM users,posts WHERE posts.fk_owner = users.id_user AND posts.id_post = :id_post';
+
+    $stmt = $conn -> prepare($query);
+
+    $stmt -> bindValue(':id_post', $_POST['followbypost'] ?? $_POST['unfollowbypost']);
+    
+    $stmt -> execute();
+
+    $return = $stmt -> fetch(PDO::FETCH_ASSOC);
+    
+    if (isset($_POST['followbypost'])) {
+        $_POST['follow'] = $return['id_user'];
+    } else {
+        $_POST['unfollow'] = $return['id_user'];
+    }
+        
+}
+
 //Follow
 if (isset($_POST['follow']) && is_numeric($_POST['follow'])) {
 

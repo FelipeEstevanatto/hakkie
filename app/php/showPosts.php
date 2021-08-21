@@ -7,22 +7,28 @@ function showPosts($user, $posts, $tab) {
 
     $user = intval($user);
 
-    $query = "SELECT name_user, user_picture, auth_type FROM users WHERE id_user = :id_user";
+    $query = 'SELECT name_user, user_picture, auth_type, 
+              EXISTS (SELECT user_blocked FROM blocks WHERE fk_user = :id_user AND user_blocked = :session_user) AS blocked,
+              EXISTS (SELECT * FROM follows WHERE fk_user = :session_user AND user_followed = :id_user) AS following
+              FROM users WHERE id_user = :id_user';
 
     $stmt = $conn -> prepare($query);
+    $stmt -> bindValue(':id_user', $user);
+    $stmt -> bindValue(':session_user', $_SESSION['idUser']);
+    $stmt -> bindValue(':session_user', $_SESSION['idUser']);
+    $stmt -> bindValue(':id_user', $user);
     $stmt -> bindValue(':id_user', $user);
     $stmt -> execute();
 
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
 
+    if ($return['blocked']) return;
+
     $username = $return['name_user'];
     $userpicture = $return['user_picture'];
+    $following_status = $return['following'] ? 'Unfollow' : 'Follow' ;
     
-    if ($return['auth_type'] == "GOOGLE") {
-        $isGoogle = true;
-    } else {
-        $isGoogle = false;
-    }
+    $isGoogle = ($return['auth_type'] == "GOOGLE") ? true : false;
 
     if ( count($return) > 0) { 
         //Coalesce returns 0 instead of null, so don't need an if
@@ -43,6 +49,8 @@ function showPosts($user, $posts, $tab) {
 
         foreach ($returnPosts as $key=>$post) {
             if ($key >= $posts) break;
+
+            // Handle missmatch between files and database
             if (isset($post['post_media']) && $post['post_media'] != 'NULL') {
 
                 $path = $_SERVER['DOCUMENT_ROOT']."/hakkie/public/profiles/".$post['post_media'];
@@ -68,8 +76,8 @@ function showPosts($user, $posts, $tab) {
                             $actual_post.=$userpicture;
                         } elseif ($userpicture != NULL) {
                             $actual_post.='../profiles/'.$userpicture;
-                        } else {//fallback
-                            $actual_post.='../images/defaultUser.png';
+                        } else {
+                            $actual_post.='../images/defaultUser.png'; //fallback
                         }
                         $actual_post.='">
                         <a href="user.php?user='.$user.'">'.$username.'</a>
@@ -80,11 +88,14 @@ function showPosts($user, $posts, $tab) {
                         <i class="fas fa-ellipsis-v" class="interative-form-btn"></i>
                         </span>
 
-                        <div class="interative-form close">
-                            <div class="btn-form" id="follow">Follow User</div>
-                            <div class="btn-form" id="block">Block User</div>';
-                            if ($post['fk_owner'] == $_SESSION['idUser'])
+                        <div class="interative-form close">';
+                            if ($post['fk_owner'] != $_SESSION['idUser']) {
+                                $actual_post.='
+                                <div class="btn-form '.$following_status.'" id="follow">'.$following_status.' User</div>
+                                <div class="btn-form" id="block">Block User</div>';
+                            } else {
                                 $actual_post.='<div class="btn-form" id="delete">Delete Post</div>';
+                            }
                         $actual_post.='
                         </div>
                     </div>
@@ -139,9 +150,10 @@ function showPosts($user, $posts, $tab) {
 
             echo$actual_post;
         }
-        
+
     } else {
         echo"This user doesn't exist, so he doesn't have posts";
     }
 
+    return;
 }

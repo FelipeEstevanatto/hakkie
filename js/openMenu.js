@@ -7,6 +7,19 @@ const blockUserBtn = window.document.querySelector('#ellipsis-modal .btn#block_u
 const silenceUserBtn = window.document.querySelector('#ellipsis-modal .btn#silence_user');
 const linkUserBtn = window.document.querySelector('#ellipsis-modal .btn#link_user');
 
+function findGetParameter(parameterName) {
+    var result = null,
+        tmp = [];
+    location.search
+        .substr(1)
+        .split("&")
+        .forEach(function (item) {
+          tmp = item.split("=");
+          if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+        });
+    return result;
+}
+
 btn.addEventListener('click', () => {
     if(modal.classList.contains('open')) {
         modal.classList.remove('open');
@@ -50,14 +63,15 @@ if(silenceUserBtn != null && blockUserBtn != null) {
     });
 
     blockUserBtn.addEventListener('click', () => {
-
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', '../../app/php/manageBlock.php');
+        xhr.open('POST', '../../app/php/blockingLogic.php');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     
-        xhr.send('block='+window.location.href.replace(/\D/g, ''));
+        xhr.send('block='+findGetParameter('user'));
         
-        window.location.reload(true);
+        if (xhr.responseText = 'Sucess blocking') {
+            window.location.reload(true);
+        }
     });
 }
 

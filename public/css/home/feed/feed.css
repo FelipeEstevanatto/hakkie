@@ -145,6 +145,11 @@ body.light #feed .post .bottom-post .list .tab:hover {
   color: #9233ff;
 }
 
+body.light #feed .post .bottom-post .list .my-like {
+  background: rgba(0, 0, 0, 0.1);
+  color: #9233ff;
+}
+
 body.dark #feed .post {
   background: #0d0d1a;
   border: 4px solid rgba(255, 255, 255, 0.1);
@@ -181,6 +186,11 @@ body.dark #feed .post .bottom-post .list .tab:hover {
   color: #b97bff;
   -webkit-transition: 200ms;
   transition: 200ms;
+}
+
+body.dark #feed .post .bottom-post .list .my-like {
+  background: rgba(255, 255, 255, 0.1);
+  color: #b97bff;
 }
 
 #images-preview {

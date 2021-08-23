@@ -7,6 +7,7 @@ input.addEventListener('change', () => {
 
     for(let i = 0; i < input.files.length; i++) {
         if(i == 4) break;
+        input 
 
         previewS += '<div style="display:grid;">';
 

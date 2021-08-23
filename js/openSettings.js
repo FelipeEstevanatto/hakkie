@@ -24,16 +24,19 @@ unblockBtn.forEach((i, index) => {
     i.addEventListener('click', () => {
         
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', '../../app/php/manageBlock.php');
+        xhr.open('POST', '../../app/php/blockingLogic.php');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
  
-        xhr.send('unblock='+unblockBtn[index].id.replace(/\D/g, ''));
-
-        if (xhr.responseText = 'Sucess blocking' ) {
-            userBlocked[index].remove();
-            if (index == 0) {
-                blockedBox.innerHTML = '<span> <i class="fas fa-thumbs-up"></i> You have no blocks, nice!</span>'
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === 4 && xhr.responseText === 'Sucess unblocking') {
+                userBlocked[index].remove();
+                if (unblockBtn.length-1 == 0) {
+                    blockedBox.innerHTML = '<span><i class="fas fa-thumbs-up"></i> You have no blocks, nice!</span>'
+                }
             }
-        }
+        });
+
+        xhr.send('unblock='+window.document.querySelectorAll('#container .settings #block-manage.open .block')[index].id); 
+
     });
 });

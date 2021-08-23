@@ -7,10 +7,11 @@
     }
 
     include("../../app/database/connect.php");
+    include("../../app/php/functions.php");
 
     $query = "SELECT name_user, user_email, user_info, darkmode FROM users WHERE id_user = :id_user";
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', $_SESSION['idUser']);
+    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']));
     $stmt -> execute();
 
     if ($stmt -> rowCount() < 1) {
@@ -27,7 +28,7 @@
 
     $query = "SELECT * FROM blocks WHERE fk_user = :id_user";
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', $_SESSION['idUser']);
+    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']));
     $stmt -> execute();
     $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
@@ -36,10 +37,11 @@
     } else {
         $hasBlocks = true;
 
-        $query = 'SELECT users.name_user, users.user_picture, users.auth_type, blocks.block_date, blocks.id_block FROM users INNER JOIN blocks
-                    ON users.id_user = blocks.user_blocked WHERE blocks.fk_user = :id_user ';
+        $query = 'SELECT users.id_user, users.name_user, users.user_picture, users.auth_type, blocks.block_date, blocks.id_block
+                  FROM users INNER JOIN blocks
+                  ON users.id_user = blocks.user_blocked WHERE blocks.fk_user = :id_user;';
         $stmt = $conn -> prepare($query);
-        $stmt -> bindValue(':id_user', $_SESSION['idUser']);
+        $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']));
         $stmt -> execute();
         
         $blocks = $stmt -> fetchAll(PDO::FETCH_ASSOC);
@@ -66,7 +68,7 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon">
 </head>
-<body class="<?= $_SESSION['darkMode'];?>">
+<body class="<?=$_SESSION['darkMode'];?>">
     
     <?php
 
@@ -102,7 +104,7 @@
                     if ($hasBlocks) {
                         foreach ($blocks as $blocked_user) {
                             $div = '
-                            <div class="block">
+                            <div class="block" id="'.encodeId($blocked_user['id_user']).'">
                                 <div class="left">  
                                     <img src="';
                                     if ($blocked_user['auth_type'] == 'GOOGLE') {

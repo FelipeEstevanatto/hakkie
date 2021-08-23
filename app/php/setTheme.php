@@ -17,7 +17,7 @@ if (isset($_POST['theme'] )) {
 
     $stmt = $conn -> prepare($query);
     
-    $stmt -> bindValue(':id_user', $_SESSION['idUser']);
+    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
 
     $stmt -> execute();
 }

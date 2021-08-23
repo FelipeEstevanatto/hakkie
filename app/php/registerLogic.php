@@ -54,8 +54,9 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['register_us
             } else {
                 $_SESSION['darkMode'] = 'light';
             }
-            $_SESSION['idUser'] = $return['id_user'];
+
             $_SESSION['authType'] = 'PASSWORD';
+            $_SESSION['idUser'] = encodeId($return['id_user']);
 
             header("Location: ../../public/views/home.php");
             exit();

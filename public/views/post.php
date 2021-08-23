@@ -11,13 +11,15 @@
 	    exit();
     }
 
-    if ( !isset($_GET['id']) || !is_numeric($_GET['id'])) {
+    require("../../app/database/connect.php");
+    require_once("../../app/php/functions.php");
+
+    if ( !isset($_GET['id']) || is_numeric($_GET['id']) || is_float(decodeId($_GET['id']))) {
         include("../includes/user-nonexistent.php"); //This user does not exist in DB!
         exit();      
     }
 
-    require("../../app/database/connect.php");
-    $post = $_GET['id'];
+    $post = decodeId($_GET['id']);
 
     $query = "SELECT user_blocked FROM blocks WHERE fk_user = :id_user";
     $stmt = $conn -> prepare($query);

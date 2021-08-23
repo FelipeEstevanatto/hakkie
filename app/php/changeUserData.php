@@ -12,7 +12,7 @@
 
     $query = "SELECT name_user, user_email, user_password, user_info FROM users WHERE id_user = :id_user";
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', $_SESSION['idUser']);
+    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']));
     $stmt -> execute();
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
 
@@ -29,7 +29,7 @@
         $query = 'UPDATE users SET name_user = :newname WHERE id_user = :id_user';
         $stmt = $conn -> prepare($query);
         $stmt -> bindValue(':newname', $newName);
-        $stmt -> bindValue(':id_user', $_SESSION['idUser']);
+        $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']));
         
     } elseif ( isset($_POST['change-user-email']) ) {
 
@@ -44,7 +44,7 @@
         $query = "UPDATE users SET user_email = :newEmail WHERE id_user = :id_user";
         $stmt = $conn -> prepare($query);
         $stmt -> bindValue(':newEmail', $newEmail);
-        $stmt -> bindValue(':id_user', $_SESSION['idUser']);
+        $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
 
     } elseif ( isset($_POST['change-user-password']) ) {
 
@@ -61,7 +61,7 @@
         $query = "UPDATE users SET user_password = :newPass WHERE id_user = :id_user";
         $stmt = $conn -> prepare($query);
         $stmt -> bindValue(':newPass', $hashednewPass);
-        $stmt -> bindValue(':id_user', $_SESSION['idUser']);
+        $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
 
     } elseif ( isset($_POST['change-user-info']) ) {
 
@@ -76,7 +76,7 @@
         $query = "UPDATE users SET user_info = :newInfo WHERE id_user = :id_user";
         $stmt = $conn -> prepare($query);
         $stmt -> bindValue(':newInfo', $newInfo);
-        $stmt -> bindValue(':id_user', $_SESSION['idUser']);
+        $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
     }
 
     $stmt -> execute();

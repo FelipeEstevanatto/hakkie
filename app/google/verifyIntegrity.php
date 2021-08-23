@@ -57,9 +57,9 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
                 } else {
                     $_SESSION['darkMode'] = 'light';
                 }
-                
-                $_SESSION['idUser'] = $return[0]['id_user'];
+
                 $_SESSION['authType'] = 'GOOGLE';
+                $_SESSION['idUser'] = encodeId($return[0]['id_user']);
                 
                 if (isset($_COOKIE['resumeP'])) {
                     header("Location: ../../public/views/post.php?id=".$_COOKIE['resumeP']);
@@ -113,8 +113,9 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
                 } else {
                     $_SESSION['darkMode'] = 'light';
                 }
-                $_SESSION['idUser'] = $return['id_user'];
+
                 $_SESSION['authType'] = 'GOOGLE';
+                $_SESSION['idUser'] = encodeId($return['id_user']);
 
                 //Home after registering user
                 header("Location: ../../public/views/home.php");

@@ -32,7 +32,7 @@ if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empt
         $tempname = $_FILES["uploadfile"]["tmp_name"];
         $folder = "../../../public/profiles/";
 
-        $rename = $_SESSION['idUser'].'Upload'.date('Ymd').$_SESSION['idUser']*100+rand(0,100000).".".$extension;
+        $rename = $_SESSION['idUser'].'Upload'.date('Ymd').(100*rand(0,100000)).".".$extension;
 
         $post_media = $rename;
         
@@ -62,7 +62,7 @@ if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empt
         $stmt -> bindValue(':post_media', $post_media);
     }
     
-    $stmt -> bindValue(':id_user', $_SESSION['idUser']);
+    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']));
 
     $stmt -> execute();
 

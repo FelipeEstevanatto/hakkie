@@ -13,21 +13,22 @@
     }
 
     require("../../app/database/connect.php");
+    require_once("../../app/php/functions.php");
 
-    if ( !isset($_GET['user']) || !is_numeric($_GET['user'])) {
+    if ( !isset($_GET['user']) || !is_numeric(decodeId($_GET['user'])) || is_numeric($_GET['user']) || is_float(decodeId($_GET['user'])) ) {
         include("../includes/user-nonexistent.php"); //This user does not exist in DB!
-        exit();      
-    } elseif ($_GET['user'] == $_SESSION['idUser']){
+        exit();    
+    } elseif (decodeId($_GET['user']) == decodeId($_SESSION['idUser'])){
         $own_profile = true;
     } else {
         $own_profile = false;
-
+        
         $query = "SELECT user_blocked, fk_user FROM blocks WHERE fk_user = :id_user OR user_blocked = :id_user";
 
         $stmt = $conn -> prepare($query);
 
-        $stmt -> bindValue(':id_user', $_SESSION['idUser']);
-        $stmt -> bindValue(':id_user', $_SESSION['idUser']);
+        $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']));
+        $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']));
 
         $stmt -> execute();
 
@@ -35,7 +36,7 @@
 
             $details = $stmt -> fetch(PDO::FETCH_ASSOC);
 
-            if ($details['fk_user'] == $_SESSION['idUser']) {
+            if ($details['fk_user'] == decodeId($_SESSION['idUser'])) {
                 $details = 'own_block';
             }
 
@@ -48,10 +49,10 @@
     $query = "SELECT name_user, user_info, user_picture, user_banner, created_at, darkmode, auth_type FROM users WHERE id_user = :id_user";
 
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', $_GET['user']);
+    $stmt -> bindValue(':id_user', decodeId($_GET['user']) );
     $stmt -> execute();
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
-    
+
     if ($stmt -> rowCount() < 1) {
         include("../includes/user-nonexistent.php"); //This user does not exist in DB!
         exit();
@@ -95,10 +96,10 @@
               FROM follows;';
 
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', $_GET['user']);
-    $stmt -> bindValue(':id_user', $_GET['user']);
-    $stmt -> bindValue(':fk_user', $_SESSION['idUser']);
-    $stmt -> bindValue(':id_user', $_GET['user']);
+    $stmt -> bindValue(':id_user', decodeId($_GET['user']));
+    $stmt -> bindValue(':id_user', decodeId($_GET['user']));
+    $stmt -> bindValue(':fk_user', decodeId($_SESSION['idUser']));
+    $stmt -> bindValue(':id_user', decodeId($_GET['user']));
     $stmt -> execute();
  
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
@@ -270,7 +271,6 @@
                 <label id="uploadfile-label" for="uploadfile">
                     <span><i class="fas fa-upload"></i></span>     
                 </label>
-
                 <input type="submit" value="Submit">
             </form>
         </div>
@@ -284,7 +284,7 @@
                 include("../../app/php/showPosts.php");
 
                 // Post layout
-                showPosts($_GET['user'], 10, 'posts');
+                showPosts(decodeId($_GET['user']), 10, 'posts');
 
                 echo'<div class="post text">
                 No more posts from this user to show!
@@ -300,8 +300,9 @@
 
     ?>
 
-    <script src="../../js/feedbuild.js"></script>
-    <script src="../../js/openMenu.js"></script>   
+    <script type="text/javascript" src="../../js/functions.js"></script>
+    <script type="text/javascript" src="../../js/feedbuild.js"></script>
+    <script type="text/javascript" src="../../js/openMenu.js"></script>   
 
     <?php 
         if (!$own_profile) {   

@@ -36,7 +36,7 @@ function getUserIP() {
 }
 
 function encodeId($num, $b=62) {
-    //Multiply by 1024, pass to dex, revert and pass to base 62
+    //Multiply by 32768, and pass to base 62
     $num = $num * 32768;
     $base = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $r = $num  % $b ;
@@ -67,4 +67,35 @@ function convertYoutube($string) {
         "<br><iframe width=\"100%\" height=\"100%\" src=\"//www.youtube.com/embed/$2\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe><br>",
         $string
     );
+    else return $string;
+}
+
+function time_elapsed_string($datetime, $full = false) {
+    date_default_timezone_set('America/Sao_Paulo');
+
+    $now = new DateTime;
+    $ago = new DateTime($datetime);
+    $diff = $now->diff($ago);
+    $diff->w = floor($diff->d / 7);
+    $diff->d -= $diff->w * 7;
+
+    $string = array(
+        'y' => 'year',
+        'm' => 'month',
+        'w' => 'week',
+        'd' => 'day',
+        'h' => 'hour',
+        'i' => 'min',
+        's' => 'sec',
+    );
+    foreach ($string as $k => &$v) {
+        if ($diff->$k) {
+            $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+        } else {
+            unset($string[$k]);
+        }
+    }
+
+    if (!$full) $string = array_slice($string, 0, 1);
+    return $string ? implode(', ', $string) . ' ago' : 'just now';
 }

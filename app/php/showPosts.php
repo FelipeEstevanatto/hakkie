@@ -93,7 +93,8 @@ function showPosts($user, $posts, $tab) {
                     </div>
                     
                     <div class="right">
-                        <span>'.substr($post['post_date'],0,16).'
+                        <span>'
+                        .time_elapsed_string($post['post_date']).'
                         <i class="fas fa-ellipsis-v" class="interative-form-btn"></i>
                         </span>
 

@@ -68,15 +68,15 @@ menupost.forEach((btn, index) => {
 
             block_op.forEach((btn, index) => {
                 btn.addEventListener('click', () => {
-                    console.log('Follow'+user_id);
+
                     xhr.open('POST', '../../app/php/blockingLogic.php');
                     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                     xhr.send('block='+user_id);
 
                     if (window.location.href.slice(-8) == 'home.php') {
-                        post_ids[index].classList.add('animate');
+                        window.document.getElementById(post_id).classList.add('animate');
                         const interval = setTimeout(()=>{
-                            post_ids[index].remove(); 
+                            window.document.getElementById(post_id).remove(); 
                         },400);
                     } else
                         document.location.reload();
@@ -85,15 +85,15 @@ menupost.forEach((btn, index) => {
 
             delete_post.forEach((btn, index) => {
                 btn.addEventListener('click', () => {
-                    console.log('Follow'+post_id);
+
                     xhr.open('POST', '../../app/php/posts/deletePost.php');
                     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                     xhr.send('deletePost='+post_id);
 
                     if (xhr.responseText = 'Deleted') {
-                        post_ids[index].classList.add('animate');
+                        window.document.getElementById(post_id).classList.add('animate');
                         const interval = setTimeout(()=>{
-                            post_ids[index].remove(); 
+                            window.document.getElementById(post_id).remove(); 
                         },400);
                     }
                 });

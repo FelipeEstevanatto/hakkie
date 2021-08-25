@@ -241,7 +241,9 @@ body.dark #feed .post .bottom-post .list .my-like {
   }
   #feed .post .bottom-post .list .tab {
     height: 50px;
-    width: 50px;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -253,7 +255,10 @@ body.dark #feed .post .bottom-post .list .my-like {
             justify-content: center;
     border-radius: 2em;
   }
-  #feed .post .bottom-post .list .tab span {
+}
+
+@media screen and (max-width: 500px) {
+  .bottom-post .list .text {
     display: none;
   }
 }

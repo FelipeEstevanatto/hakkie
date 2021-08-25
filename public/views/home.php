@@ -50,7 +50,7 @@
 
                 foreach ($return as $user) {
 
-                    showPosts( $user['id_user'] , 10 , 'posts');
+                    showPosts( $user['id_user'] , 10);
 
                 }
 

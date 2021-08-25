@@ -74,7 +74,7 @@
             <?php
                 include('../../app/php/showPosts.php');
 
-                showPosts( $id_user , 1 , $post);
+                showPosts( $id_user , 1 , $_GET['id']);
 
             ?>
         </div>
@@ -86,7 +86,8 @@
 
     ?>
 
-    <script src="../../js/feedbuild.js"></script>
+    <script type="text/javascript" src="../../js/functions.js"></script>
+    <script type="text/javascript"src="../../js/feedbuild.js"></script>
 
 </body>
 </html>

@@ -16,8 +16,19 @@ CREATE TABLE users (
 CREATE TABLE posts (
   id_post SERIAL NOT NULL PRIMARY KEY,
   post_text TEXT,
-  post_media TEXT DEFAULT NULL,
   post_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  fk_owner BIGINT NOT NULL,
+  FOREIGN KEY (fk_owner) REFERENCES users (id_user)
+);
+
+CREATE TABLE files (
+  id_file SERIAL NOT NULL PRIMARY KEY,
+  file_name TEXT NOT NULL,
+  file_type VARCHAR(8) NOT NULL,
+  file_upload_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  fk_post BIGINT NOT NULL,
+  FOREIGN KEY (fk_post) REFERENCES posts (id_post),
+  UNIQUE(fk_post, id_file),
   fk_owner BIGINT NOT NULL,
   FOREIGN KEY (fk_owner) REFERENCES users (id_user)
 );
@@ -72,6 +83,13 @@ CREATE TABLE blocks (
   UNIQUE(user_blocked, fk_user)
 );
 
+CREATE TABLE notifications (
+  id_notice SERIAL PRIMARY KEY NOT NULL,
+  notifications_message VARCHAR(256),
+  fk_user BIGINT NOT NULL,
+  FOREIGN KEY (fk_user) REFERENCES users (id_user)
+);
+
 CREATE TABLE pwdreset (
   id_pwdReset SERIAL PRIMARY KEY NOT NULL,
   ipRequest VARCHAR(46) NOT NULL,
@@ -87,6 +105,6 @@ CREATE TABLE pwdreset (
 
 /* Drop tables
 
-DROP TABLE comments,likes,posts,messages,blocks,pwdreset,follows,users;
+DROP TABLE comments,likes,files,posts,messages,blocks,pwdreset,follows,notifications,users;
 
 */

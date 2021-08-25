@@ -260,18 +260,24 @@ body.dark {
                 .list {
                     .tab {
                         height: 50px;
-                        width: 50px;
+                        width: fit-content;
                         display: flex;
                         align-items: center;
                         justify-content: center;
                         border-radius: 2em;
-
-                        span {
-                            display: none;
-                        }
                     }
                 }
             }
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .bottom-post {
+        .list {
+                .text {
+                    display: none;
+                }
         }
     }
 }

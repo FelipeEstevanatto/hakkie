@@ -29,6 +29,7 @@ function showPosts($user, $posts, $choosenId = '') {
     $username = $return['name_user'];
     $userpicture = $return['user_picture'];
     $following_status = $return['following'] ? 'Unfollow' : 'Follow';
+    $permitedVideoFormats = array("webm","mp4","mov");
     
     $isGoogle = ($return['auth_type'] == "GOOGLE") ? true : false;
 
@@ -116,17 +117,22 @@ function showPosts($user, $posts, $choosenId = '') {
                 //================== Post Media ==================
                 if ($post['post_media'] > 0) {
                     foreach ($returnMedia as $filesPost) {
-                        if (substr($filesPost["file_name"],-4) == '.mp4') {
+
+                        $temparray = explode(".",$filesPost["file_name"]);
+                        $extension = strtolower(end($temparray));
+
+                        if ( in_array($extension , $permitedVideoFormats) ) {
                             $actual_post.='<video width="100%" controls style="border-radius: 5%;">
-                                <source src="../posts/'.$filesPost["file_name"].'" type="video/mp4" >
+                                <source src="../posts/'.$filesPost["file_name"].'" type="video/'.$extension.'" >
                                 Your browser do not support the video tag
                             </video>';
                         } else {
-                            $actual_post.='<img src="../posts/'.$filesPost["file_name"].'" ';
-                            if (isset($altImage)) {
-                                $actual_post.='alt="'.$altImage.'"';
+                            if (file_exists(substr(__DIR__,0,-7).'public\posts\\'.$filesPost["file_name"])) {
+                                $actual_post.='<img src="../posts/'.$filesPost["file_name"].'" alt="'.$filesPost["file_name"];
+                            } else {
+                                $actual_post.='<img src="../images/lost-image.png" alt="'.$filesPost["file_name"];
                             }
-                            $actual_post.='style="border-radius: 5%; margin: 10px 0; width:100%;">';
+                            $actual_post.='" style="border-radius: 5%; margin: 10px 0; width:100%;">';
                         }
                     }
                 }

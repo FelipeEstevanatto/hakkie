@@ -35,7 +35,7 @@ if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empt
     if (isset($_FILES) && !empty($_FILES["uploadfile"]["tmp_name"])) {
 
         // File extension verification ====================================
-        $permitedFormats = array("jpg","png","jpeg","webpm","mp4","mov","gif");
+        $permitedFormats = array("jpg","png","jpeg","webm","mp4","mov","gif");
         $renamed = Array();
         $extensions = Array();
 

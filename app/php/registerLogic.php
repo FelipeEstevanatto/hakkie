@@ -28,7 +28,7 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['register_us
         $password_user = password_hash($password_user, PASSWORD_BCRYPT);
 
         $query = "INSERT INTO users VALUES(DEFAULT, :name_user , :email_user , :password_user, DEFAULT, 
-                  DEFAULT, NULL, DEFAULT, DEFAULT, DEFAULT)";
+                  DEFAULT, NULL, DEFAULT, DEFAULT, DEFAULT) RETURNING id_user, darkmode;";
 
         $stmt = $conn -> prepare($query);
 
@@ -38,22 +38,11 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['register_us
 
         if ($stmt) {
 
-            $query = "SELECT id_user, darkmode FROM users WHERE user_email = :email_user";
-
-            $stmt = $conn -> prepare($query);
-
-            $stmt -> bindValue(':email_user', $email_user);
-
-            $stmt -> execute();
-
             $return = $stmt -> fetch(PDO::FETCH_ASSOC);
             
             $_SESSION['isAuth'] = true;
-            if ($return['darkmode']) {
-                $_SESSION['darkMode'] = 'dark';
-            } else {
-                $_SESSION['darkMode'] = 'light';
-            }
+            
+            $_SESSION['darkMode'] = $return['darkmode'] ? 'dark' : 'light';
 
             $_SESSION['authType'] = 'PASSWORD';
             $_SESSION['idUser'] = encodeId($return['id_user']);

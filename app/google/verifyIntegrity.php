@@ -85,7 +85,7 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
             $picture = str_replace('=s96-c', '=s400-c', $data->picture);
 
             $query = "INSERT INTO users VALUES(DEFAULT, :name_user , :email_user , :password_user, 'GOOGLE', 
-                    DEFAULT, :picture_user , DEFAULT, DEFAULT, DEFAULT)";
+                      DEFAULT, :picture_user , DEFAULT, DEFAULT, DEFAULT) RETURNING id_user, darkmode;";
 
             $stmt = $conn -> prepare($query);
 
@@ -96,24 +96,11 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
 
             if ($stmt) {
 
-                $query = "SELECT id_user, darkmode FROM users WHERE user_email = :email_user";
-    
-                $stmt = $conn -> prepare($query);
-    
-                $stmt -> bindValue(':email_user', $email_user);
-    
-                $stmt -> execute();
-    
                 $return = $stmt -> fetch(PDO::FETCH_ASSOC);
                 
                 $_SESSION['isAuth'] = true;
 
-                if ($return['darkmode']) {
-                    $_SESSION['darkMode'] = 'dark';
-                } else {
-                    $_SESSION['darkMode'] = 'light';
-                }
-
+                $_SESSION['darkMode'] = $return['darkmode'] ? 'dark' : 'light';
                 $_SESSION['authType'] = 'GOOGLE';
                 $_SESSION['idUser'] = encodeId($return['id_user']);
 

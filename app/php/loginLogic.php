@@ -40,7 +40,8 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['login-user-
 
         $_SESSION['isAuth'] = true;
 
-        $_SESSION['darkMode'] = $return[0]['darkmode'] ? 'dark' : 'light';
+        $theme = $return[0]['darkmode'] ? 'dark' : 'light';
+        setcookie("darkMode", $theme, 2147483647, "/");
         
         $_SESSION['idUser'] = encodeId($return[0]['id_user']);
         $_SESSION['authType'] = 'PASSWORD';

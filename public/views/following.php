@@ -7,24 +7,26 @@
     }
 
     require("../../app/database/connect.php");
+    require_once("../../app/php/functions.php");
 
-    if ( !isset($_GET['user']) || !is_numeric($_GET['user'])) {
+    if ( !isset($_GET['user']) || is_numeric($_GET['user']) || is_float(decodeId($_GET['user']))) {
         include("../includes/user-nonexistent.php"); //This user does not exist in DB!
         exit();
     } else {
 
-        $GET_user = filter_var($_GET['user'], FILTER_VALIDATE_INT);
+        $GET_user = decodeId(filter_var($_GET['user'], FILTER_SANITIZE_STRING));
 
         if ($_GET['user'] == $_SESSION['idUser']) {
             $himself = true;
         }
     }
 
-    $query = "SELECT name_user, user_info, user_picture, user_banner, created_at, auth_type, darkmode FROM users WHERE id_user = :id_user";
+    $query = "SELECT name_user, user_info, user_picture, user_banner, created_at, auth_type, darkmode 
+              FROM users WHERE id_user = :id_user";
 
     $stmt = $conn -> prepare($query);
 
-    $stmt -> bindValue(':id_user', $GET_user);
+    $stmt -> bindValue(':id_user', $GET_user, PDO::PARAM_INT);
 
     $stmt -> execute();
 
@@ -35,11 +37,7 @@
         exit();
     }
 
-    if ($return['auth_type'] == "GOOGLE") {
-        $isGoogle = true;
-    } else {
-        $isGoogle = false;
-    }
+    $isGoogle = ($return['auth_type'] == "GOOGLE") ? true : false;
     
     $user_name = $return['name_user'];
     $user_picture = $return['user_picture'];
@@ -55,7 +53,7 @@
     $followers = count($return);
 
     $query = "SELECT user_followed, follow_date, fk_user, name_user, user_picture, user_info, auth_type FROM follows 
-    INNER JOIN users ON id_user = user_followed WHERE fk_user = :id_user ORDER BY follow_date";
+              INNER JOIN users ON id_user = user_followed WHERE fk_user = :id_user ORDER BY follow_date";
     $stmt = $conn -> prepare($query);
     $stmt -> bindValue(':id_user', $GET_user);
     $stmt -> execute();
@@ -84,7 +82,7 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon">
 </head>
-<body class="<?= $_SESSION['darkMode'];?>">
+<body class="<?=$_COOKIE['darkMode'];?>">
     
     <?php 
 
@@ -105,20 +103,21 @@
                 }
             ?>
 
-            <a href="user.php?user=<?=$GET_user?>"><?=$user_name?></a>
+            <a href="user.php?user=<?=encodeId($GET_user)?>"><?=$user_name?></a>
          </div>
 
          <div class="tab-list">
-            <a href="following.php?user=<?=$GET_user?>" class="tab">
+            <a href="following.php?user=<?=encodeId($GET_user)?>" class="tab">
                 (<?=$following?>) Following
                 <div class="underline"></div>
             </a>
-            <a href="followers.php?user=<?=$GET_user?>" class="tab">
+            <a href="followers.php?user=<?=encodeId($GET_user)?>" class="tab">
                 (<?=$followers?>) Followers
             </a>
         </div>
 
          <div id="feed">
+             <!--Follow layout-->
             <?php
                 foreach ($data as $users) {
                     $each_user ='
@@ -134,12 +133,12 @@
                                     $each_user .= '../images/defaultUser.png'; // Fallback
                                 }
                         $each_user .='" alt="Picture of user">
-                                <a href="user.php?user='.$users['user_followed'].'">'.$users['name_user'].'</a>
+                                <a href="user.php?user='.encodeId($users['user_followed']).'">'.$users['name_user'].'</a>
                             </div>
                             
                             <div class="btn follow">
                                 <i class="fas fa-user-plus"></i>
-                                <a href="user.php?user='.$users['fk_user'].'"><span>Follow</span></a>
+                                <a href="user.php?user='.encodeId($users['fk_user']).'"><span>Follow</span></a>
                             </div>
                         </div>
 
@@ -162,7 +161,6 @@
                     echo$each_user;
                 }
             ?>
-            <!--Follow layout-->
             
          </div>
     </div>

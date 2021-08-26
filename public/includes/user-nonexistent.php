@@ -26,7 +26,7 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon">
 </head>
-<body class="<?= $_SESSION['darkMode'];?>">
+<body class="<?=$_COOKIE['darkMode'];?>">
     
     <?php 
 

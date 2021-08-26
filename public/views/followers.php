@@ -7,18 +7,18 @@
     }
 
     require("../../app/database/connect.php");
+    require_once("../../app/php/functions.php");
 
-    if ( !isset($_GET['user']) || !is_numeric($_GET['user'])) {
+    if ( !isset($_GET['user']) || is_numeric($_GET['user'])) {
         include("../includes/user-nonexistent.php"); //This user does not exist in DB!
         exit();
     } else {
 
-        $GET_user = filter_var($_GET['user'], FILTER_VALIDATE_INT);
+        $GET_user = decodeId(filter_var($_GET['user'], FILTER_SANITIZE_STRING));
 
         if ($_GET['user'] == $_SESSION['idUser']) {
             $himself = true;
         }
-
     } 
 
     $query = "SELECT name_user, user_info, user_picture, created_at, auth_type, darkmode FROM users WHERE id_user = :id_user";
@@ -36,11 +36,7 @@
         exit();
     }
 
-    if ($return['auth_type'] == "GOOGLE") {
-        $isGoogle = true;
-    } else {
-        $isGoogle = false;
-    }
+    $isGoogle = ($return['auth_type'] == "GOOGLE") ? true : false;
     
     $user_name = $return['name_user'];
     $user_picture = $return['user_picture'];
@@ -84,7 +80,7 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon">
 </head>
-<body class="<?= $_SESSION['darkMode'];?>">
+<body class="<?=$_COOKIE['darkMode'];?>">
     
     <?php 
 
@@ -103,14 +99,14 @@
 
         <div class="top">
             <img class="profile-picture" src="<?=$user_picture?>" alt="Picture of user">
-            <a href="user.php?user=<?=$GET_user?>"><?=$user_name?></a>
+            <a href="user.php?user=<?=encodeId($GET_user)?>"><?=$user_name?></a>
          </div>
 
         <div class="tab-list">
-            <a href="following.php?user=<?=$GET_user?>" class="tab">
+            <a href="following.php?user=<?=encodeId($GET_user)?>" class="tab">
                 (<?=$following?>) Following
             </a>
-            <a href="followers.php?user=<?=$GET_user?>" class="tab">
+            <a href="followers.php?user=<?=encodeId($GET_user)?>" class="tab">
                 (<?=$followers?>) Followers
                 <div class="underline"></div>
             </a>
@@ -132,12 +128,12 @@
                                     $each_user .= '../images/defaultUser.png'; // Fallback
                                 }
                         $each_user .='" alt="Picture of user">
-                                <a href="user.php?user='.$users['fk_user'].'">'.$users['name_user'].'</a>
+                                <a href="user.php?user='.encodeId($users['fk_user']).'">'.$users['name_user'].'</a>
                             </div>
                             
                             <div class="btn follow">
                                 <i class="fas fa-user-plus"></i>
-                                <a href="user.php?user='.$users['fk_user'].'"><span>Follow</span></a>
+                                <a href="user.php?user='.encodeId($$users['fk_user']).'"><span>Follow</span></a>
                             </div>
                         </div>
 
@@ -160,35 +156,6 @@
                     echo$each_user;
                 }
             ?>
-
-            <!--Follow layout
-            <div class="user-box">
-                <div class="box-top">
-                    <div class="info">
-                        <img src="https://avatars.githubusercontent.com/u/69210720?s=400&u=e29d62deef9aa07ca86119bb288840449b81a57b&v=4">
-
-                        <a href="">Gabriel Gomes Nicolim</a>
-                    </div>
-                    
-                    <div class="btn follow">
-                        <i class="fas fa-user-plus"></i>
-                        <span>Follow</span>
-                    </div>
-                </div>
-
-                <div class="box-date">
-                    <span>Seguindo desde: 04/08/2021</span>
-                </div>
-
-                <div class="box-about">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit esse nam voluptate, impedit minima reprehenderit itaque laboriosam dolore distinctio consectetur deleniti aliquam eos consequatur dolorem aspernatur! Fugit aut officia recusandae.
-                </div>
-
-                <div class="btn-responsive">
-                    <i class="fas fa-user-plus"></i>
-                    <span>Follow</span>
-                </div>
-            </div>-->
             
          </div>
     </div>

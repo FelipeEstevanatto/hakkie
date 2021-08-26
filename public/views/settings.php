@@ -68,7 +68,7 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon">
 </head>
-<body class="<?=$_SESSION['darkMode'];?>">
+<body class="<?=$_COOKIE['darkMode'];?>">
     
     <?php
 
@@ -84,11 +84,11 @@
             <!-- Theme -->
             <div class="theme-box">
                 <label for="theme-check" id="switch-theme-btn">
-                    <input type="checkbox" id="theme-check" name="theme-check" <?php if($_SESSION['darkMode'] == 'dark') echo 'checked' ?> >
+                    <input type="checkbox" id="theme-check" name="theme-check" <?php if($_COOKIE['darkMode'] == 'dark') echo 'checked' ?> >
                     <span class="slider"></span>
                 </label>
 
-                <span id="theme-state">DarkMode: <?php if($_SESSION['darkMode'] == 'dark') echo '<span>ON</span>'; else echo '<span>OFF</span>'; ?></span>
+                <span id="theme-state">DarkMode: <?php if($_COOKIE['darkMode'] == 'dark') echo '<span>ON</span>'; else echo '<span>OFF</span>'; ?></span>
             </div>
 
             <h3>Profile</h3>

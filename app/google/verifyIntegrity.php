@@ -48,15 +48,12 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
  
         if ( $stmt -> rowCount() > 0) {
 
-            if ($return[0]['user_email'] == $email_user && $return[0]['auth_type'] == 'GOOGLE' && $return[0]['user_password'] == $data->sub) {
+            if ($return[0]['user_email'] == $email_user && $return[0]['auth_type'] == 'GOOGLE' && password_verify($data->sub, $return[0]['user_password'])) {
 
                 $_SESSION['isAuth'] = true;
 
-                if ($return[0]['darkmode']) {
-                    $_SESSION['darkMode'] = 'dark';
-                } else {
-                    $_SESSION['darkMode'] = 'light';
-                }
+                $theme = $return[0]['darkmode'] ? 'dark' : 'light';
+                setcookie("darkMode", $theme, 2147483647, "/");
 
                 $_SESSION['authType'] = 'GOOGLE';
                 $_SESSION['idUser'] = encodeId($return[0]['id_user']);
@@ -91,7 +88,7 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
 
             $stmt -> execute( array(':name_user' => $data->name,
                                     ':email_user' => $data->email,
-                                    ':password_user' => $data->sub,
+                                    ':password_user' => password_hash($data->sub, PASSWORD_DEFAULT),
                                     ':picture_user' => $picture) );
 
             if ($stmt) {
@@ -100,7 +97,9 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
                 
                 $_SESSION['isAuth'] = true;
 
-                $_SESSION['darkMode'] = $return['darkmode'] ? 'dark' : 'light';
+                $theme = $return['darkmode'] ? 'dark' : 'light';
+                setcookie("darkMode", $theme, 2147483647, "/");
+
                 $_SESSION['authType'] = 'GOOGLE';
                 $_SESSION['idUser'] = encodeId($return['id_user']);
 

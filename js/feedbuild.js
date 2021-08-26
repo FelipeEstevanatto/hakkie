@@ -118,7 +118,7 @@ likebtn.forEach((btn, index) => {
         if (checklike[index].classList.contains('my-like')) {
             xhr.addEventListener("readystatechange", function () {
                 if (xhr.responseText === '0') {
-                    span[index].innerHTML = parseInt(span[index].innerHTML.replace(/\D/g,'')) - 1;
+                    span[index].innerHTML = parseInt(span[index].innerHTML.replace(/\D/g,'')) - 1 + ' Likes';
                     checklike[index].classList.remove('my-like')
                 }
             });
@@ -126,7 +126,7 @@ likebtn.forEach((btn, index) => {
         } else {
             xhr.addEventListener("readystatechange", function () {
                 if (xhr.responseText === '1') {
-                    span[index].innerHTML = parseInt(span[index].innerHTML.replace(/\D/g,'')) + 1;
+                    span[index].innerHTML = parseInt(span[index].innerHTML.replace(/\D/g,'')) + 1 + ' Likes';
                     checklike[index].classList.add('my-like')
                 }
             });

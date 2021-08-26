@@ -41,8 +41,9 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['register_us
             $return = $stmt -> fetch(PDO::FETCH_ASSOC);
             
             $_SESSION['isAuth'] = true;
-            
-            $_SESSION['darkMode'] = $return['darkmode'] ? 'dark' : 'light';
+
+            $theme = $return['darkmode'] ? 'dark' : 'light';
+            setcookie("darkMode", $theme, 2147483647, "/");
 
             $_SESSION['authType'] = 'PASSWORD';
             $_SESSION['idUser'] = encodeId($return['id_user']);

@@ -142,6 +142,10 @@ body.light {
                             color: #9233ff;
                         }
                     }
+                    .my-like {
+                        background: rgba(0, 0, 0, 0.1);
+                        color: #9233ff;
+                    }
                 }
             }
         }
@@ -191,6 +195,10 @@ body.dark {
                             color: #b97bff;
                             transition: 200ms;
                         }
+                    }
+                    .my-like {
+                        background: rgba(255, 255, 255, 0.1); 
+                        color: #b97bff;
                     }
                 }
             }
@@ -252,18 +260,24 @@ body.dark {
                 .list {
                     .tab {
                         height: 50px;
-                        width: 50px;
+                        width: fit-content;
                         display: flex;
                         align-items: center;
                         justify-content: center;
                         border-radius: 2em;
-
-                        span {
-                            display: none;
-                        }
                     }
                 }
             }
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .bottom-post {
+        .list {
+                .text {
+                    display: none;
+                }
         }
     }
 }

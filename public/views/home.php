@@ -26,7 +26,7 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon">
 </head>
-<body class="<?= $_SESSION['darkMode'];?>">
+<body class="<?=$_COOKIE['darkMode'];?>">
     
     <?php 
 
@@ -49,10 +49,14 @@
                 $return = $stmt -> fetchAll();
 
                 foreach ($return as $user) {
-                    //$user = shuffle($user);
-                    //var_dump($user);
-                    showPosts( $user['id_user'] , 10 , 'posts');
+
+                    showPosts( $user['id_user'] , 10);
+
                 }
+
+                echo'<div class="post text">
+                    No more posts from this site to show!
+                    </div>';
 
             ?>
         </div>
@@ -64,7 +68,8 @@
 
     ?>
 
-    <script src="../../js/feedbuild.js"></script>
+    <script type="text/javascript" src="../../js/functions.js"></script>
+    <script type="text/javascript" src="../../js/feedbuild.js"></script>
 
 </body>
 </html>

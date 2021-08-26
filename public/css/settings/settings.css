@@ -78,6 +78,7 @@
 
 #container .settings .btn.open {
   border-radius: 1em 1em 0 0;
+  margin-bottom: 0;
 }
 
 #container .settings .btn i {
@@ -115,7 +116,7 @@
       -ms-flex-direction: column;
           flex-direction: column;
   width: 100%;
-  margin-bottom: 3em;
+  margin-bottom: 2.5em;
   padding: 2em 1em;
   border-radius: 0 0 1em 1em;
   position: relative;

@@ -13,21 +13,22 @@
     }
 
     require("../../app/database/connect.php");
+    require_once("../../app/php/functions.php");
 
-    if ( !isset($_GET['user']) || !is_numeric($_GET['user'])) {
+    if ( !isset($_GET['user']) || !is_numeric(decodeId($_GET['user'])) || is_numeric($_GET['user']) || is_float(decodeId($_GET['user'])) ) {
         include("../includes/user-nonexistent.php"); //This user does not exist in DB!
-        exit();      
-    } elseif ($_GET['user'] == $_SESSION['idUser']){
+        exit();    
+    } elseif (decodeId($_GET['user']) == decodeId($_SESSION['idUser'])){
         $own_profile = true;
     } else {
         $own_profile = false;
-
+        
         $query = "SELECT user_blocked, fk_user FROM blocks WHERE fk_user = :id_user OR user_blocked = :id_user";
 
         $stmt = $conn -> prepare($query);
 
-        $stmt -> bindValue(':id_user', $_SESSION['idUser']);
-        $stmt -> bindValue(':id_user', $_SESSION['idUser']);
+        $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']));
+        $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']));
 
         $stmt -> execute();
 
@@ -35,7 +36,7 @@
 
             $details = $stmt -> fetch(PDO::FETCH_ASSOC);
 
-            if ($details['fk_user'] == $_SESSION['idUser']) {
+            if ($details['fk_user'] == decodeId($_SESSION['idUser'])) {
                 $details = 'own_block';
             }
 
@@ -45,41 +46,21 @@
 
     }
 
-    $query = "SELECT name_user, user_info, user_picture, user_banner, created_at, darkmode, auth_type FROM users WHERE id_user = :id_user";
-
+    $query = "SELECT name_user, user_info, user_picture, user_banner, created_at, darkmode, auth_type 
+              FROM users WHERE id_user = :id_user";
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', $_GET['user']);
+    $stmt -> bindValue(':id_user', decodeId($_GET['user']) );
     $stmt -> execute();
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
-    
+
     if ($stmt -> rowCount() < 1) {
         include("../includes/user-nonexistent.php"); //This user does not exist in DB!
         exit();
     }
 
-    $time = substr($return['created_at'], 5, 2);   
-    $months = [
-        '01' => 'January',
-        '02' => 'February',
-        '03' => 'March',
-        '04' => 'April',
-        '05' => 'May',
-        '06' => 'June',
-        '07' => 'July',
-        '08' => 'August',
-        '09' => 'September',
-        '10' => 'October',
-        '11' => 'November',
-        '12' => 'December'
-    ];
-
-    $user_since = $months[$time]." of ".substr($return['created_at'], 0, 4);
+    $user_since = joinedSince($return['created_at']);
     
-    if ($return['auth_type'] == "GOOGLE") {
-        $isGoogle = true;
-    } else {
-        $isGoogle = false;
-    }
+    $isGoogle = ($return['auth_type'] == "GOOGLE") ? true : false;
     
     $user_name = $return['name_user'];
     $user_picture = $return['user_picture'];
@@ -95,10 +76,10 @@
               FROM follows;';
 
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', $_GET['user']);
-    $stmt -> bindValue(':id_user', $_GET['user']);
-    $stmt -> bindValue(':fk_user', $_SESSION['idUser']);
-    $stmt -> bindValue(':id_user', $_GET['user']);
+    $stmt -> bindValue(':id_user', decodeId($_GET['user']));
+    $stmt -> bindValue(':id_user', decodeId($_GET['user']));
+    $stmt -> bindValue(':fk_user', decodeId($_SESSION['idUser']));
+    $stmt -> bindValue(':id_user', decodeId($_GET['user']));
     $stmt -> execute();
  
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
@@ -106,8 +87,7 @@
     $followers = $return['followers'];
     $following = $return['followings'];
     $follow_status = $return['isfollowing'] ? 'unfollow' : 'follow';
-    // ===================================================
-    
+
 ?>
 
 <html lang="pt-br">
@@ -129,7 +109,7 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon">
 </head>
-<body class="<?= $_SESSION['darkMode'];?>">
+<body class="<?=$_COOKIE['darkMode'];?>">
     
     <?php
 
@@ -143,11 +123,7 @@
         <div class="top">
             <div class="banner">
                 <?php 
-                    if (is_null($user_banner)) {
-                        echo '<img src="../images/defaultBanner.jpg" alt="Banner of user">';
-                    } else {
-                        echo '<img src="../images/'.$user_banner.'">';
-                    }
+                    echo is_null($user_banner) ? '<img src="../images/defaultBanner.jpg" alt="Banner of user">' : '<img src="../images/'.$user_banner.'">'; 
                 ?>
             </div>
 
@@ -172,12 +148,8 @@
                 <h2 class="name"><?=$user_name?></h2>
 
                 <p class="description">
-                    <?php 
-                        if (!is_null($user_info)) {
-                            echo $user_info;
-                        } else {
-                            echo "Nothing to say.";
-                        }
+                    <?php
+                        echo !is_null($user_info) ? $user_info : 'Nothing to say.';
                     ?>
                 </p>
 
@@ -202,8 +174,8 @@
                                 if ($follow_status == 'Follow') {
                                     echo '<i class="fas fa-user-plus"></i>';
                                 } else
-                                    echo '<i class="fas fa-user-times"></i>';
-                                echo'    <span> '.$follow_status.'</span>
+                                    echo'<i class="fas fa-user-times"></i>';
+                                    echo'<span> '.$follow_status.'</span>
                                     </div>';
                             } 
                   
@@ -214,20 +186,16 @@
                         </div>
 
                         <div id="ellipsis-modal" class="close">
-
-                            <?php 
+                        <?php 
 
                             if (!$own_profile) {
-
                             echo '<div class="btn" id="silence_user">Silence User</div>
                                   <div class="btn" id="block_user">Block User</div>';
-
                             } else {
                                 echo '<a href="settings.php"><div class="btn" id="edit_user">Edit User</div></a>';
                             }
 
-                            ?>
-
+                        ?>
                             <div class="btn" id="link_user">Copy Profile Link</div>
                         </div>
 
@@ -266,15 +234,26 @@
 
                 <div id="images-preview"></div>
                     
-                <input type='file' id="uploadfile" name='uploadfile' accept='.png,.PNG,.JPG,.jpg,.JPEG,.webpm,.mp4,.mov,.gif' multiple style='display:none;'/>
+                <input type='file' id="uploadfile" name='uploadfile[]' accept='.png,.PNG,.JPG,.jpg,.JPEG,.webpm,.mp4,.mov,.gif' multiple style='display:none;' @change="trySubmitFile"/>
                 <label id="uploadfile-label" for="uploadfile">
                     <span><i class="fas fa-upload"></i></span>     
                 </label>
-
                 <input type="submit" value="Submit">
             </form>
         </div>
-
+        <script>
+        function trySubmitFile(e) {
+            if (this.disabled) return;
+            const files = e.target.files || e.dataTransfer.files;
+            if (files.length > 4) {
+                alert('You are only allowed to upload a maximum of 2 files at a time');
+            }
+            if (!files.length) return;
+            for (let i = 0; i < Math.min(files.length, 2); i++) {
+                this.fileCallback(files[i]);
+            }
+        }
+      </script>
         <?php
         }
         ?>
@@ -284,7 +263,7 @@
                 include("../../app/php/showPosts.php");
 
                 // Post layout
-                showPosts($_GET['user'], 10, 'posts');
+                showPosts(decodeId($_GET['user']), 10);
 
                 echo'<div class="post text">
                 No more posts from this user to show!
@@ -300,8 +279,9 @@
 
     ?>
 
-    <script src="../../js/feedbuild.js"></script>
-    <script src="../../js/openMenu.js"></script>   
+    <script type="text/javascript" src="../../js/functions.js"></script>
+    <script type="text/javascript" src="../../js/feedbuild.js"></script>
+    <script type="text/javascript" src="../../js/openMenu.js"></script>   
 
     <?php 
         if (!$own_profile) {   

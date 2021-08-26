@@ -1,21 +1,23 @@
 <?php
 
-function showPosts($user, $posts, $tab) {
+function showPosts($user, $posts, $choosenId = '') {
 
     require("../../app/database/connect.php");
     require_once("functions.php");
 
-    $user = intval($user);
+    $session_user = decodeId($_SESSION['idUser']);
 
-    $query = 'SELECT name_user, user_picture, auth_type, 
-              EXISTS (SELECT user_blocked FROM blocks WHERE fk_user = :id_user AND user_blocked = :session_user) AS blocked,
+    $query = 'SELECT name_user, user_picture, auth_type,
+              EXISTS (SELECT user_blocked FROM blocks WHERE (fk_user = :id_user AND user_blocked = :session_user) OR (fk_user = :session_user AND user_blocked = :id_user)) AS blocked,
               EXISTS (SELECT * FROM follows WHERE fk_user = :session_user AND user_followed = :id_user) AS following
               FROM users WHERE id_user = :id_user';
 
     $stmt = $conn -> prepare($query);
     $stmt -> bindValue(':id_user', $user);
-    $stmt -> bindValue(':session_user', $_SESSION['idUser']);
-    $stmt -> bindValue(':session_user', $_SESSION['idUser']);
+    $stmt -> bindValue(':session_user', $session_user);
+    $stmt -> bindValue(':session_user', $session_user);
+    $stmt -> bindValue(':id_user', $user);
+    $stmt -> bindValue(':session_user', $session_user);
     $stmt -> bindValue(':id_user', $user);
     $stmt -> bindValue(':id_user', $user);
     $stmt -> execute();
@@ -26,22 +28,33 @@ function showPosts($user, $posts, $tab) {
 
     $username = $return['name_user'];
     $userpicture = $return['user_picture'];
-    $following_status = $return['following'] ? 'Unfollow' : 'Follow' ;
+    $following_status = $return['following'] ? 'Unfollow' : 'Follow';
+    $permitedVideoFormats = array("webm","mp4","mov");
     
     $isGoogle = ($return['auth_type'] == "GOOGLE") ? true : false;
 
     if ( count($return) > 0) { 
-        //Coalesce returns 0 instead of null, so don't need an if
-        $query = 'SELECT id_post, post_text, post_media, post_date, fk_owner, 
+        //Coalesce returns 0 instead of null, so we don't need an if
+        $query = 'SELECT id_post, post_text, post_date, fk_owner,
+                        (SELECT COUNT(file_name) FROM files WHERE fk_owner = fk_owner AND fk_post = id_post) AS post_media,
                         COALESCE((SELECT COUNT(id_like) FROM likes WHERE fk_post = id_post GROUP BY fk_post),0) AS post_likes,
                         COALESCE((SELECT COUNT(id_comment) FROM comments WHERE fk_post = id_post GROUP BY fk_post),0) AS post_comments,
                         (SELECT COUNT(*) FROM likes WHERE fk_post = id_post AND fk_like_owner = :session_user ) AS already_liked
-                  FROM posts WHERE fk_owner = :id_user ORDER BY post_date DESC';
+                  FROM posts WHERE fk_owner = :id_user'; 
+        if (!empty($choosenId) && !is_float(decodeId(cleanString($choosenId))) ) {
+            $query .= ' AND id_post = :choosen_id';
+        }
+        $query .=' ORDER BY post_date DESC';
 
         $stmt = $conn -> prepare($query);
 
-        $stmt -> bindValue(':session_user', $_SESSION['idUser']);
         $stmt -> bindValue(':id_user', $user);
+        $stmt -> bindValue(':session_user', $session_user);
+        $stmt -> bindValue(':id_user', $user);
+        
+        if (!empty($choosenId) && !is_float(decodeId(cleanString($choosenId))) ) {
+            $stmt -> bindValue(':choosen_id', decodeId(cleanString($choosenId)));
+        }
 
         $stmt -> execute();
 
@@ -50,26 +63,20 @@ function showPosts($user, $posts, $tab) {
         foreach ($returnPosts as $key=>$post) {
             if ($key >= $posts) break;
 
-            // Handle missmatch between files and database
-            if (isset($post['post_media']) && $post['post_media'] != 'NULL') {
-
-                $path = $_SERVER['DOCUMENT_ROOT']."/hakkie/public/profiles/".$post['post_media'];
-                //If file exists in database but not in the folder
-                if (!file_exists($path)) {
-
-                    $query = "UPDATE posts SET post_media = 'NULL' WHERE post_media = '".$post['post_media']."' AND fk_owner = ".$_SESSION['idUser'];
-
-                    $stmt = $conn -> query($query);
-
-                    $altImage = "Image lost :(";
-                }
+            if ($post['post_media'] > 0) {
+                $query = 'SELECT file_name, file_type, fk_post FROM files WHERE fk_owner = :id_user AND fk_post = :post_id';
+                $stmt = $conn -> prepare($query);
+                $stmt -> bindValue(':id_user', $user);
+                $stmt -> bindValue(':post_id', $post['id_post']);
+                $stmt -> execute();
+                $returnMedia = $stmt -> fetchAll(PDO::FETCH_ASSOC);
             }
 
-            //================== Start of post DIV ==================
+            //================== Start of post DIV ================== (with post_id and user_id)
             $actual_post = '<!--Post layout-->
-            <div class="post text" id="post_id'.$post['id_post'].'">
+            <div class="post text" id="'.encodeId($post['id_post']).'">
                 <div class="top-post">
-                    <div class="left">
+                    <div class="left" id="'.encodeId($user).'">
                         <img src="';
                         //================== User Picture and name ==================
                         if ($isGoogle) {
@@ -80,16 +87,17 @@ function showPosts($user, $posts, $tab) {
                             $actual_post.='../images/defaultUser.png'; //fallback
                         }
                         $actual_post.='">
-                        <a href="user.php?user='.$user.'">'.$username.'</a>
+                        <a href="user.php?user='.encodeId($user).'">'.$username.'</a>
                     </div>
                     
                     <div class="right">
-                        <span>'.substr($post['post_date'],0,16).'
+                        <span>'
+                        .time_elapsed_string($post['post_date']).'
                         <i class="fas fa-ellipsis-v" class="interative-form-btn"></i>
                         </span>
 
                         <div class="interative-form close">';
-                            if ($post['fk_owner'] != $_SESSION['idUser']) {
+                            if ($post['fk_owner'] != decodeId($_SESSION['idUser'])) {
                                 $actual_post.='
                                 <div class="btn-form '.$following_status.'" id="follow">'.$following_status.' User</div>
                                 <div class="btn-form" id="block">Block User</div>';
@@ -103,27 +111,34 @@ function showPosts($user, $posts, $tab) {
                 //================== Post Text ==================
                 if ($post['post_text'] != 'NULL') {
                 $actual_post.='<div class="content-post">
-                                    '.$post['post_text'].'
+                                    '.convertYoutube($post['post_text']).'
                             </div>';
                 }
                 //================== Post Media ==================
-                if ($post['post_media'] != 'NULL') {
-                    if (substr($post['post_media'],-4) == '.mp4') {
-                        $actual_post.='<video width="100%" controls style="border-radius: 5%;">
-                            <source src="../profiles/'.$post['post_media'].'" type="video/mp4" >
-                            Your browser do not support the video tag
-                        </video>';
-                    } else {
-                        $actual_post.='<img src="../profiles/'.$post['post_media'].'" ';
-                        if (isset($altImage)) {
-                            $actual_post.='alt="'.$altImage.'"';
+                if ($post['post_media'] > 0) {
+                    foreach ($returnMedia as $filesPost) {
+
+                        $temparray = explode(".",$filesPost["file_name"]);
+                        $extension = strtolower(end($temparray));
+
+                        if ( in_array($extension , $permitedVideoFormats) ) {
+                            $actual_post.='<video width="100%" controls style="border-radius: 5%;">
+                                <source src="../posts/'.$filesPost["file_name"].'" type="video/'.$extension.'" >
+                                Your browser do not support the video tag
+                            </video>';
+                        } else {
+                            if (file_exists(substr(__DIR__,0,-7).'public\posts\\'.$filesPost["file_name"])) {
+                                $actual_post.='<img src="../posts/'.$filesPost["file_name"].'" alt="'.$filesPost["file_name"];
+                            } else {
+                                $actual_post.='<img src="../images/lost-image.png" alt="'.$filesPost["file_name"];
+                            }
+                            $actual_post.='" style="border-radius: 5%; margin: 10px 0; width:100%;">';
                         }
-                        $actual_post.='style="border-radius: 5%; margin: 10px 0; width:100%;">';
-                    } 
+                    }
                 }
                 //================== Post Footer ==================
                 if ($post['already_liked'] == 1) {
-                    $alreadyliked = ' class="my-like" ';
+                    $alreadyliked = ' my-like';
                 } else {
                     $alreadyliked = '';
                 }
@@ -131,17 +146,17 @@ function showPosts($user, $posts, $tab) {
                 $actual_post.='
                 <div class="bottom-post">
                     <div class="list">
-                        <div class="tab" id="tab-like">
+                        <div class="tab'.$alreadyliked.'" id="tab-like">
                             <i class="fas fa-thumbs-up"></i>
-                            <span'.$alreadyliked.'>'.$post['post_likes'].' Likes</span>
+                            <span>'.$post['post_likes'].' Likes</span>
                         </div>
                         <div class="tab" id="tab-comment">
                             <i class="fas fa-comment"></i>
-                            <span>'.$post['post_comments'].' Comments</span>
+                            <span>'.$post['post_comments'].'<span class="text">Comments</span></span>
                         </div>
                         <div class="tab" id="tab-share">
                             <i class="fas fa-share-square"></i>
-                            <span>Share</span>
+                            <span><span class="text">Share</span></span>
                         </div>
                     </div>
                 </div>

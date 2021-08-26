@@ -12,7 +12,7 @@ interactBtn.addEventListener('click', () => {
         xhr.open('POST', '../../app/php/posts/followLogic.php');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-        xhr.send('follow='+window.location.href.replace(/\D/g, ''));
+        xhr.send('follow='+findGetParameter('user'));
 
         followNumber.innerHTML = parseInt(followNumber.innerHTML) + 1;
 
@@ -27,7 +27,7 @@ interactBtn.addEventListener('click', () => {
         xhr.open('POST', '../../app/php/posts/followLogic.php');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-        xhr.send('unfollow='+window.location.href.replace(/\D/g, ''));
+        xhr.send('unfollow='+findGetParameter('user'));
 
         followNumber.innerHTML = parseInt(followNumber.innerHTML) - 1;
       

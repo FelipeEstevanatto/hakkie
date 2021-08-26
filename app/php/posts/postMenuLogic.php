@@ -28,12 +28,12 @@ if (isset($_POST['follow']) && is_numeric($_POST['follow'])) {
     $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
     $stmt = $conn -> prepare($query);
 
-    $stmt -> bindValue(':id_user', $_SESSION['idUser'], PDO::PARAM_INT);
-    $stmt -> bindValue(':user_followed', $_POST['follow'], PDO::PARAM_INT);
-    $stmt -> bindValue(':user_followed', $_POST['follow'], PDO::PARAM_INT);
-    $stmt -> bindValue(':id_user', $_SESSION['idUser'], PDO::PARAM_INT);
-    $stmt -> bindValue(':user_followed', $_POST['follow'], PDO::PARAM_INT);
-    $stmt -> bindValue(':id_user', $_SESSION['idUser'], PDO::PARAM_INT);
+    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
+    $stmt -> bindValue(':user_followed', decodeId($_POST['follow']), PDO::PARAM_INT);
+    $stmt -> bindValue(':user_followed', decodeId($_POST['follow']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
+    $stmt -> bindValue(':user_followed', decodeId($_POST['follow']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
     
     $stmt -> execute();
 
@@ -54,10 +54,10 @@ if (isset($_POST['follow']) && is_numeric($_POST['follow'])) {
     $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
     $stmt = $conn -> prepare($query);
     
-    $stmt -> bindValue(':user_unfollowed', $_POST['unfollow']);
-    $stmt -> bindValue(':id_user', $_SESSION['idUser']);
-    $stmt -> bindValue(':user_unfollowed', $_POST['unfollow']);
-    $stmt -> bindValue(':id_user', $_SESSION['idUser']);
+    $stmt -> bindValue(':user_unfollowed', decodeId($_POST['unfollow']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
+    $stmt -> bindValue(':user_unfollowed', decodeId($_POST['unfollow']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
 
     $stmt -> execute();
 

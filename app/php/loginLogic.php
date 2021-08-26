@@ -40,13 +40,10 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['login-user-
 
         $_SESSION['isAuth'] = true;
 
-        if ($return[0]['darkmode']) {
-            $_SESSION['darkMode'] = 'dark';
-        } else {
-            $_SESSION['darkMode'] = 'light';
-        }
+        $theme = $return[0]['darkmode'] ? 'dark' : 'light';
+        setcookie("darkMode", $theme, 2147483647, "/");
         
-        $_SESSION['idUser'] = $return[0]['id_user'];
+        $_SESSION['idUser'] = encodeId($return[0]['id_user']);
         $_SESSION['authType'] = 'PASSWORD';
 
         if (isset($_COOKIE['resumeP'])) {

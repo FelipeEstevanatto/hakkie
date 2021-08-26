@@ -48,18 +48,15 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
  
         if ( $stmt -> rowCount() > 0) {
 
-            if ($return[0]['user_email'] == $email_user && $return[0]['auth_type'] == 'GOOGLE' && $return[0]['user_password'] == $data->sub) {
+            if ($return[0]['user_email'] == $email_user && $return[0]['auth_type'] == 'GOOGLE' && password_verify($data->sub, $return[0]['user_password'])) {
 
                 $_SESSION['isAuth'] = true;
 
-                if ($return[0]['darkmode']) {
-                    $_SESSION['darkMode'] = 'dark';
-                } else {
-                    $_SESSION['darkMode'] = 'light';
-                }
-                
-                $_SESSION['idUser'] = $return[0]['id_user'];
+                $theme = $return[0]['darkmode'] ? 'dark' : 'light';
+                setcookie("darkMode", $theme, 2147483647, "/");
+
                 $_SESSION['authType'] = 'GOOGLE';
+                $_SESSION['idUser'] = encodeId($return[0]['id_user']);
                 
                 if (isset($_COOKIE['resumeP'])) {
                     header("Location: ../../public/views/post.php?id=".$_COOKIE['resumeP']);
@@ -85,36 +82,26 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
             $picture = str_replace('=s96-c', '=s400-c', $data->picture);
 
             $query = "INSERT INTO users VALUES(DEFAULT, :name_user , :email_user , :password_user, 'GOOGLE', 
-                    DEFAULT, :picture_user , DEFAULT, DEFAULT, DEFAULT)";
+                      DEFAULT, :picture_user , DEFAULT, DEFAULT, DEFAULT) RETURNING id_user, darkmode;";
 
             $stmt = $conn -> prepare($query);
 
             $stmt -> execute( array(':name_user' => $data->name,
                                     ':email_user' => $data->email,
-                                    ':password_user' => $data->sub,
+                                    ':password_user' => password_hash($data->sub, PASSWORD_DEFAULT),
                                     ':picture_user' => $picture) );
 
             if ($stmt) {
 
-                $query = "SELECT id_user, darkmode FROM users WHERE user_email = :email_user";
-    
-                $stmt = $conn -> prepare($query);
-    
-                $stmt -> bindValue(':email_user', $email_user);
-    
-                $stmt -> execute();
-    
                 $return = $stmt -> fetch(PDO::FETCH_ASSOC);
                 
                 $_SESSION['isAuth'] = true;
 
-                if ($return['darkmode']) {
-                    $_SESSION['darkMode'] = 'dark';
-                } else {
-                    $_SESSION['darkMode'] = 'light';
-                }
-                $_SESSION['idUser'] = $return['id_user'];
+                $theme = $return['darkmode'] ? 'dark' : 'light';
+                setcookie("darkMode", $theme, 2147483647, "/");
+
                 $_SESSION['authType'] = 'GOOGLE';
+                $_SESSION['idUser'] = encodeId($return['id_user']);
 
                 //Home after registering user
                 header("Location: ../../public/views/home.php");

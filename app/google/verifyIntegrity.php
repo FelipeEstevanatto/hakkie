@@ -26,7 +26,7 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
     }
 
     $payload = $google_client->verifyIdToken($id_token);
-    
+
     if ($payload) {
 
         // Return all user data in a JSON

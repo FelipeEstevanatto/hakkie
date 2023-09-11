@@ -5,8 +5,8 @@
 	    exit();
     }
 
-    if ( getenv('GOOGLE_LOGIN_URI') != null) {
-        $data_login_uri = getenv('GOOGLE_LOGIN_URI')."/app/google/verifyIntegrity.php";
+    if ( $_ENV['GOOGLE_LOGIN_URI'] != null) {
+        $data_login_uri = $_ENV['GOOGLE_LOGIN_URI']."/app/google/verifyIntegrity.php";
     } else {
         $data_login_uri = 'http://localhost/hakkie/app/google/verifyIntegrity.php';
     }

@@ -4,13 +4,11 @@
         header("Location: public/views/home.php ");
 	    exit();
     }
+    require __DIR__ . '/vendor/autoload.php';
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/');
+    $dotenv->safeLoad();
 
-    if ( getenv('GOOGLE_LOGIN_URI') != null) {
-        $data_login_uri = getenv('GOOGLE_LOGIN_URI')."/app/google/verifyIntegrity.php";
-    } else {
-        $data_login_uri = 'http://localhost/hakkie/app/google/verifyIntegrity.php';
-    }
-
+    $data_login_uri = $_ENV['GOOGLE_LOGIN_URI']."/app/google/verifyIntegrity.php";
 ?>
 
 <!DOCTYPE html>

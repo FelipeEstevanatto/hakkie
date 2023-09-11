@@ -28,7 +28,8 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['register_us
         $password_user = password_hash($password_user, PASSWORD_BCRYPT);
 
         $query = "INSERT INTO users VALUES(DEFAULT, :name_user , :email_user , :password_user, DEFAULT, 
-                  DEFAULT, NULL, DEFAULT, DEFAULT, DEFAULT) RETURNING id_user, darkmode;";
+                  DEFAULT, NULL, DEFAULT, DEFAULT, DEFAULT); "
+                  ."SELECT id_user, darkmode FROM users WHERE user_email = :email_user;";
 
         $stmt = $conn -> prepare($query);
 

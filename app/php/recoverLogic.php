@@ -35,8 +35,8 @@
             $token = random_bytes(32);
             $hashedToken = password_hash($token, PASSWORD_BCRYPT);
 
-            if (getenv('GOOGLE_LOGIN_URI')){
-                $url = getenv('GOOGLE_LOGIN_URI').'public/views/'; 
+            if ($_ENV['GOOGLE_LOGIN_URI']){
+                $url = $_ENV['GOOGLE_LOGIN_URI'].'public/views/'; 
             } else {
                 $url = 'http://'.$_SERVER['HTTP_HOST'].'/hakkie/public/views/';
             }

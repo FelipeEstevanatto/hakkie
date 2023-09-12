@@ -19,91 +19,63 @@ const post_ids = window.document.querySelectorAll('#feed .post');
 const user_ids = window.document.querySelectorAll('#feed .post .top-post .left');
 const interativeForm = window.document.querySelectorAll('.interative-form');
 
-menupost.forEach((btn, index) => {
-    btn.addEventListener('click', () => {
-        
-        if(interativeForm[index].classList.contains('open')) {
-            interativeForm[index].classList.remove('open');
-            interativeForm[index].classList.add('close');
-        }
-        else {
-            interativeForm[index].classList.add('open');
-            interativeForm[index].classList.remove('close');
-
-            const follow_op = window.document.querySelectorAll('.right .interative-form.open #follow');
-            const block_op = window.document.querySelectorAll('.right .interative-form.open #block');
-            const delete_post = window.document.querySelectorAll('.right .interative-form.open #delete');
-            var post_id = post_ids[index].id;
-            var user_id = user_ids[index].id;
-
-            let xhr = new XMLHttpRequest();
-            
-            follow_op.forEach((btn, index) => {
-                btn.addEventListener('click', () => {
-                    xhr.open('POST', 'followLogic');
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-                    if (follow_op[index].classList.contains('Follow')){
-                        xhr.send('follow='+user_id);
-                        
-                    } else if (follow_op[index].classList.contains('Unfollow')) {
-                        xhr.send('unfollow='+user_id);
-                    }
-                    if (xhr.responseText = '1Sucess') {
-                        follow_op[index].classList.add('Unfollow');
-                        follow_op[index].classList.remove('Follow');
-                        follow_op[index].innerHTML = 'Unfollow';
-                        interativeForm[index].classList.remove('open');
-                        interativeForm[index].classList.add('close');
-                        interativeForm[index].classList.add('close');
-                    } else if (xhr.responseText = '0Sucess') {
-                        follow_op[index].classList.add('Follow');
-                        follow_op[index].classList.remove('Unfollow');
-                        follow_op[index].innerHTML = 'Follow';
-                        interativeForm[index].classList.remove('open');
-                        interativeForm[index].classList.add('close');
-                    }
-                });
-            });
-
-            block_op.forEach((btn, index) => {
-                btn.addEventListener('click', () => {
-
-                    xhr.open('POST', 'blockingLogic');
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                    xhr.send('block='+user_id);
-
-                    if (window.location.href.slice(-8) == 'home') {
-                        window.document.getElementById(post_id).classList.add('animate');
-                        const interval = setTimeout(()=>{
-                            window.document.getElementById(post_id).remove(); 
-                        },400);
-                    } else
-                        document.location.reload();
-                });
-            });
-
-            delete_post.forEach((btn, index) => {
-                btn.addEventListener('click', () => {
-
-                    xhr.open('POST', 'deletePost');
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                    xhr.send('deletePost='+post_id);
-
-                    if (xhr.responseText = 'Deleted') {
-                        window.document.getElementById(post_id).classList.add('animate');
-                        const interval = setTimeout(()=>{
-                            window.document.getElementById(post_id).remove(); 
-                        },400);
-                    }
-                });
-            });
-        }
-    });
-});
-
 const document = window.document;
 const feed = document.getElementById('feed');
+
+feed.addEventListener('click', (event) => {
+    const target = event.target;
+
+    if (target.matches('#feed .post .top-post .right i.fas.fa-ellipsis-v')) {
+        const post = target.closest('.post');
+        const form = post.querySelector('.interative-form');
+
+        if (form.classList.contains('open')) {
+            form.classList.remove('open');
+            form.classList.add('close');
+        } else {
+            form.classList.add('open');
+            form.classList.remove('close');
+
+            const followBtn = form.querySelector('#follow');
+            const blockBtn = form.querySelector('#block');
+            const deleteBtn = form.querySelector('#delete');
+            const postId = post.id;
+            const userId = post.querySelector('.top-post .left').id;
+
+            followBtn.addEventListener('click', () => {
+                // Handle follow button click
+                fetch('followLogic', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'follow=' + userId
+                })
+                .then(response => response.text())
+                .then(data => {
+                    if (data === '0') {
+                        followBtn.innerHTML = 'Follow';
+                    } else if (data === '1') {
+                        followBtn.innerHTML = 'Unfollow';
+                    }
+                })
+                .catch(error => {
+                    console.error('Failed to update follow:', error);
+                });
+                
+            });
+
+            blockBtn.addEventListener('click', () => {
+                // Handle block button click
+                
+            });
+
+            deleteBtn.addEventListener('click', () => {
+                // Handle delete button click
+            });
+        }
+    }
+});
 
 feed.addEventListener('click', (event) => {
     const target = event.target;

@@ -2,7 +2,7 @@
 
 
 
-require_once(__DIR__."/../../bootstrap.php");
+require_once(__DIR__."/../../../bootstrap.php");
 require(__DIR__."/../functions.php");
 
 if(!isset($_SESSION['isAuth'])){
@@ -10,14 +10,23 @@ if(!isset($_SESSION['isAuth'])){
 }
 
 //Follow
-if (isset($_POST['follow']) && !is_numeric($_POST['follow'])) {
+if (isset($_POST['follow']) || !is_numeric($_POST['unfollow'])) {
 
-    if (!is_numeric(decodeId($_POST['follow']))) {
-        exit;
+    // Check if user is already following
+    $query = 'SELECT * FROM follows WHERE user_followed = :user_followed AND fk_user = :id_user;';
+    $stmt = $conn -> prepare($query);
+
+    $stmt -> bindValue(':user_followed', decodeId($_POST['follow']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
+    $stmt -> execute();
+
+    $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
+    if ( count($return) > 0 ) {
+        $query = 'DELETE FROM follows WHERE user_followed = :user_followed AND fk_user = :id_user;';
+    } else {
+        $query = 'INSERT IGNORE INTO follows VALUES(DEFAULT, :user_followed , DEFAULT, :id_user);';
     }
-
-    $query = 'INSERT INTO follows VALUES(DEFAULT, :user_followed , DEFAULT, :id_user) ON CONFLICT DO NOTHING;';
-
     $stmt = $conn -> prepare($query);
 
     $stmt -> bindValue(':user_followed', decodeId($_POST['follow']), PDO::PARAM_INT);
@@ -26,33 +35,11 @@ if (isset($_POST['follow']) && !is_numeric($_POST['follow'])) {
     $stmt -> execute();
 
     $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-
-    if ($stmt && count($return) == 1) {
-        echo"1Sucess";
+    // explain the return of fetch
+    var_dump($return);
+    if ($stmt == 1) {
+        echo"Success";
     }
-
-//Unfollow
-} elseif (isset($_POST['unfollow']) && !is_numeric($_POST['unfollow'])) {
-
-    if (!is_numeric(decodeId($_POST['unfollow']))) {
-        exit;
-    }
-
-    $query = 'DELETE FROM follows WHERE user_followed = :user_unfollowed AND fk_user = :id_user;';
-
-    $stmt = $conn -> prepare($query);
-    
-    $stmt -> bindValue(':user_unfollowed', decodeId($_POST['unfollow']), PDO::PARAM_INT);
-    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
-
-    $stmt -> execute();
-
-    $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-
-    if ($stmt && count($return) == 1) {
-        echo"0Sucess";
-    }
-
 }
 
 $conn = null;

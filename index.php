@@ -46,7 +46,7 @@
                 Create Account
             </div>
 
-            <form action="app/php/registerLogic.php" method="POST">
+            <form action="registerLogic" method="POST">
                 <label for="name">Name</label>
                 <input type="text" name="name" id="name" required>
 

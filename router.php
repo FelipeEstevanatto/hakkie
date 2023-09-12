@@ -26,7 +26,7 @@ $routes = [
     'deletePost' => 'app/php/posts/deletePost.php',
     'likeLogic' => 'app/php/posts/likeLogic.php',
     'post' => 'public/views/post.php',
-    'followLogic' => 'app/php/followLogic.php',
+    'followLogic' => 'app/php/posts/followLogic.php',
     'blockingLogic' => 'app/php/blockingLogic.php',
     'new-password' => 'public/views/new-password.php',
     'recover' => 'public/views/recover.php',
@@ -34,6 +34,7 @@ $routes = [
     'following' => 'public/views/following.php',
     'followers' => 'public/views/followers.php',
     'changePasswordDB' => 'app/php/changePasswordDB.php',
+    'registerLogic' => 'app/php/registerLogic.php',
 ];
 
 // Get the requested URL
@@ -45,7 +46,7 @@ $queryString = $_GET;
 // Get the base name of the URL without the query string
 $path = parse_url($url, PHP_URL_PATH);
 $basename = $path ? basename($path) : '';
-
+//echo $basename;
 // Route the request to the appropriate PHP file or function
 if (isset($routes[$basename])) {
     require __DIR__ . DIRECTORY_SEPARATOR . $routes[$basename];

@@ -10,11 +10,7 @@
 
     if (isset($_COOKIE['darkMode']) && ($_COOKIE['darkMode'] === 'dark' || $_COOKIE['darkMode'] === 'light')) {
         
-        if ($_COOKIE['darkMode'] === 'dark') {
-            $darkMode = true;
-        } else {
-            $darkMode = false;
-        }
+        $darkMode = $_COOKIE['darkMode'] === 'dark' ? true : false;
         
         $query = 'UPDATE users SET darkmode = :theme WHERE id_user = :id_user';
     
@@ -35,5 +31,5 @@
 
     $conn = null;
 
-    header('Location: index');
+    header('Location: /hakkie');
     exit();

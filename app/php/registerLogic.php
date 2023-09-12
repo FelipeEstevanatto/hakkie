@@ -49,10 +49,10 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['register_us
             exit();
         }
     } elseif($return['auth_type'] == 'GOOGLE'){
-        header("Location: index?error=googleemailalreadyregistered");
+        header("Location: /hakkie?error=googleemailalreadyregistered");
         exit();
     } else {
-        header("Location: index?error=emailalreadyregistered");
+        header("Location: /hakkie?error=emailalreadyregistered");
         exit();
     }
 

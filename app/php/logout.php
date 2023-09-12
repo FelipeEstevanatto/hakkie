@@ -1,9 +1,7 @@
 <?php
 
-    require_once("../database/connect.php");
-    require_once("functions.php");
-
-    session_start();
+    require_once(__DIR__."/../../bootstrap.php");
+    require(__DIR__."/functions.php");
 
     if (isset($_COOKIE['g_csrf_token'])) {
         setcookie("g_csrf_token", null, -1);
@@ -37,5 +35,5 @@
 
     $conn = null;
 
-    header('Location: ../../index.php');
+    header('Location: index');
     exit();

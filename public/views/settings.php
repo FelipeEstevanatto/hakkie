@@ -1,13 +1,13 @@
 <?php
-    session_start();
+    
 
     if(!isset($_SESSION['isAuth'])){
-        header("Location: home.php ");
+        header("Location: home ");
 	    exit();
     }
 
-    include("../../app/database/connect.php");
-    include("../../app/php/functions.php");
+    include(__DIR__ . "/../../bootstrap.php");
+    include(__DIR__ . "/../../app/php/functions.php");
 
     $query = "SELECT name_user, user_email, user_info, darkmode FROM users WHERE id_user = :id_user";
     $stmt = $conn -> prepare($query);
@@ -15,7 +15,7 @@
     $stmt -> execute();
 
     if ($stmt -> rowCount() < 1) {
-        header("Location: login.php"); //This user does not exist in DB!
+        header("Location: login"); //This user does not exist in DB!
         exit();
     }
 
@@ -58,9 +58,9 @@
     <title>Settings</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="../css/settings/settings.css">
-    <link rel="stylesheet" href="../css/home/grid/grid.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>public/css/settings/settings.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>public/css/home/grid/grid.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>public/css/style.css">
 
     <!-- Font Awesome-->
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>
@@ -72,8 +72,8 @@
     
     <?php
 
-        include('../includes/no-script.php');
-        include('../includes/tool-bar.php')
+        include(__DIR__ . '/../includes/no-script.php');
+        include(__DIR__ . '/../includes/tool-bar.php')
         
     ?>
 
@@ -110,9 +110,9 @@
                                     if ($blocked_user['auth_type'] == 'GOOGLE') {
                                         $div .= $blocked_user['user_picture'];
                                     } else if ( !is_null($blocked_user['user_picture']) ) { 
-                                        $div .= '../profiles/pictures/'.$blocked_user['user_picture'];
+                                        $div .= $GLOBALS['base_url'] . '/../profiles/pictures/'.$blocked_user['user_picture'];
                                     } else {
-                                        $div .= '../images/defaultUser.png';
+                                        $div .= $GLOBALS['base_url'] . '/../public/images/defaultUser.png';
                                     }
                                     $div .= '" alt="user-blocked-picture" width=50px style="clip-path:circle();">
                                     <a href="#">'.$blocked_user['name_user'].'</a>';
@@ -142,7 +142,7 @@
             </div>
 
             <div class="form-manage close">
-                <form action="../../app/php/changeUserData.php" method="POST">
+                <form action="changeUserData" method="POST">
                     <label for="current-name">Current Name</label> 
                     <input type="text" placeholder="<?php echo$name ?>" disabled>
 
@@ -159,7 +159,7 @@
                 <span>Edit Info</span>
             </div>
             <div class="form-manage close">
-                <form action="../../app/php/changeUserData.php" method="POST">
+                <form action="changeUserData" method="POST">
                     <label for="update-info">Current info about you:</label>
 
                     <textarea id="textarea" name="update-info" type="text" maxlength="256" rows="3"><?php
@@ -182,7 +182,7 @@
             </div>
 
             <div class="form-manage close">
-                <form action="../../app/php/changeUserData.php" method="POST">
+                <form action="changeUserData" method="POST">
                     <label for="current-email">Current Email</label> 
                     <input type="email" placeholder="<?php echo$email ?>" disabled>
 
@@ -200,7 +200,7 @@
             </div>
 
             <div class="form-manage close">
-                <form action="../../app/php/changeUserData.php" method="POST">
+                <form action="changeUserData" method="POST">
                     <label for="current-password">Current Password</label> 
                     <input type="password" name="current-password" id="current-password" placeholder="You current password">
 
@@ -214,7 +214,7 @@
                 </form>
             </div>
             <?php   } ?>
-            <a href="../../app/php/logout.php">
+            <a href="logout">
                 <div class="btn" id="logout-btn">
                     <i class="fas fa-door-open"></i>
                     <span>Logout</span>
@@ -224,14 +224,14 @@
     </div>
 
     <?php 
-        include('../includes/message.html')
+        include(__DIR__ . '/../includes/message.php')
     ?>
 
-    <script src="../../js/switchTheme.js"></script>
+    <script src="<?= $GLOBALS['base_url'] ?>/js/switchTheme.js"></script>
     <?php if( isset($_SESSION['authType']) && $_SESSION['authType'] != 'GOOGLE') {?>
-        <script src="../../js/showPassword.js"></script>
+        <script src="<?= $GLOBALS['base_url'] ?>/js/showPassword.js"></script>
     <?php } ?>
-    <script src="../../js/openSettings.js"></script>
-    <script src="../../js/letterCount.js"></script>
+    <script src="<?= $GLOBALS['base_url'] ?>/js/openSettings.js"></script>
+    <script src="<?= $GLOBALS['base_url'] ?>/js/letterCount.js"></script>
 </body>
 </html>

@@ -1,11 +1,11 @@
 <?php
 
-    if (!isset($_SESSION['isAuth'])) {
-        header("Location: ../home.php ");
-	    exit();
-    }
+    // if (!isset($_SESSION['isAuth'])) {
+    //     header("Location: ../home ");
+	//     exit();
+    // }
 
-    require("../../app/database/connect.php");
+    require_once(__DIR__. "/../../bootstrap.php");
 
     $query = "SELECT user_blocked FROM blocks WHERE fk_user = :id_user";
     $stmt = $conn -> prepare($query);
@@ -23,10 +23,10 @@
     <title>User page</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="../css/home/grid/grid.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/home/user-nonexistent.css">
-    <link rel="stylesheet" href="../css/user/user.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/../css/home/grid/grid.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/../css/style.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/../css/home/user-nonexistent.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/../css/user/user.css">
 
     <!-- Font Awesome-->
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>
@@ -38,7 +38,7 @@
     
     <?php 
 
-        include('tool-bar.php')
+        include(__DIR__.'/tool-bar.php')
 
     ?>
 
@@ -50,7 +50,7 @@
             </div>
 
             <div class="info">
-                <img class="profile-picture" src="../images/defaultUser.png" alt="Picture of user">
+                <img class="profile-picture" src="<?= $GLOBALS['base_url'] ?>/../public/images/defaultUser.png" alt="Picture of user">
 
                 <div class="clear"></div>
                 <?php 
@@ -69,9 +69,9 @@
             <span>
                 <?php 
                     if ($details == 'own_block') {
-                        echo'You blocked this user! If that was a mistake, go to the <a href="../views/settings.php">settings page</a> and unblock him';
+                        echo'You blocked this user! If that was a mistake, go to the <a href="settings">settings page</a> and unblock him';
                     } else {
-                        echo'Unfortunately this user has blocked you, but you can go to the <a href="../views/settings.php">settings page</a> and unblock him';
+                        echo'Unfortunately this user has blocked you, but you can go to the <a href="settings">settings page</a> and unblock him';
                     }
                 ?>
             </span>
@@ -80,7 +80,7 @@
 
     <?php 
 
-        include('message.html')
+        include(__DIR__.'/message.php')
 
     ?>
 </body>

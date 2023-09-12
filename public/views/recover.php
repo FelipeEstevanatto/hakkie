@@ -7,7 +7,7 @@
     <title>Recover password</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/../css/style.css">
     <link rel="stylesheet" href="../css/forms/forms.css">
 
     <!-- Font Awesome-->
@@ -23,10 +23,10 @@
                 Recover you password
             </div>
             <?php
-                include('../../app/php/functions.php');
+                include(__DIR__.'/../../app/php/functions.php');
                 $userIP = getUserIP()->ip;
             ?>
-            <form action="../../app/php/recoverLogic.php" method="POST">
+            <form action="recoverLogic" method="POST">
 
                 <input type="hidden" name="sender-ip" value="<?php echo$userIP; ?>">
 
@@ -41,11 +41,11 @@
                 <input type="submit" value="Submit" name="recover-user-submit">
             </form>
 
-            <a class="forgot" href="login.php"> Remembered you password? </a>
+            <a class="forgot" href="login"> Remembered you password? </a>
         </div>
     </div>
     
-    <a href="../../index.php">
+    <a href="index">
         <div id="switch-form-btn">
             I still don't have an account
         </div>

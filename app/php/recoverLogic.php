@@ -1,12 +1,7 @@
 <?php
 
-    session_start();
-
-    require '../../vendor/autoload.php';
-
-    require_once("../database/connect.php");
-    require_once("../database/env.php");
-    require_once("functions.php");
+    require_once(__DIR__."/../../bootstrap.php");
+    require_once(__DIR__."/functions.php");
 
     $email_user = cleanEmail($_POST['email']);
 
@@ -25,7 +20,7 @@
         if (count($return) > 0) {
 
             if ($return[0]['auth_type'] == 'GOOGLE') {
-                header("Location: ../../public/views/recover.php?error=googleaccount");
+                header("Location: recover?error=googleaccount");
                 exit();
             }
 
@@ -40,7 +35,7 @@
             } else {
                 $url = 'http://'.$_SERVER['HTTP_HOST'].'/hakkie/public/views/';
             }
-            $url .= 'new-password.php?selector=' . $selector . '&validator='. bin2hex($token);
+            $url .= 'new-password?selector=' . $selector . '&validator='. bin2hex($token);
             
             $expires = date("U") + 3600; // 1 hour token validation in UNIX time
 
@@ -76,15 +71,15 @@
             try {
                 //Server settings
                 $mail->isSMTP();                                        //Send using SMTP
-                $mail->Host       = PHPMAILER_INFO['smtp_host'];        //Set the SMTP server to send through
+                $mail->Host       = $_ENV['PHPMAILER_HOST'];        //Set the SMTP server to send through
                 $mail->SMTPAuth   = true;                               //Enable SMTP authentication
-                $mail->Username   = PHPMAILER_INFO['mail_user'];        //SMTP username
-                $mail->Password   = PHPMAILER_INFO['password_user'];    //SMTP password
+                $mail->Username   = $_ENV['PHPMAILER_USER'];        //SMTP username
+                $mail->Password   = $_ENV['PHPMAILER_PASSWORD'];    //SMTP password
                 $mail->SMTPSecure = $mail::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-                $mail->Port       = PHPMAILER_INFO['mail_port'];        //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+                $mail->Port       = $_ENV['PHPMAILER_PORT'];        //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
                 //Recipients
-                $mail->setFrom(PHPMAILER_INFO['mail_user'], 'Hakkie');
+                $mail->setFrom($_ENV['mail_user'], 'Hakkie');
                 $mail->addAddress($email_user, $name_user);             //Add a recipient
                 $mail->addReplyTo('no-reply@gmail.com', 'No Reply');
 
@@ -172,7 +167,7 @@
 
                 $mail->send(); //echo 'Message has been sent';
 
-                header("Location: ../../public/views/new-password.php?newpwd=checkyouremail");
+                header("Location: new-password?newpwd=checkyouremail");
                 exit();
 
             } catch (Exception $e) {
@@ -180,11 +175,11 @@
                 exit();
             }
         } else {
-            header("Location: ../../public/views/recover.php?error=emailnotfound");
+            header("Location: recover?error=emailnotfound");
             exit();
         }
 
     } else {
-        header("Location: ../../public/views/new-password.php?newpwd=error");
+        header("Location: new-password?newpwd=error");
         exit();
     }

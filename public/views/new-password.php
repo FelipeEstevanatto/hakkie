@@ -7,7 +7,7 @@
     <title>New password</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/../css/style.css">
     <link rel="stylesheet" href="../css/forms/forms.css">
 
     <!-- Font Awesome-->
@@ -24,7 +24,7 @@
                 New password
             </div>
             <?php
-                include('../../app/php/functions.php');
+                include(__DIR__.'/../../app/php/functions.php');
                 $userIP = getUserIP();
                 if ( isset($_GET['newpwd']) && $_GET['newpwd'] == 'checkyouremail' )
                     echo"<div class='warning'>Check your email for the recovery link (look in the Spam tab too)</div>";  
@@ -34,7 +34,7 @@
                 if ( isset($_GET['newpwd']) && $_GET['newpwd'] == 'pwdnotsame' )
                     echo"<div class='warning'>Put the same password in both fields</div>";
             ?>
-            <form action="../../app/php/changePasswordDB.php" method="POST">
+            <form action="changePasswordDB" method="POST">
                 
                 <input type="hidden" name="selector" value="<?php echo$_GET['selector']; ?>">
                 <input type="hidden" name="validator" value="<?php echo$_GET['validator']; ?>">
@@ -50,7 +50,7 @@
                     <i class="fas fa-eye-slash" id="show-password-btn"></i>
                 </div>
 
-                <a href="login.php"> Remembered you password? </a>
+                <a href="login"> Remembered you password? </a>
                 <input type="submit" value="Submit" name="new-password-submit">
             </form>
             <?php
@@ -59,7 +59,7 @@
         </div>
     </div>
     
-    <a href="../../index.php">
+    <a href="index">
         <div id="switch-form-btn">
             I still don't have an account
         </div>

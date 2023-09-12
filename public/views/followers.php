@@ -1,8 +1,8 @@
 <?php
-    session_start();
+    
     
     if(!isset($_SESSION['isAuth'])){
-        header("Location: home.php ");
+        header("Location: home ");
 	    exit();
     }
 
@@ -10,11 +10,11 @@
     require_once("../../app/php/functions.php");
 
     if ( !isset($_GET['user']) || is_numeric($_GET['user'])) {
-        include("../includes/user-nonexistent.php"); //This user does not exist in DB!
+        include(__DIR__."/../includes/user-nonexistent.php"); //This user does not exist in DB!
         exit();
     } else {
 
-        $GET_user = decodeId(filter_var($_GET['user'], FILTER_SANITIZE_STRING));
+        $GET_user = decodeId(filter_var($_GET['user'], FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 
         if ($_GET['user'] == $_SESSION['idUser']) {
             $himself = true;
@@ -32,7 +32,7 @@
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
     
     if ($stmt -> rowCount() < 1) {
-        include("../includes/user-nonexistent.php"); //This user does not exist in DB!
+        include(__DIR__."/../includes/user-nonexistent.php"); //This user does not exist in DB!
         exit();
     }
 
@@ -70,8 +70,8 @@
     <title>Home</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="../css/home/grid/grid.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/../css/home/grid/grid.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/../css/style.css">
     <link rel="stylesheet" href="../css/followers/followers.css">
 
     <!-- Font Awesome-->
@@ -84,13 +84,13 @@
     
     <?php 
 
-        include('../includes/tool-bar.php');
+        include(__DIR__.'/../includes/tool-bar.php');
 
         if (!$isGoogle) {
             if (!is_null($user_picture)) {
-                $user_picture = '../images/defaultUser.png';
+                $user_picture = '../public/images/defaultUser.png';
             } else { //fallback
-                $user_picture = '../images/defaultUser.png';
+                $user_picture = '../public/images/defaultUser.png';
             }
         }
     ?>
@@ -99,14 +99,14 @@
 
         <div class="top">
             <img class="profile-picture" src="<?=$user_picture?>" alt="Picture of user">
-            <a href="user.php?user=<?=encodeId($GET_user)?>"><?=$user_name?></a>
+            <a href="user?user=<?=encodeId($GET_user)?>"><?=$user_name?></a>
          </div>
 
         <div class="tab-list">
-            <a href="following.php?user=<?=encodeId($GET_user)?>" class="tab">
+            <a href="following?user=<?=encodeId($GET_user)?>" class="tab">
                 (<?=$following?>) Following
             </a>
-            <a href="followers.php?user=<?=encodeId($GET_user)?>" class="tab">
+            <a href="followers?user=<?=encodeId($GET_user)?>" class="tab">
                 (<?=$followers?>) Followers
                 <div class="underline"></div>
             </a>
@@ -128,12 +128,12 @@
                                     $each_user .= '../images/defaultUser.png'; // Fallback
                                 }
                         $each_user .='" alt="Picture of user">
-                                <a href="user.php?user='.encodeId($users['fk_user']).'">'.$users['name_user'].'</a>
+                                <a href="user?user='.encodeId($users['fk_user']).'">'.$users['name_user'].'</a>
                             </div>
                             
                             <div class="btn follow">
                                 <i class="fas fa-user-plus"></i>
-                                <a href="user.php?user='.encodeId($$users['fk_user']).'"><span>Follow</span></a>
+                                <a href="user?user='.encodeId($$users['fk_user']).'"><span>Follow</span></a>
                             </div>
                         </div>
 
@@ -162,7 +162,7 @@
 
     <?php 
 
-        include('../includes/message.html')
+        include(__DIR__.'/../includes/message.php')
 
     ?>
 

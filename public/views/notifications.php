@@ -1,10 +1,10 @@
 <?php
-    session_start();
     
-    if (!isset($_SESSION['isAuth'])) {
-        header("Location: login.php ");
-	    exit();
-    }
+    
+    // if (!isset($_SESSION['isAuth'])) {
+    //     header("Location: login.php ");
+	//     exit();
+    // }
 ?>
 
 <!DOCTYPE html>
@@ -16,9 +16,9 @@
     <title>Notifications</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="../css/home/grid/grid.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/home/feed/feed.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/public/css/home/grid/grid.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/public/css/style.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/public/css/home/feed/feed.css">
 
     <!-- Font Awesome-->
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
     
     <?php 
 
-        include('../includes/tool-bar.php')
+        include(__DIR__ . '/../includes/tool-bar.php')
 
     ?>
 
@@ -44,7 +44,7 @@
 
     <?php 
 
-        include('../includes/message.html')
+        include(__DIR__ . '/../includes/message.php')
 
     ?>
 </body>

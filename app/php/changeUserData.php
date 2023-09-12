@@ -1,14 +1,9 @@
 <?php
 
-    session_start();
+    
 
-    require_once("../database/connect.php");
-    require("functions.php");
-
-    if (!isset($_SESSION['isAuth'])) {
-        header("Location: ../../public/views/login.php?error=expiredsession");
-        exit();
-    }
+    require_once(__DIR__."/../../bootstrap.php");
+    require(__DIR__."/functions.php");
 
     $query = "SELECT name_user, user_email, user_password, user_info FROM users WHERE id_user = :id_user";
     $stmt = $conn -> prepare($query);
@@ -21,7 +16,7 @@
         $newName = cleanString($_POST['name']);
 
         if (empty($newName) && strlen($newName) > 64 && $newName !== $return['name_user']) {
-            header("Location: ../../public/views/settings.php?error=invalidname");
+            header("Location: settings?error=invalidname");
             exit();
         }
 
@@ -36,7 +31,7 @@
         $newEmail = cleanEmail($_POST['email']);
 
         if ($newEmail === false && $newEmail !== $return['user_email']) {
-            header("Location: ../../public/views/settings.php?error=invalidemail");
+            header("Location: settings?error=invalidemail");
             exit();
         }
 
@@ -51,7 +46,7 @@
         $newPass = cleanString($_POST['password']);
 
         if (empty($newPass) && strlen($newPass) > 255) {
-            header("Location: ../../public/views/settings.php?error=invalidpassword");
+            header("Location: settings?error=invalidpassword");
             exit();
         }
 
@@ -68,7 +63,7 @@
         $newInfo = cleanString($_POST['update-info']);
 
         if (empty($newInfo) && strlen($newInfo) > 256 && $newInfo !== $return['user_info']) {
-            header("Location: ../../public/views/settings.php?error=invalidpassword");
+            header("Location: settings?error=invalidpassword");
             exit();
         }
 
@@ -81,7 +76,7 @@
 
     $stmt -> execute();
     if ($stmt) {
-        header("Location: ../../public/views/settings.php?nice");
+        header("Location: settings?nice");
         exit();
     }
     

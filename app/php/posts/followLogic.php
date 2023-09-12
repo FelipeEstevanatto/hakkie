@@ -1,9 +1,9 @@
 <?php
 
-session_start();
 
-require_once("../../database/connect.php");
-require_once("../functions.php");
+
+require_once(__DIR__."/../../bootstrap.php");
+require(__DIR__."/../functions.php");
 
 if(!isset($_SESSION['isAuth'])){
     exit();

@@ -29,4 +29,4 @@
     <i class="fas fa-chevron-up"></i>
 </div>
 
-<script src="../../js/openMessages.js"></script>
+<script src="<?= $GLOBALS['base_url'] ?>/js/openMessages.js"></script>

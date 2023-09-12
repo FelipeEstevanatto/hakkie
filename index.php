@@ -1,14 +1,8 @@
 <?php
-    session_start();
-    if(isset($_SESSION['isAuth'])){
-        header("Location: public/views/home.php ");
-	    exit();
-    }
-    require __DIR__ . '/vendor/autoload.php';
-    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/');
-    $dotenv->safeLoad();
+    require __DIR__ . '/bootstrap.php';
 
     $data_login_uri = $_ENV['GOOGLE_LOGIN_URI']."/app/google/verifyIntegrity.php";
+    
 ?>
 
 <!DOCTYPE html>
@@ -97,7 +91,7 @@
         </div>
     </div>
 
-    <a href="public/views/login.php">
+    <a href="login">
         <div id="switch-form-btn">
             I already have an account!
         </div>

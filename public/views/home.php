@@ -1,10 +1,5 @@
 <?php
-    session_start();
-    
-    if (!isset($_SESSION['isAuth'])) {
-        header("Location: login.php ");
-	    exit();
-    }
+    require_once(__DIR__ . '/../../bootstrap.php');
 ?>
 
 <!DOCTYPE html>
@@ -16,21 +11,21 @@
     <title>Home</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="../css/home/grid/grid.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/home/feed/feed.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>public/css/home/grid/grid.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>public/css/style.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>public/css/home/feed/feed.css">
 
     <!-- Font Awesome-->
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= $GLOBALS['base_url'] ?>public/images/favicon.png" type="image/x-icon">
 </head>
 <body class="<?=$_COOKIE['darkMode'];?>">
     
     <?php 
-
-        include('../includes/tool-bar.php')
+       
+        include(__DIR__ . '/../includes/tool-bar.php')
 
     ?>
 
@@ -38,9 +33,7 @@
 
         <div id="feed">
             <?php
-
-                include('../../app/php/showPosts.php');
-                require_once('../../app/database/connect.php');
+                include(__DIR__ . '/../../app/php/showPosts.php');
 
                 $query = 'SELECT DISTINCT id_user FROM users INNER JOIN posts ON fk_owner = id_user';
 
@@ -50,7 +43,7 @@
 
                 foreach ($return as $user) {
 
-                    showPosts( $user['id_user'] , 10);
+                    showPosts($conn, $user['id_user'] , 10);
 
                 }
 
@@ -63,13 +56,13 @@
     </div>
 
     <?php 
-
-        include('../includes/message.html')
+        
+        include(__DIR__ . '../includes/message.php')
 
     ?>
 
-    <script type="text/javascript" src="../../js/functions.js"></script>
-    <script type="text/javascript" src="../../js/feedbuild.js"></script>
+    <script type="text/javascript" src="<?= $GLOBALS['base_url'] ?>/js/functions.js"></script>
+    <script type="text/javascript" src="<?= $GLOBALS['base_url'] ?>/js/feedbuild.js"></script>
 
 </body>
 </html>

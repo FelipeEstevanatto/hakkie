@@ -1,16 +1,16 @@
 <?php
 
-session_start();
 
-include('config.php');
-require('../database/connect.php');
-require('../php/functions.php');
+
+include(__DIR__.'/config.php');
+require_once(__DIR__.'/../../bootstrap.php');
+require_once(__DIR__.'/../php/functions.php');
 
 //Verify ['g_csrf_token'] cookie, and POST id_token/credentials
 if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_csrf_token'] || !isset($_POST['credential'])) {
     
     echo "Something went very wrong with you Login request<br>
-    <a href='../../public/views/login.php'>Back to login</a>";
+    <a href='/login'>Back to login</a>";
 
 } else {
     date_default_timezone_set('America/Sao_Paulo');
@@ -59,17 +59,17 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
                 $_SESSION['idUser'] = encodeId($return[0]['id_user']);
                 
                 if (isset($_COOKIE['resumeP'])) {
-                    header("Location: ../../public/views/post.php?id=".$_COOKIE['resumeP']);
+                    header("Location: post?id=".$_COOKIE['resumeP']);
                     setcookie("resumeP", "", -1 , "/");
                     exit();
                 } else if (isset($_COOKIE['resumeU'])) {
-                    header("Location: ../../public/views/user.php?user=".$_COOKIE['resumeU']);
+                    header("Location: user?user=".$_COOKIE['resumeU']);
                     setcookie("resumeU", "", -1 , "/");
                     exit();
                 }
 
                 //Home after sign in
-                header("Location: ../../public/views/home.php");
+                header("Location: home");
                 exit();
 
             } else {
@@ -104,7 +104,7 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
                 $_SESSION['idUser'] = encodeId($return['id_user']);
 
                 //Home after registering user
-                header("Location: ../../public/views/home.php");
+                header("Location: home");
                 exit();
             }
 

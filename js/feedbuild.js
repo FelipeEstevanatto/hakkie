@@ -40,7 +40,7 @@ menupost.forEach((btn, index) => {
             
             follow_op.forEach((btn, index) => {
                 btn.addEventListener('click', () => {
-                    xhr.open('POST', '../../app/php/posts/followLogic.php');
+                    xhr.open('POST', 'followLogic');
                     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
                     if (follow_op[index].classList.contains('Follow')){
@@ -69,11 +69,11 @@ menupost.forEach((btn, index) => {
             block_op.forEach((btn, index) => {
                 btn.addEventListener('click', () => {
 
-                    xhr.open('POST', '../../app/php/blockingLogic.php');
+                    xhr.open('POST', 'blockingLogic');
                     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                     xhr.send('block='+user_id);
 
-                    if (window.location.href.slice(-8) == 'home.php') {
+                    if (window.location.href.slice(-8) == 'home') {
                         window.document.getElementById(post_id).classList.add('animate');
                         const interval = setTimeout(()=>{
                             window.document.getElementById(post_id).remove(); 
@@ -86,7 +86,7 @@ menupost.forEach((btn, index) => {
             delete_post.forEach((btn, index) => {
                 btn.addEventListener('click', () => {
 
-                    xhr.open('POST', '../../app/php/posts/deletePost.php');
+                    xhr.open('POST', 'deletePost');
                     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                     xhr.send('deletePost='+post_id);
 
@@ -102,38 +102,46 @@ menupost.forEach((btn, index) => {
     });
 });
 
+const document = window.document;
+const feed = document.getElementById('feed');
 
+feed.addEventListener('click', (event) => {
+    const target = event.target;
+    if (target.classList.contains('likebtn')) {
+        const index = Array.from(target.parentNode.parentNode.parentNode.children).indexOf(target.parentNode.parentNode);
+        const span = document.querySelectorAll('#feed .post .bottom-post .list #tab-like span');
+        const checklike = document.querySelectorAll('#feed .post .bottom-post .list #tab-like');
 
-likebtn.forEach((btn, index) => {
-    btn.addEventListener('click', () => {
-
-        var span = window.document.querySelectorAll('#feed .post .bottom-post .list #tab-like span');
-        var checklike = window.document.querySelectorAll('#feed .post .bottom-post .list #tab-like');
-
-        let xhr = new XMLHttpRequest();
-
-        xhr.open('POST', '../../app/php/posts/likeLogic.php');
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        let url = 'likeLogic';
+        let body = '';
 
         if (checklike[index].classList.contains('my-like')) {
-            xhr.addEventListener("readystatechange", function () {
-                if (xhr.responseText === '0') {
-                    span[index].innerHTML = parseInt(span[index].innerHTML.replace(/\D/g,'')) - 1 + ' Likes';
-                    checklike[index].classList.remove('my-like')
-                }
-            });
-            xhr.send('unlike=' + post_ids[index].id);
+            body = 'unlike=' + post_ids[index].id;
         } else {
-            xhr.addEventListener("readystatechange", function () {
-                if (xhr.responseText === '1') {
-                    span[index].innerHTML = parseInt(span[index].innerHTML.replace(/\D/g,'')) + 1 + ' Likes';
-                    checklike[index].classList.add('my-like')
-                }
-            });
-            xhr.send('like=' + post_ids[index].id);
+            body = 'like=' + post_ids[index].id;
         }
 
-    });
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: body
+        })
+        .then(response => response.text())
+        .then(data => {
+            if (data === '0') {
+                span[index].innerHTML = parseInt(span[index].innerHTML.replace(/\D/g,'')) - 1 + ' Likes';
+                checklike[index].classList.remove('my-like')
+            } else if (data === '1') {
+                span[index].innerHTML = parseInt(span[index].innerHTML.replace(/\D/g,'')) + 1 + ' Likes';
+                checklike[index].classList.add('my-like')
+            }
+        })
+        .catch(error => {
+            console.error('Failed to update like:', error);
+        });
+    }
 });
 
 commentbtn.forEach((btn, index) => {
@@ -141,25 +149,21 @@ commentbtn.forEach((btn, index) => {
 
         var post_id = post_ids[index].id;
 
-        window.location = document.location.href.slice(0, document.location.href.lastIndexOf('/')) + '/post.php?id='+post_id;
-
+        window.location = 'post?id='+post_id;
     });
 });
 
 sharebtn.forEach((btn, index) => {
     btn.addEventListener('click', () => {
-
-        var post_id = post_ids[index].id;
-
-        var link = document.location.href.slice(0, document.location.href.lastIndexOf('/')) + '/post.php?id='+post_id;
-
-        var dummy = document.createElement('input');
-            document.body.appendChild(dummy);
-            dummy.value = link;
-            dummy.select();
-            document.execCommand('copy');
-            document.body.removeChild(dummy);
-                
-        window.document.querySelectorAll('#feed .post .bottom-post .list #tab-share')[index].innerHTML = 'Link Copied!';
+        const post_id = post_ids[index].id;
+        const link = `/post?id=${post_id}`;
+        navigator.clipboard.writeText(link)
+            .then(() => {
+                const shareTab = document.querySelectorAll('#feed .post .bottom-post .list #tab-share')[index];
+                shareTab.innerHTML = 'Link Copied!';
+            })
+            .catch((error) => {
+                console.error('Failed to copy text: ', error);
+            });
     });
 });

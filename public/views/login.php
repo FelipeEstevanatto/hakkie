@@ -1,11 +1,5 @@
 <?php
-    session_start();
-    if(isset($_SESSION['isAuth'])){
-        header("Location: home.php ");
-	    exit();
-    }
-
-    if ( $_ENV['GOOGLE_LOGIN_URI'] != null) {
+    if ( isset($_ENV['GOOGLE_LOGIN_URI'])) {
         $data_login_uri = $_ENV['GOOGLE_LOGIN_URI']."/app/google/verifyIntegrity.php";
     } else {
         $data_login_uri = 'http://localhost/hakkie/app/google/verifyIntegrity.php';
@@ -23,8 +17,8 @@
     <title>Login</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/forms/forms.css">
+    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="stylesheet" href="   public/css/forms/forms.css">
 
     <!-- Font Awesome-->
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>
@@ -50,7 +44,7 @@
                 }
             ?>
 
-            <form action="../../app/php/loginLogic.php" method="POST">
+            <form action="loginLogic" method="POST">
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email" required>
 
@@ -92,7 +86,7 @@
         </div>
     </div>
     
-    <a href="../../index.php">
+    <a href="hakkie">
         <div id="switch-form-btn">
             I still don't have an account
         </div>

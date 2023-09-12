@@ -1,11 +1,7 @@
 <?php
 
-session_start();
-
-require_once("../../vendor/autoload.php");
-
-require_once("../database/connect.php");
-require_once("functions.php");
+require_once(__DIR__."/../../bootstrap.php");
+require(__DIR__."/functions.php");
 
 $name_user = cleanString($_POST['name']);
 $email_user = cleanEmail($_POST['email']);
@@ -49,18 +45,18 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['register_us
             $_SESSION['authType'] = 'PASSWORD';
             $_SESSION['idUser'] = encodeId($return['id_user']);
 
-            header("Location: ../../public/views/home.php");
+            header("Location: home");
             exit();
         }
     } elseif($return['auth_type'] == 'GOOGLE'){
-        header("Location: ../../index.php?error=googleemailalreadyregistered");
+        header("Location: index?error=googleemailalreadyregistered");
         exit();
     } else {
-        header("Location: ../../index.php?error=emailalreadyregistered");
+        header("Location: index?error=emailalreadyregistered");
         exit();
     }
 
 } else { 
-    header("Location: ../../index.php?error=emptyfields");
+    header("Location: index?error=emptyfields");
     exit();
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-    session_start();
+    
     
     if(!isset($_SESSION['isAuth'])){
 
@@ -8,15 +8,15 @@
             setcookie("resumeU", $_GET["user"], time()+3600, "/");
         }
 
-        header("Location: home.php ");
+        header("Location: home ");
 	    exit();
     }
 
-    require("../../app/database/connect.php");
-    require_once("../../app/php/functions.php");
+    require(__DIR__ . "/../../bootstrap.php");
+    require_once(__DIR__ ."/../../app/php/functions.php");
 
     if ( !isset($_GET['user']) || !is_numeric(decodeId($_GET['user'])) || is_numeric($_GET['user']) || is_float(decodeId($_GET['user'])) ) {
-        include("../includes/user-nonexistent.php"); //This user does not exist in DB!
+        include(__DIR__ . "/../includes/user-nonexistent.php"); //This user does not exist in DB!
         exit();    
     } elseif (decodeId($_GET['user']) == decodeId($_SESSION['idUser'])){
         $own_profile = true;
@@ -40,7 +40,7 @@
                 $details = 'own_block';
             }
 
-            include("../includes/user-blocked.php"); //This user does not exist in DB! (we don't have blocked page yet)
+            include(__DIR__."/../includes/user-blocked.php"); //This user does not exist in DB! (we don't have blocked page yet)
             exit();
         }
 
@@ -54,7 +54,7 @@
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
 
     if ($stmt -> rowCount() < 1) {
-        include("../includes/user-nonexistent.php"); //This user does not exist in DB!
+        include(__DIR__."/../includes/user-nonexistent.php"); //This user does not exist in DB!
         exit();
     }
 
@@ -98,10 +98,10 @@
     <title>User <?=$user_name?></title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="../css/home/grid/grid.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/user/user.css">
-    <link rel="stylesheet" href="../css/home/feed/feed.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/public/css/home/grid/grid.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/public/css/style.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/public/css/user/user.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/public/css/home/feed/feed.css">
 
     <!-- Font Awesome-->
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>
@@ -113,8 +113,8 @@
     
     <?php
 
-        include('../includes/no-script.php');
-        include('../includes/tool-bar.php');
+        include(__DIR__ . '/../includes/no-script.php');
+        include(__DIR__ . '/../includes/tool-bar.php');
 
     ?>
 
@@ -122,22 +122,11 @@
 
         <div class="top">
             <div class="banner">
-                <?php 
-                    echo is_null($user_banner) ? '<img src="../images/defaultBanner.jpg" alt="Banner of user">' : '<img src="../images/'.$user_banner.'">'; 
-                ?>
+                <img src="<?= $GLOBALS['base_url'] . "/../public/images/" ?><?= is_null($user_banner) ? "defaultBanner.jpg" : $user_banner ?>" alt="Banner of user">
             </div>
 
             <div class="info">
-                    <?php
-                        if ($isGoogle) {
-                            echo '<img class="profile-picture" src="'.$user_picture.'" alt="Picture of user">';
-                        } elseif (!is_null($user_picture)) {
-                            echo '<img class="profile-picture" src="../images/defaultUser.png" alt="Picture of user">';
-                        } else { //fallback
-                            echo '<img class="profile-picture" src="../images/defaultUser.png">';
-                        }
-                    ?>
-
+                <img class="profile-picture" src="<?= is_null($user_picture) ? $GLOBALS['base_url']."/../public/images/defaultUser.png" : "$user_picture" ?>" alt="Picture of user">
                 <div class="time">
                     <i class="fas fa-calendar-alt"></i>
                     Joined <?=$user_since?>
@@ -155,12 +144,12 @@
 
                 <div class="bottom-bar">
                     <div class="left">
-                        <a href="following.php?user=<?=$_GET['user']?>">
+                        <a href="following?user=<?=$_GET['user']?>">
                             <span id="following"><?=$following?></span>
                             Following
                         </a>
 
-                        <a href="followers.php?user=<?=$_GET['user']?>">
+                        <a href="followers?user=<?=$_GET['user']?>">
                             <span id="followers"><?=$followers?></span>
                             Followers
                         </a>
@@ -192,7 +181,7 @@
                             echo '<div class="btn" id="silence_user">Silence User</div>
                                   <div class="btn" id="block_user">Block User</div>';
                             } else {
-                                echo '<a href="settings.php"><div class="btn" id="edit_user">Edit User</div></a>';
+                                echo '<a href="settings"><div class="btn" id="edit_user">Edit User</div></a>';
                             }
 
                         ?>
@@ -228,7 +217,7 @@
 
         <div class="post-input">
             <h2>Post</h2>
-            <form action="../../app/php/posts/postLogic.php" method="POST" enctype='multipart/form-data'>
+            <form action="postLogic" method="POST" enctype='multipart/form-data'>
                 <textarea name="post-text" id="textarea" maxlength="256" cols="30" rows="10" placeholder="What is going on?"></textarea>
                 <label id="count" for="post-text"></label>
 
@@ -260,10 +249,10 @@
     
         <div id="feed">        
             <?php
-                include("../../app/php/showPosts.php");
+                include(__DIR__ . "/../../app/php/showPosts.php");
 
                 // Post layout
-                showPosts(decodeId($_GET['user']), 10);
+                showPosts($conn, decodeId($_GET['user']), 10);
 
                 echo'<div class="post text">
                 No more posts from this user to show!
@@ -275,22 +264,22 @@
 
     <?php 
 
-        include('../includes/message.html')
+        include(__DIR__ . '/../includes/message.php')
 
     ?>
 
-    <script type="text/javascript" src="../../js/functions.js"></script>
-    <script type="text/javascript" src="../../js/feedbuild.js"></script>
-    <script type="text/javascript" src="../../js/openMenu.js"></script>   
+    <script type="text/javascript" src="<?= $GLOBALS['base_url'] ?>/js/functions.js"></script>
+    <script type="text/javascript" src="<?= $GLOBALS['base_url'] ?>/js/feedbuild.js"></script>
+    <script type="text/javascript" src="<?= $GLOBALS['base_url'] ?>/js/openMenu.js"></script>   
 
     <?php 
         if (!$own_profile) {   
-            echo '<script src="../../js/followUser.js"></script>';         
+            echo "<script src=\"".$GLOBALS['base_url']."/js/followUser.js\"></script>";         
         } else {
-            echo '<script src="../../js/imagePreview.js"></script>';
+            echo "<script src=\"".$GLOBALS['base_url']."/js/imagePreview.js\"></script>";         
     ?>
 
-    <script src="../../js/letterCount.js">
+    <script src="<?= $GLOBALS['base_url'] ?>/js/letterCount.js">
         letterCount(140, 'post-text', 'post-count')
     </script>
 

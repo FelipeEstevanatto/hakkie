@@ -1,9 +1,7 @@
 <?php
 
-function showPosts($user, $posts, $choosenId = '') {
-
-    require("../../app/database/connect.php");
-    require_once("functions.php");
+function showPosts($conn, $user, $posts, $choosenId = '') {
+    require_once(__DIR__."/functions.php");
 
     $session_user = decodeId($_SESSION['idUser']);
 
@@ -82,12 +80,12 @@ function showPosts($user, $posts, $choosenId = '') {
                         if ($isGoogle) {
                             $actual_post.=$userpicture;
                         } elseif ($userpicture != NULL) {
-                            $actual_post.='../profiles/'.$userpicture;
+                            $actual_post.= $GLOBALS['base_url'] . '/../profiles/'.$userpicture;
                         } else {
-                            $actual_post.='../images/defaultUser.png'; //fallback
+                            $actual_post.= $GLOBALS['base_url'] . '/../public/images/defaultUser.png'; //fallback
                         }
                         $actual_post.='">
-                        <a href="user.php?user='.encodeId($user).'">'.$username.'</a>
+                        <a href="user?user='.encodeId($user).'">'.$username.'</a>
                     </div>
                     
                     <div class="right">

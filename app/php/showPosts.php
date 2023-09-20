@@ -33,16 +33,16 @@ function showPosts($conn, $user, $posts, $choosenId = '') {
 
     if ( count($return) > 0) { 
         //Coalesce returns 0 instead of null, so we don't need an if
-        $query = 'SELECT id_post, content, post_date, fk_owner,
-                        (SELECT COUNT(file_name) FROM files WHERE fk_owner = fk_owner AND fk_post = id_post) AS post_media,
-                        COALESCE((SELECT COUNT(id_like) FROM likes WHERE fk_post = id_post GROUP BY fk_post),0) AS post_likes,
-                        COALESCE((SELECT COUNT(id_comment) FROM comments WHERE fk_post = id_post GROUP BY fk_post),0) AS post_comments,
-                        (SELECT COUNT(*) FROM likes WHERE fk_post = id_post AND fk_like_owner = :session_user ) AS already_liked
+        $query = 'SELECT id, content, date, fk_owner,
+                        (SELECT COUNT(file_name) FROM files WHERE fk_owner = fk_owner AND fk_post = id) AS post_media,
+                        COALESCE((SELECT COUNT(likes.id) FROM likes WHERE fk_post = id GROUP BY fk_post),0) AS post_likes,
+                        COALESCE((SELECT COUNT(comments.id) FROM comments WHERE fk_post = id GROUP BY fk_post),0) AS post_comments,
+                        (SELECT COUNT(*) FROM likes WHERE fk_post = id AND fk_like_owner = :session_user ) AS already_liked
                   FROM posts WHERE fk_owner = :id'; 
         if (!empty($choosenId) && !is_float(decodeId(cleanString($choosenId))) ) {
-            $query .= ' AND id_post = :choosen_id';
+            $query .= ' AND id = :choosen_id';
         }
-        $query .=' ORDER BY post_date DESC';
+        $query .=' ORDER BY date DESC';
 
         $stmt = $conn -> prepare($query);
 
@@ -65,14 +65,14 @@ function showPosts($conn, $user, $posts, $choosenId = '') {
                 $query = 'SELECT file_name, file_type, fk_post FROM files WHERE fk_owner = :id AND fk_post = :post_id';
                 $stmt = $conn -> prepare($query);
                 $stmt -> bindValue(':id', $user);
-                $stmt -> bindValue(':post_id', $post['id_post']);
+                $stmt -> bindValue(':post_id', $post['id']);
                 $stmt -> execute();
                 $returnMedia = $stmt -> fetchAll(PDO::FETCH_ASSOC);
             }
 
-            //================== Start of post DIV ================== (with post_id and user_id)
+            //================== Start of post DIV ================== (with post id and user id)
             $actual_post = '<!--Post layout-->
-            <div class="post text" id="'.encodeId($post['id_post']).'">
+            <div class="post text" id="'.encodeId($post['id']).'">
                 <div class="top-post">
                     <div class="left" id="'.encodeId($user).'">
                         <img src="';
@@ -90,7 +90,7 @@ function showPosts($conn, $user, $posts, $choosenId = '') {
                     
                     <div class="right">
                         <span>'
-                        .time_elapsed_string($post['post_date']).'
+                        .time_elapsed_string($post['date']).'
                         <i class="fas fa-ellipsis-v" class="interative-form-btn"></i>
                         </span>
 

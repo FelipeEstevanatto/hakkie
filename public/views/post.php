@@ -31,9 +31,9 @@
         exit();
     }
 
-    $query = "SELECT id FROM users INNER JOIN posts ON fk_owner = id WHERE id_post = :id_post";
+    $query = "SELECT id FROM users INNER JOIN posts ON fk_owner = id WHERE id = :id";
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_post', $post);
+    $stmt -> bindValue(':id', $post);
     $stmt -> execute();
 
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);

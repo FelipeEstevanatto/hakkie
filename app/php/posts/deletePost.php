@@ -12,11 +12,11 @@ if(!isset($_SESSION['isAuth'])){
 //Follow
 if (isset($_POST['deletePost']) && !is_numeric($_POST['deletePost'])) {
 
-    $query = 'DELETE FROM files WHERE fk_post = :id_post AND fk_owner = :session_user RETURNING file_name;';
+    $query = 'DELETE FROM files WHERE fk_post = :id AND fk_owner = :session_user RETURNING file_name;';
 
     $stmt = $conn -> prepare($query);
 
-    $stmt -> bindValue(':id_post', decodeId($_POST['deletePost']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id', decodeId($_POST['deletePost']), PDO::PARAM_INT);
     $stmt -> bindValue(':session_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
     
     $stmt -> execute();
@@ -34,20 +34,20 @@ if (isset($_POST['deletePost']) && !is_numeric($_POST['deletePost'])) {
         }
     }
 
-    $query = 'DELETE FROM likes WHERE fk_post = :id_post;';
+    $query = 'DELETE FROM likes WHERE fk_post = :id;';
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_post', decodeId($_POST['deletePost']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id', decodeId($_POST['deletePost']), PDO::PARAM_INT);
     $result = $stmt -> execute();
 
-    $query = 'DELETE FROM comments WHERE fk_post = :id_post;';
+    $query = 'DELETE FROM comments WHERE fk_post = :id;';
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_post', decodeId($_POST['deletePost']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id', decodeId($_POST['deletePost']), PDO::PARAM_INT);
     $result2 = $stmt -> execute();
 
-    $query = 'DELETE FROM posts WHERE fk_owner = :session_user AND id_post = :id_post;';
+    $query = 'DELETE FROM posts WHERE fk_owner = :session_user AND id = :id;';
     $stmt = $conn -> prepare($query);
     $stmt -> bindValue(':session_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
-    $stmt -> bindValue(':id_post', decodeId($_POST['deletePost']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id', decodeId($_POST['deletePost']), PDO::PARAM_INT);
     $result3 = $stmt -> execute();
 
     if ($result && $result2 && $result3) {

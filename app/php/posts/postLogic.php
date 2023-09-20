@@ -27,14 +27,14 @@ if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empt
     $stmt -> execute();
 
     // Get post id
-    $query = 'SELECT id_post FROM posts WHERE fk_owner = :id ORDER BY id_post DESC LIMIT 1';
+    $query = 'SELECT id FROM posts WHERE fk_owner = :id ORDER BY id DESC LIMIT 1';
     $stmt = $conn -> prepare($query);
     $stmt -> bindValue(':id', decodeId($_SESSION['idUser']));
     $stmt -> execute();
 
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
 
-    $postId = $return["id_post"];
+    $postId = $return["id"];
 
     if (isset($_FILES) && !empty($_FILES["uploadfile"]["tmp_name"])) {
 

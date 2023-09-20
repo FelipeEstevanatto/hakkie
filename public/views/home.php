@@ -35,7 +35,7 @@
             <?php
                 include(__DIR__ . '/../../app/php/showPosts.php');
 
-                $query = 'SELECT DISTINCT users.id AS user_id FROM users INNER JOIN posts ON posts.fk_owner = users.id';
+                $query = 'SELECT DISTINCT users.id FROM users INNER JOIN posts ON posts.fk_owner = users.id';
 
                 $stmt = $conn-> query($query);
 

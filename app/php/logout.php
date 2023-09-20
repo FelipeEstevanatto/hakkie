@@ -12,12 +12,12 @@
         
         $darkMode = $_COOKIE['darkMode'] === 'dark' ? true : false;
         
-        $query = 'UPDATE users SET darkmode = :theme WHERE id_user = :id_user';
+        $query = 'UPDATE users SET darkmode = :theme WHERE id = :id';
     
         $stmt = $conn -> prepare($query);
         
         $stmt -> bindValue(':theme', $darkMode, PDO::PARAM_BOOL);
-        $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
+        $stmt -> bindValue(':id', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
     
         $stmt -> execute();
 

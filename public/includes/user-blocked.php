@@ -7,9 +7,9 @@
 
     require_once(__DIR__. "/../../bootstrap.php");
 
-    $query = "SELECT user_blocked FROM blocks WHERE fk_user = :id_user";
+    $query = "SELECT user_blocked FROM blocks WHERE fk_user = :id";
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', 1);
+    $stmt -> bindValue(':id', 1);
     $stmt -> execute();
 
 ?>

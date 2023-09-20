@@ -21,9 +21,9 @@
 
     $post = decodeId($_GET['id']);
 
-    $query = "SELECT user_blocked FROM blocks WHERE fk_user = :id_user";
+    $query = "SELECT user_blocked FROM blocks WHERE fk_user = :id";
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', $post);
+    $stmt -> bindValue(':id', $post);
     $stmt -> execute();
 
     if ($stmt -> rowCount() > 0) {
@@ -31,13 +31,13 @@
         exit();
     }
 
-    $query = "SELECT id_user FROM users INNER JOIN posts ON fk_owner = id_user WHERE id_post = :id_post";
+    $query = "SELECT id FROM users INNER JOIN posts ON fk_owner = id WHERE id_post = :id_post";
     $stmt = $conn -> prepare($query);
     $stmt -> bindValue(':id_post', $post);
     $stmt -> execute();
 
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
-    $id_user = $return['id_user'];
+    $id = $return['id'];
 
 ?>
 
@@ -74,7 +74,7 @@
             <?php
                 include(__DIR__.'/../../app/php/showPosts.php');
 
-                showPosts($conn, $id_user, 1, $_GET['id']);
+                showPosts($conn, $id, 1, $_GET['id']);
 
             ?>
         </div>

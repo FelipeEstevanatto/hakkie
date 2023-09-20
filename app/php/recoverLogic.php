@@ -7,7 +7,7 @@
 
     if (!empty($email_user) && isset($_POST['sender-ip']) && isset($_POST['recover-user-submit'])) {
 
-        $query = "SELECT user_email, user_password, name_user, auth_type FROM users WHERE user_email = :email_user";
+        $query = "SELECT email, password, username, auth_type FROM users WHERE email = :email_user";
 
         $stmt = $conn -> prepare($query);
 
@@ -24,7 +24,7 @@
                 exit();
             }
 
-            $name_user = $return[0]['name_user'];
+            $username = $return[0]['username'];
             $ipDetails = getUserIP();
             $selector = bin2hex(random_bytes(8));
             $token = random_bytes(32);
@@ -80,7 +80,7 @@
 
                 //Recipients
                 $mail->setFrom($_ENV['mail_user'], 'Hakkie');
-                $mail->addAddress($email_user, $name_user);             //Add a recipient
+                $mail->addAddress($email_user, $username);             //Add a recipient
                 $mail->addReplyTo('no-reply@gmail.com', 'No Reply');
 
                 //Content
@@ -135,7 +135,7 @@
                     </div>
                     <h1>Password Recover</h1>
                         <p class='texto'>
-                        Hello ".$name_user.", we received a password recovery requisition of your Hakkie account ";
+                        Hello ".$username.", we received a password recovery requisition of your Hakkie account ";
                         if ($ipDetails->ip == 'Localhost'){
                             $mail->Body.="by some ".$ipDetails->ip." machine";
                         } else {
@@ -155,7 +155,7 @@
                 </html>
                 ";
                 
-                $mail->AltBody = "Hello ".$name_user.", your Email provider has disabled HTML in emails, or you deactivated it yourself manually,
+                $mail->AltBody = "Hello ".$username.", your Email provider has disabled HTML in emails, or you deactivated it yourself manually,
                 therefore, if you requested a password change/recovery of your Hakkie account";
                 if ($ipDetails->ip == 'Localhost'){
                     $mail->AltBody.="by some ".$ipDetails->ip." machine";

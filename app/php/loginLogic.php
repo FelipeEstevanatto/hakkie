@@ -10,7 +10,7 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['login-user-
 
     $dbpassword = generateFakePassword();
 
-    $query = "SELECT id_user, user_email, user_password, auth_type, darkmode FROM users WHERE user_email = :email_user";
+    $query = "SELECT id, email, password, auth_type, darkmode FROM users WHERE email = :email_user";
 
     $stmt = $conn -> prepare($query);
 
@@ -28,7 +28,7 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['login-user-
         }
         
         $password_user = cleanString($_POST['password']);
-        $dbpassword = $return[0]['user_password'];
+        $dbpassword = $return[0]['password'];
         
     }
 
@@ -41,7 +41,7 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['login-user-
         $theme = $return[0]['darkmode'] ? 'dark' : 'light';
         setcookie("darkMode", $theme, 2147483647, "/");
         
-        $_SESSION['idUser'] = encodeId($return[0]['id_user']);
+        $_SESSION['idUser'] = encodeId($return[0]['id']);
         $_SESSION['authType'] = 'PASSWORD';
 
         if (isset($_COOKIE['resumeP'])) {

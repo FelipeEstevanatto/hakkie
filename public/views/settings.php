@@ -9,9 +9,9 @@
     include(__DIR__ . "/../../bootstrap.php");
     include(__DIR__ . "/../../app/php/functions.php");
 
-    $query = "SELECT name_user, user_email, user_info, darkmode FROM users WHERE id_user = :id_user";
+    $query = "SELECT username, email, user_info, darkmode FROM users WHERE id = :id";
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']));
+    $stmt -> bindValue(':id', decodeId($_SESSION['idUser']));
     $stmt -> execute();
 
     if ($stmt -> rowCount() < 1) {
@@ -21,14 +21,14 @@
 
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
 
-    $name = $return['name_user'];
-    $email = $return['user_email'];
+    $name = $return['username'];
+    $email = $return['email'];
     $info = $return['user_info'];
     $darkMode = $return['darkmode'];
 
-    $query = "SELECT * FROM blocks WHERE fk_user = :id_user";
+    $query = "SELECT * FROM blocks WHERE fk_user = :id";
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']));
+    $stmt -> bindValue(':id', decodeId($_SESSION['idUser']));
     $stmt -> execute();
     $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
@@ -37,11 +37,11 @@
     } else {
         $hasBlocks = true;
 
-        $query = 'SELECT users.id_user, users.name_user, users.user_picture, users.auth_type, blocks.block_date, blocks.id_block
+        $query = 'SELECT users.id, users.username, users.picture, users.auth_type, blocks.block_date, blocks.id_block
                   FROM users INNER JOIN blocks
-                  ON users.id_user = blocks.user_blocked WHERE blocks.fk_user = :id_user;';
+                  ON users.id = blocks.user_blocked WHERE blocks.fk_user = :id;';
         $stmt = $conn -> prepare($query);
-        $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']));
+        $stmt -> bindValue(':id', decodeId($_SESSION['idUser']));
         $stmt -> execute();
         
         $blocks = $stmt -> fetchAll(PDO::FETCH_ASSOC);
@@ -104,18 +104,18 @@
                     if ($hasBlocks) {
                         foreach ($blocks as $blocked_user) {
                             $div = '
-                            <div class="block" id="'.encodeId($blocked_user['id_user']).'">
+                            <div class="block" id="'.encodeId($blocked_user['id']).'">
                                 <div class="left">  
                                     <img src="';
                                     if ($blocked_user['auth_type'] == 'GOOGLE') {
-                                        $div .= $blocked_user['user_picture'];
-                                    } else if ( !is_null($blocked_user['user_picture']) ) { 
-                                        $div .= $GLOBALS['base_url'] . '/../profiles/pictures/'.$blocked_user['user_picture'];
+                                        $div .= $blocked_user['picture'];
+                                    } else if ( !is_null($blocked_user['picture']) ) { 
+                                        $div .= $GLOBALS['base_url'] . '/../profiles/pictures/'.$blocked_user['picture'];
                                     } else {
                                         $div .= $GLOBALS['base_url'] . '/../public/images/defaultUser.png';
                                     }
                                     $div .= '" alt="user-blocked-picture" width=50px style="clip-path:circle();">
-                                    <a href="#">'.$blocked_user['name_user'].'</a>';
+                                    <a href="#">'.$blocked_user['username'].'</a>';
                                  $div .='
                                 </div>
 

@@ -23,12 +23,12 @@
     } else {
         $own_profile = false;
         
-        $query = "SELECT user_blocked, fk_user FROM blocks WHERE fk_user = :id_user OR user_blocked = :id_user";
+        $query = "SELECT user_blocked, fk_user FROM blocks WHERE fk_user = :id OR user_blocked = :id";
 
         $stmt = $conn -> prepare($query);
 
-        $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']));
-        $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']));
+        $stmt -> bindValue(':id', decodeId($_SESSION['idUser']));
+        $stmt -> bindValue(':id', decodeId($_SESSION['idUser']));
 
         $stmt -> execute();
 
@@ -46,10 +46,10 @@
 
     }
 
-    $query = "SELECT name_user, user_info, user_picture, user_banner, created_at, darkmode, auth_type 
-              FROM users WHERE id_user = :id_user";
+    $query = "SELECT username, user_info, picture, banner, created_at, darkmode, auth_type 
+              FROM users WHERE id = :id";
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', decodeId($_GET['user']) );
+    $stmt -> bindValue(':id', decodeId($_GET['user']) );
     $stmt -> execute();
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
 
@@ -62,24 +62,24 @@
     
     $isGoogle = ($return['auth_type'] == "GOOGLE") ? true : false;
     
-    $user_name = $return['name_user'];
-    $user_picture = $return['user_picture'];
-    $user_banner = $return['user_banner'];
+    $user_name = $return['username'];
+    $picture = $return['picture'];
+    $banner = $return['banner'];
     $user_info = $return['user_info'];
 
     // Get followers, following number and if SESSION is following 
     $query = 'SELECT 
-                COUNT(CASE WHEN user_followed = :id_user THEN 1 END) AS followers,
-                COUNT(CASE WHEN fk_user = :id_user THEN 1 END) AS followings,
+                COUNT(CASE WHEN user_followed = :id THEN 1 END) AS followers,
+                COUNT(CASE WHEN fk_user = :id THEN 1 END) AS followings,
                 EXISTS (SELECT user_followed FROM follows WHERE fk_user = :fk_user AND 
-                fk_user IS NOT NULL AND fk_user != :id_user ) AS isfollowing
+                fk_user IS NOT NULL AND fk_user != :id ) AS isfollowing
               FROM follows;';
 
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', decodeId($_GET['user']));
-    $stmt -> bindValue(':id_user', decodeId($_GET['user']));
+    $stmt -> bindValue(':id', decodeId($_GET['user']));
+    $stmt -> bindValue(':id', decodeId($_GET['user']));
     $stmt -> bindValue(':fk_user', decodeId($_SESSION['idUser']));
-    $stmt -> bindValue(':id_user', decodeId($_GET['user']));
+    $stmt -> bindValue(':id', decodeId($_GET['user']));
     $stmt -> execute();
  
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
@@ -122,11 +122,11 @@
 
         <div class="top">
             <div class="banner">
-                <img src="<?= $GLOBALS['base_url'] . "/../public/images/" ?><?= is_null($user_banner) ? "defaultBanner.jpg" : $user_banner ?>" alt="Banner of user">
+                <img src="<?= $GLOBALS['base_url'] . "/../public/images/" ?><?= is_null($banner) ? "defaultBanner.jpg" : $banner ?>" alt="Banner of user">
             </div>
 
             <div class="info">
-                <img class="profile-picture" src="<?= is_null($user_picture) ? $GLOBALS['base_url']."/../public/images/defaultUser.png" : "$user_picture" ?>" alt="Picture of user">
+                <img class="profile-picture" src="<?= is_null($picture) ? $GLOBALS['base_url']."/../public/images/defaultUser.png" : "$picture" ?>" alt="Picture of user">
                 <div class="time">
                     <i class="fas fa-calendar-alt"></i>
                     Joined <?=$user_since?>

@@ -35,7 +35,7 @@
             <?php
                 include(__DIR__ . '/../../app/php/showPosts.php');
 
-                $query = 'SELECT DISTINCT id_user FROM users INNER JOIN posts ON fk_owner = id_user';
+                $query = 'SELECT DISTINCT users.id AS user_id FROM users INNER JOIN posts ON posts.fk_owner = users.id';
 
                 $stmt = $conn-> query($query);
 
@@ -43,7 +43,7 @@
 
                 foreach ($return as $user) {
 
-                    showPosts($conn, $user['id_user'] , 10);
+                    showPosts($conn, $user['id'] , 10);
 
                 }
 

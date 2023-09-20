@@ -14,22 +14,22 @@ if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empt
     
     $message = cleanString($_POST['post-text']) ?? '';
     
-    $query = 'INSERT INTO posts VALUES(DEFAULT, :post_text, DEFAULT, :id_user);';
+    $query = 'INSERT INTO posts VALUES(DEFAULT, :content, DEFAULT, :id);';
     $stmt = $conn -> prepare($query);  
 
     if (empty($message)) {
-        $stmt -> bindValue(':post_text', 'NULL');
+        $stmt -> bindValue(':content', 'NULL');
     } else {
-        $stmt -> bindValue(':post_text', $message);
+        $stmt -> bindValue(':content', $message);
     }
     
-    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']));
+    $stmt -> bindValue(':id', decodeId($_SESSION['idUser']));
     $stmt -> execute();
 
     // Get post id
-    $query = 'SELECT id_post FROM posts WHERE fk_owner = :id_user ORDER BY id_post DESC LIMIT 1';
+    $query = 'SELECT id_post FROM posts WHERE fk_owner = :id ORDER BY id_post DESC LIMIT 1';
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']));
+    $stmt -> bindValue(':id', decodeId($_SESSION['idUser']));
     $stmt -> execute();
 
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);

@@ -13,24 +13,24 @@ if(!isset($_SESSION['isAuth'])){
 if (isset($_POST['follow']) || !is_numeric($_POST['unfollow'])) {
 
     // Check if user is already following
-    $query = 'SELECT * FROM follows WHERE user_followed = :user_followed AND fk_user = :id_user;';
+    $query = 'SELECT * FROM follows WHERE user_followed = :user_followed AND fk_user = :id;';
     $stmt = $conn -> prepare($query);
 
     $stmt -> bindValue(':user_followed', decodeId($_POST['follow']), PDO::PARAM_INT);
-    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
     $stmt -> execute();
 
     $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
     if ( count($return) > 0 ) {
-        $query = 'DELETE FROM follows WHERE user_followed = :user_followed AND fk_user = :id_user;';
+        $query = 'DELETE FROM follows WHERE user_followed = :user_followed AND fk_user = :id;';
     } else {
-        $query = 'INSERT IGNORE INTO follows VALUES(DEFAULT, :user_followed , DEFAULT, :id_user);';
+        $query = 'INSERT IGNORE INTO follows VALUES(DEFAULT, :user_followed , DEFAULT, :id);';
     }
     $stmt = $conn -> prepare($query);
 
     $stmt -> bindValue(':user_followed', decodeId($_POST['follow']), PDO::PARAM_INT);
-    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
     
     $stmt -> execute();
 

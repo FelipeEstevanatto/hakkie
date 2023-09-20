@@ -21,12 +21,12 @@
         }
     }
 
-    $query = "SELECT name_user, user_info, user_picture, user_banner, created_at, auth_type, darkmode 
-              FROM users WHERE id_user = :id_user";
+    $query = "SELECT username, user_info, picture, banner, created_at, auth_type, darkmode 
+              FROM users WHERE id = :id";
 
     $stmt = $conn -> prepare($query);
 
-    $stmt -> bindValue(':id_user', $GET_user, PDO::PARAM_INT);
+    $stmt -> bindValue(':id', $GET_user, PDO::PARAM_INT);
 
     $stmt -> execute();
 
@@ -39,23 +39,23 @@
 
     $isGoogle = ($return['auth_type'] == "GOOGLE") ? true : false;
     
-    $user_name = $return['name_user'];
-    $user_picture = $return['user_picture'];
-    $user_banner = $return['user_banner'];
+    $user_name = $return['username'];
+    $picture = $return['picture'];
+    $banner = $return['banner'];
     $user_info = $return['user_info'];
 
-    $query = "SELECT user_followed, follow_date, fk_user FROM follows WHERE user_followed = :id_user ORDER BY follow_date";
+    $query = "SELECT user_followed, follow_date, fk_user FROM follows WHERE user_followed = :id ORDER BY follow_date";
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', $GET_user);
+    $stmt -> bindValue(':id', $GET_user);
     $stmt -> execute();
     $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
     $followers = count($return);
 
-    $query = "SELECT user_followed, follow_date, fk_user, name_user, user_picture, user_info, auth_type FROM follows 
-              INNER JOIN users ON id_user = user_followed WHERE fk_user = :id_user ORDER BY follow_date";
+    $query = "SELECT user_followed, follow_date, fk_user, username, picture, user_info, auth_type FROM follows 
+              INNER JOIN users ON id = user_followed WHERE fk_user = :id ORDER BY follow_date";
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', $GET_user);
+    $stmt -> bindValue(':id', $GET_user);
     $stmt -> execute();
     $data = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
@@ -95,8 +95,8 @@
         <div class="top">
             <?php
                 if ($isGoogle) {
-                    echo '<img class="profile-picture" src="'.$user_picture.'" alt="Picture of user">';
-                } elseif (!is_null($user_picture)) {
+                    echo '<img class="profile-picture" src="'.$picture.'" alt="Picture of user">';
+                } elseif (!is_null($picture)) {
                     echo '<img class="profile-picture" src="../images/defaultUser.png" alt="Picture of user">';
                 } else { //fallback
                     echo '<img class="profile-picture" src="../images/defaultUser.png">';
@@ -126,14 +126,14 @@
                             <div class="info">
                                 <img src="';
                                 if ($users['auth_type'] == 'GOOGLE') {
-                                    $each_user .= $users['user_picture'];
-                                } elseif (!is_null($user_picture)) {
-                                    $each_user .= '../images/'.$users['user_picture'];
+                                    $each_user .= $users['picture'];
+                                } elseif (!is_null($picture)) {
+                                    $each_user .= '../images/'.$users['picture'];
                                 } else { 
                                     $each_user .= '../images/defaultUser.png'; // Fallback
                                 }
                         $each_user .='" alt="Picture of user">
-                                <a href="user?user='.encodeId($users['user_followed']).'">'.$users['name_user'].'</a>
+                                <a href="user?user='.encodeId($users['user_followed']).'">'.$users['username'].'</a>
                             </div>
                             
                             <div class="btn follow">

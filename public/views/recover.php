@@ -7,8 +7,8 @@
     <title>Recover password</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/../css/style.css">
-    <link rel="stylesheet" href="../css/forms/forms.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>public/css/style.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>public/css/forms/forms.css">
 
     <!-- Font Awesome-->
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>

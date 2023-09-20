@@ -8,5 +8,11 @@
         "setup-database": [
             "php app/database/installation.php"
         ]
+    },
+    "autoload": {
+        "psr-4": {
+            "Core\\": "Core/",
+            "Http\\": "Http/"
+        }
     }
 }

@@ -1,8 +1,9 @@
 <?php
-require 'vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
 $dotenv->load();
+
 echo 'Environment: ' . $_ENV['ENVIRONMENT'] . PHP_EOL;
 // Create a PDO object to connect to the MySQL server without specifying the database name
 $pdo = new PDO($_ENV['DB_ENGINE'] . ':host=' . $_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);

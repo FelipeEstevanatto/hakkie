@@ -1,11 +1,5 @@
 <?php
 
-
-
-include(__DIR__.'/config.php');
-require_once(__DIR__.'/../../bootstrap.php');
-require_once(__DIR__.'/../php/functions.php');
-
 //Verify ['g_csrf_token'] cookie, and POST id_token/credentials
 if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_csrf_token'] || !isset($_POST['credential'])) {
     
@@ -18,7 +12,7 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
     $jwt = new \Firebase\JWT\JWT; //https://github.com/googleapis/google-api-php-client/issues/1172
     $jwt::$leeway = 60;
 
-    $id_token = cleanString($_POST['credential']);
+    $id_token = $_POST['credential'];
 
     if (empty($id_token) || is_null($id_token) && $_POST['credential'] != $id_token){
         echo "Error in ID_Token sanitization";
@@ -53,7 +47,7 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
                 $_SESSION['isAuth'] = true;
 
                 $theme = $return[0]['darkmode'] ? 'dark' : 'light';
-                setcookie("darkMode", $theme, 2147483647, "/");
+                setcookie("theme", $theme, 2147483647, "/");
 
                 $_SESSION['authType'] = 'GOOGLE';
                 $_SESSION['idUser'] = encodeId($return[0]['id']);
@@ -98,7 +92,7 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
                 $_SESSION['isAuth'] = true;
 
                 $theme = $return['darkmode'] ? 'dark' : 'light';
-                setcookie("darkMode", $theme, 2147483647, "/");
+                setcookie("theme", $theme, 2147483647, "/");
 
                 $_SESSION['authType'] = 'GOOGLE';
                 $_SESSION['idUser'] = encodeId($return['id']);

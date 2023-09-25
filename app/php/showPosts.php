@@ -1,8 +1,6 @@
 <?php
 
 function showPosts($conn, $user, $posts, $choosenId = '') {
-    require_once(__DIR__."/functions.php");
-
     $session_user = decodeId($_SESSION['idUser']);
 
     $query = 'SELECT username, picture, auth_type,
@@ -35,11 +33,19 @@ function showPosts($conn, $user, $posts, $choosenId = '') {
         //Coalesce returns 0 instead of null, so we don't need an if
         $query = 'SELECT id, content, date, fk_owner,
                         (SELECT COUNT(file_name) FROM files WHERE fk_owner = fk_owner AND fk_post = id) AS post_media,
+<<<<<<< Updated upstream
                         COALESCE((SELECT COUNT(likes.id) FROM likes WHERE fk_post = id GROUP BY fk_post),0) AS post_likes,
                         COALESCE((SELECT COUNT(comments.id) FROM comments WHERE fk_post = id GROUP BY fk_post),0) AS post_comments,
                         (SELECT COUNT(*) FROM likes WHERE fk_post = id AND fk_like_owner = :session_user ) AS already_liked
                   FROM posts WHERE fk_owner = :id'; 
         if (!empty($choosenId) && !is_float(decodeId(cleanString($choosenId))) ) {
+=======
+                        COALESCE((SELECT COUNT(id) FROM likes WHERE fk_post = id GROUP BY fk_post),0) AS post_likes,
+                        COALESCE((SELECT COUNT(id) FROM comments WHERE fk_post = id GROUP BY fk_post),0) AS post_comments,
+                        (SELECT COUNT(*) FROM likes WHERE fk_post = id AND fk_like_owner = :session_user ) AS already_liked
+                  FROM posts WHERE fk_owner = :id'; 
+        if (!empty($choosenId) && !is_float(decodeId($choosenId)) ) {
+>>>>>>> Stashed changes
             $query .= ' AND id = :choosen_id';
         }
         $query .=' ORDER BY date DESC';
@@ -50,8 +56,8 @@ function showPosts($conn, $user, $posts, $choosenId = '') {
         $stmt -> bindValue(':session_user', $session_user);
         $stmt -> bindValue(':id', $user);
         
-        if (!empty($choosenId) && !is_float(decodeId(cleanString($choosenId))) ) {
-            $stmt -> bindValue(':choosen_id', decodeId(cleanString($choosenId)));
+        if (!empty($choosenId) && !is_float(decodeId($choosenId)) ) {
+            $stmt -> bindValue(':choosen_id', decodeId($choosenId));
         }
 
         $stmt -> execute();

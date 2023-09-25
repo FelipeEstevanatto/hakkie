@@ -1,9 +1,6 @@
 <?php
 
-    require_once(__DIR__."/../../bootstrap.php");
-    require_once(__DIR__."/functions.php");
-
-    $email_user = cleanEmail($_POST['email']);
+    $email_user = $_POST['email'];
 
     if (!empty($email_user) && isset($_POST['sender-ip']) && isset($_POST['recover-user-submit'])) {
 

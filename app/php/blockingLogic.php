@@ -1,14 +1,5 @@
 <?php
 
-
-
-require_once("../database/connect.php");
-require_once("functions.php");
-
-if(!isset($_SESSION['isAuth'])){
-    exit();
-}
-
 if (isset($_POST['unblock']) && !is_numeric($_POST['unblock'])) {
     
     if (!is_numeric(decodeId($_POST['unblock']))) {

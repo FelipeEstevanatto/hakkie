@@ -17,7 +17,7 @@ if (isset($_POST['follow']) || !is_numeric($_POST['unfollow'])) {
     $stmt = $conn -> prepare($query);
 
     $stmt -> bindValue(':user_followed', decodeId($_POST['follow']), PDO::PARAM_INT);
-    $stmt -> bindValue(':id', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
     $stmt -> execute();
 
     $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
@@ -30,7 +30,7 @@ if (isset($_POST['follow']) || !is_numeric($_POST['unfollow'])) {
     $stmt = $conn -> prepare($query);
 
     $stmt -> bindValue(':user_followed', decodeId($_POST['follow']), PDO::PARAM_INT);
-    $stmt -> bindValue(':id', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
     
     $stmt -> execute();
 

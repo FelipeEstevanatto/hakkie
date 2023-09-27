@@ -1,13 +1,12 @@
 <?php
 
     require('partials/header.php');
-    include(__DIR__ . '/partials/no-script.php');
-    include(__DIR__ . '/partials/tool-bar.php');
+    include('partials/no-script.php');
+    include('partials/tool-bar.php');
     // dd($_SESSION);
     
 ?>
-    <div class="flex justify-center bg-almost-black text-white min-h-screen border-x-2 border-slate-500 p-8 relative">
-        
+    <div id="container" class="flex justify-center bg-almost-black text-white min-h-screen border-x-2 border-slate-500 p-8 relative"> 
         <div class="settings pb-24 w-1/2 p-8">
             <span class="font-bold text-4xl block">Settings</span>
             <!-- Theme -->
@@ -18,14 +17,15 @@
             </label>
 
             <h3 class="mb-4 text-2xl font-bold">Profile</h3>
+            <div class="relative">
 
             <!-- Block -->
-            <div class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-lg text-xl bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-lg text-xl">
+            <div id="block" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-lg text-xl bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-lg text-xl">
                 <i class="fas fa-user-lock"></i>
                 <span>Manage Blocks</span>
             </div>
 
-            <div id="block-manage" class="form-manage close px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-lg mb-6">
+            <div id="block-manage" class="hidden close px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-lg mb-6">
                 <?php
                     if ($hasBlocks) {
                         foreach ($blocks as $blocked_user) {
@@ -54,17 +54,17 @@
             </div>
 
             <!-- Name -->
-            <div class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-lg text-xl">
+            <div id="name" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-lg text-xl">
                 <i class="fas fa-signature"></i>
                 <span>Exchange Name</span>
             </div>
 
-            <div class="form-manage close px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-lg mb-6">
+            <div id="name-manage" class="hidden px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-lg mb-6">
                 <form action="changeUserData" method="POST">
                     <div class="mb-8">
                         <label for="current-name" class="font-medium">Current Name</label>
                         <div class="relative">
-                            <input type="text" name="current-name" id="current-name" value="<?=$name?>" disabled class="w-full p-4 rounded-lg text-black font-normal">
+                            <input type="text" name="current-name" id="current-name" value="<?=$name?>" readonly class="w-full p-4 rounded-lg text-black font-normal">
                         </div>
                     </div>
                     <div class="mb-8">
@@ -78,11 +78,11 @@
             </div>
 
             <!-- Info -->
-            <div class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-lg text-xl">
+            <div id="info" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-lg text-xl">
                 <i class="fas fa-info-circle"></i>
                 <span>Edit Info</span>
             </div>
-            <div class="form-manage close px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-lg mb-6">
+            <div id="info-manage" class="hidden close px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-lg mb-6">
                 <form action="changeUserData" method="POST">
                     <label for="update-info">Current info about you:</label>
 
@@ -96,12 +96,12 @@
             <h3 class="mb-4 text-2xl font-bold">Security</h3>
 
             <!-- Email -->
-            <div class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-lg text-xl">
+            <div id="email" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-lg text-xl">
                 <i class="fas fa-at"></i>
                 <span>Change Email</span>
             </div>
 
-            <div class="form-manage close px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-lg mb-6">
+            <div id="email-manage" class="hidden close px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-lg mb-6">
                 <form action="changeUserData" method="POST">
                     <div class="mb-8">
                         <label for="current-email" class="font-medium">Current Email</label>
@@ -120,12 +120,12 @@
             </div>
 
             <!-- Password -->
-            <div class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-lg text-xl">
+            <div id="password" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-lg text-xl">
                 <i class="fas fa-key"></i>
                 <span>Exchange Password</span>
             </div>
 
-            <div class="form-manage close px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-lg mb-6">
+            <div id="password-manage" class="hidden close px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-lg mb-6">
                 <form action="changeUserData" method="POST">
                     <div class="mb-8">
                         <label for="current-password" class="font-medium">Current Password</label>
@@ -145,7 +145,7 @@
             </div>
             <?php   } ?>
             <a href="logout">
-                <div class="btn p-4 bg-red-500 rounded-lg w-1/4" id="logout-btn">
+                <div class="p-4 bg-red-500 rounded-lg w-1/4" id="logout-btn">
                     <i class="fas fa-door-open"></i>
                     <span>Logout</span>
                 </div>

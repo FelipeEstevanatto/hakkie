@@ -1,16 +1,11 @@
 <?php
 
-
-
-require_once(__DIR__."functions.php");
-require_once(__DIR__."/../../bootstrap.php");
-
 if (isset($_POST['new-password-submit'])) {
     
     $selector = $_POST['selector'];
     $validator = $_POST['validator']; //token
-    $new_password = cleanString($_POST['password']);
-    $passwordRepeat = cleanString($_POST['password-repeat']);
+    $new_password = $_POST['password'];
+    $passwordRepeat = $_POST['password-repeat'];
 
     if ( empty($new_password) || empty($passwordRepeat) ) {
         header("location: new-password?selector=$selector&validator=$validator&newpwd=empty");

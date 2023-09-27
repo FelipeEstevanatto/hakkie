@@ -1,7 +1,7 @@
 <?php
     
     require('partials/header.php');
-    include(__DIR__ . '/../includes/tool-bar.php')
+    include('partials/tool-bar.php');
 
 ?>
 
@@ -13,10 +13,9 @@
         </div>
     </div>
 
-    <?php 
+<?php 
 
-        include(__DIR__ . '/../includes/message.php')
+    include('partials/message.php');
+    require('partials/footer.php');
 
-    ?>
-</body>
-</html>
+?>

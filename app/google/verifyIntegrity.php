@@ -50,7 +50,7 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
                 setcookie("theme", $theme, 2147483647, "/");
 
                 $_SESSION['authType'] = 'GOOGLE';
-                $_SESSION['idUser'] = encodeId($return[0]['id']);
+                $_SESSION['user']['id'] = encodeId($return[0]['id']);
                 
                 if (isset($_COOKIE['resumeP'])) {
                     header("Location: post?id=".$_COOKIE['resumeP']);
@@ -95,7 +95,7 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
                 setcookie("theme", $theme, 2147483647, "/");
 
                 $_SESSION['authType'] = 'GOOGLE';
-                $_SESSION['idUser'] = encodeId($return['id']);
+                $_SESSION['user']['id'] = encodeId($return['id']);
 
                 //Home after registering user
                 header("Location: home");

@@ -1,15 +1,12 @@
 <?php
 
-    require_once(__DIR__. "/../../bootstrap.php");
-
     $query = "SELECT user_blocked FROM blocks WHERE fk_user = :id";
     $stmt = $conn -> prepare($query);
     $stmt -> bindValue(':id', 1);
     $stmt -> execute();
 
     require('partials/header.php');
-
-    include(__DIR__.'/tool-bar.php')
+    include('partials/tool-bar.php');
 
 ?>
 
@@ -49,10 +46,9 @@
         </div>
     </div>
 
-    <?php 
+<?php 
 
-        include(__DIR__.'/message.php')
+    include('partials/message.php');
+    require('partials/footer.php');
 
-    ?>
-</body>
-</html>
+?>

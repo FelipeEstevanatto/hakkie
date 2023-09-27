@@ -4,7 +4,7 @@ require_once(__DIR__ . "/../../../bootstrap.php");
 require_once(__DIR__ . "/../functions.php");
 
 if(!isset($_SESSION['isAuth']) || count($_FILES["uploadfile"]['name']) > 4){
-    header("location: user?user=".$_SESSION['idUser']."&error=toomuchfiles");
+    header("location: user?user=".$_SESSION['user']['id']."&error=toomuchfiles");
     exit();
 }
 
@@ -23,13 +23,13 @@ if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empt
         $stmt -> bindValue(':content', $message);
     }
     
-    $stmt -> bindValue(':id', decodeId($_SESSION['idUser']));
+    $stmt -> bindValue(':id', decodeId($_SESSION['user']['id']));
     $stmt -> execute();
 
     // Get post id
     $query = 'SELECT id FROM posts WHERE fk_owner = :id ORDER BY id DESC LIMIT 1';
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id', decodeId($_SESSION['idUser']));
+    $stmt -> bindValue(':id', decodeId($_SESSION['user']['id']));
     $stmt -> execute();
 
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
@@ -49,18 +49,18 @@ if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empt
             $extension = strtolower(end($temparray));
 
             if ( !in_array( $extension , $permitedFormats ) ) {
-                header("location: user?user=".$_SESSION['idUser']."&error=fileformat");
+                header("location: user?user=".$_SESSION['user']['id']."&error=fileformat");
                 exit;
             }
 
-            array_push($renamed, $_SESSION['idUser'].'Upload'.date('Ymd').(100*rand(0,100000)).".".$extension);
+            array_push($renamed, $_SESSION['user']['id'].'Upload'.date('Ymd').(100*rand(0,100000)).".".$extension);
             array_push($extensions, $extension);
         }
 
         // File sizes verification ====================================
         foreach ($_FILES['uploadfile']['size'] as $filessize) {
             if ( $filessize >= 33554432 ) { //32Mb max size
-                header("Location: user?user=".$_SESSION['idUser']."&error=bigfile");
+                header("Location: user?user=".$_SESSION['user']['id']."&error=bigfile");
                 exit();
             }
         }
@@ -70,7 +70,7 @@ if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empt
         foreach ($_FILES['uploadfile']['tmp_name'] as $key => $filestempname) {
 
             if (!move_uploaded_file($filestempname, $folder.$renamed[$key])) {
-                header("Location: user?user=".$_SESSION['idUser']."&error=failedupload");
+                header("Location: user?user=".$_SESSION['user']['id']."&error=failedupload");
                 exit();
             }
         }
@@ -83,7 +83,7 @@ if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empt
             $stmt -> bindValue(":file_name", $imagename, PDO::PARAM_STR);
             $stmt -> bindValue(":file_type", $extensions[$key], PDO::PARAM_STR);
             $stmt -> bindValue(":fk_post", $postId, PDO::PARAM_INT);
-            $stmt -> bindValue(":session_user", decodeId($_SESSION['idUser']), PDO::PARAM_INT);
+            $stmt -> bindValue(":session_user", decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
 
             $stmt -> execute();
         }
@@ -96,14 +96,14 @@ if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empt
     
 
     if ( $stmt ) {
-        header("Location: user?user=".$_SESSION['idUser']);
+        header("Location: user?user=".$_SESSION['user']['id']);
         exit();
 
     } else {
-        header("Location: user?user=".$_SESSION['idUser']."&error=dberror");
+        header("Location: user?user=".$_SESSION['user']['id']."&error=dberror");
         exit();
     }
 } else {
-    header("Location: user?user=".$_SESSION['idUser']);
+    header("Location: user?user=".$_SESSION['user']['id']);
     exit();
 }

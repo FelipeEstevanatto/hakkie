@@ -1,14 +1,14 @@
 <?php
 
     require('partials/header.php');
-    include(__DIR__.'/../includes/tool-bar.php');
+    include('partials/tool-bar.php');
 
 ?>
 
     <div id="container">
         <div id="feed">
             <?php
-                include(__DIR__.'/../../app/php/showPosts.php');
+                include(__DIR__.'/../../../app/php/showPosts.php');
 
                 showPosts($conn, $id, 1, $_GET['id']);
 
@@ -18,7 +18,7 @@
 
     <?php 
 
-        include(__DIR__.'/../includes/message.php')
+        include('partials/message.php')
 
     ?>
 

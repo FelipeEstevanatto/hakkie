@@ -1,5 +1,7 @@
 <?php
 
+namespace Http\controllers;
+
 use Core\App;
 use Core\Database;
 

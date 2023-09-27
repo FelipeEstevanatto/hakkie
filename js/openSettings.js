@@ -1,42 +1,28 @@
-const buttonSetting = window.document.querySelectorAll('#container .settings .btn');
+const buttonSetting = window.document.querySelectorAll('#container .settings div.btn');
 const formManage = window.document.querySelectorAll('#container .settings .form-manage');
-
-buttonSetting.forEach((btn, index) => {
+buttonSetting.forEach((btn) => {
     btn.addEventListener('click', () => {
-        if(formManage[index].classList.contains('close')) {
-            formManage[index].classList.remove('close');
-            formManage[index].classList.add('open');
-            btn.classList.add('open');
-        }
-        else {
-            formManage[index].classList.remove('open');
-            formManage[index].classList.add('close');
-            btn.classList.remove('open');
-        }
+        const form = window.document.querySelector(`#container .settings #${btn.id}-manage`);
+        form.classList.toggle('hidden');
     });
 });
 
-const unblockBtn = window.document.querySelectorAll('#container .settings #block-manage .block .right i');
-const userBlocked = window.document.querySelectorAll('#container .settings #block-manage .block');
 const blockedBox = window.document.getElementById('block-manage');
-
-unblockBtn.forEach((i, index) => {
-    i.addEventListener('click', () => {
-        
-        let xhr = new XMLHttpRequest();
+window.document.addEventListener('click', (event) => {
+    if (event.target.matches('#container .settings #block-manage .block .right i')) {
+        //console.log('aa', blockedBox)
+        const block = event.target.closest('.block');
+        const xhr = new XMLHttpRequest();
         xhr.open('POST', 'blockingLogic');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
- 
-        xhr.addEventListener("readystatechange", function () {
-            if (this.readyState === 4 && xhr.responseText === 'Sucess unblocking') {
-                userBlocked[index].remove();
-                if (unblockBtn.length-1 == 0) {
-                    blockedBox.innerHTML = '<span><i class="fas fa-thumbs-up"></i> You have no blocks, nice!</span>'
+        xhr.addEventListener('readystatechange', () => {
+            if (xhr.readyState === 4 && xhr.responseText === 'Sucess unblocking') {
+                block.remove();
+                if (window.document.querySelectorAll('#container .settings #block-manage.open .block').length === 0) {
+                    blockedBox.innerHTML = '<span><i class="fas fa-thumbs-up"></i> You have no blocks, nice!</span>';
                 }
             }
         });
-
-        xhr.send('unblock='+window.document.querySelectorAll('#container .settings #block-manage.open .block')[index].id); 
-
-    });
+        xhr.send(`unblock=${block.id}`);
+    }
 });

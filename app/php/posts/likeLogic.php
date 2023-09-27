@@ -17,7 +17,7 @@ if (isset($_POST['like']) && !is_numeric($_POST['like'])) {
     $stmt = $conn -> prepare($query);
 
     $stmt -> bindValue(':id', decodeId($_POST['like']), PDO::PARAM_INT);
-    $stmt -> bindValue(':id', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
 
     $stmt -> execute();
 
@@ -32,7 +32,7 @@ if (isset($_POST['like']) && !is_numeric($_POST['like'])) {
 
     $stmt = $conn -> prepare($query);
 
-    $stmt -> bindValue(':id', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
     $stmt -> bindValue(':id', decodeId($_POST['unlike']), PDO::PARAM_INT);
     
     $stmt -> execute();

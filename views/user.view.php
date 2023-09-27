@@ -1,8 +1,8 @@
 <?php
     
     require('partials/header.php');
-    include('partials/no-script.php');
     include('partials/tool-bar.php');
+    include('partials/no-script.php');
 
 ?>
     <div class="flex justify-center bg-almost-black text-white min-h-screen border-x-2 border-slate-500 p-8 relative">
@@ -136,7 +136,7 @@
         
             <div id="feed">        
                 <?php
-                    include(__DIR__ . "/../../app/php/showPosts.php");
+                    include(__DIR__ . "/../app/php/showPosts.php");
     
                     // Post layout
                     showPosts($conn, decodeId($_GET['user']), 10);

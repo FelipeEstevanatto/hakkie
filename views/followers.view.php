@@ -1,7 +1,7 @@
 <?php
 
 require('partials/header.php');
-include(__DIR__.'/../includes/tool-bar.php');
+include('partials/tool-bar.php');
 
 ?>
 

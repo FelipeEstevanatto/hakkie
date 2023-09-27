@@ -1,9 +1,4 @@
 <?php
-    if ( isset($_ENV['GOOGLE_LOGIN_URI'])) {
-        $data_login_uri = $_ENV['GOOGLE_LOGIN_URI']."/app/google/verifyIntegrity.php";
-    } else {
-        $data_login_uri = 'http://localhost/hakkie/app/google/verifyIntegrity.php';
-    }
 
     require('partials/header.php');
 ?>

@@ -17,7 +17,7 @@ if (isset($_POST['deletePost']) && !is_numeric($_POST['deletePost'])) {
     $stmt = $conn -> prepare($query);
 
     $stmt -> bindValue(':id', decodeId($_POST['deletePost']), PDO::PARAM_INT);
-    $stmt -> bindValue(':session_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
+    $stmt -> bindValue(':session_user', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
     
     $stmt -> execute();
 
@@ -46,7 +46,7 @@ if (isset($_POST['deletePost']) && !is_numeric($_POST['deletePost'])) {
 
     $query = 'DELETE FROM posts WHERE fk_owner = :session_user AND id = :id;';
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':session_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
+    $stmt -> bindValue(':session_user', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
     $stmt -> bindValue(':id', decodeId($_POST['deletePost']), PDO::PARAM_INT);
     $result3 = $stmt -> execute();
 

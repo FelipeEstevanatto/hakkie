@@ -1,20 +1,23 @@
 <?php
 
+namespace Http\controllers;
+
 use Core\App;
 use Core\Database;
 
 $db = App::resolve(Database::class);
 
-$id = $_GET['user'];
+$id = $_GET['user'] ?? $_SESSION['user']['id'];
 
-// Get user info
+
 if (!isset($id) || !is_numeric($id)) {
-    include(__DIR__ . "/../includes/user-nonexistent.php"); //This user does not exist in DB!
+    include(__DIR__ . "/../../views/user-nonexistent.php"); //This user does not exist in DB!
     exit();    
 }
 
 $own_profile = true;
 
+// Get user info
 if ($id != $_SESSION['user']['id']){
 
     $own_profile = false;
@@ -85,5 +88,5 @@ view("user.view.php", [
     'following' => $following,
     'follow_status' => $follow_status,
     'isGoogle' => $isGoogle,
-    
+
 ]);

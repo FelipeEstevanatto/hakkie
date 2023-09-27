@@ -1,5 +1,7 @@
 <?php
 
+namespace Http\controllers;
+
 if ( !isset($_GET['id']) || is_numeric($_GET['id']) || is_float(decodeId($_GET['id']))) {
     include(__DIR__."/../includes/user-nonexistent.php"); //This user does not exist in DB!
     exit();      

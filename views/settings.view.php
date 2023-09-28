@@ -20,12 +20,12 @@
             <div class="relative">
 
             <!-- Block -->
-            <div id="block" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-lg text-xl bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-lg text-xl">
+            <div id="block" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-t-lg rounded-b-lg text-xl bg-gradient-to-r from-indigo-600 to-orange-700 p-4 text-xl mb-6 cursor-pointer">
                 <i class="fas fa-user-lock"></i>
                 <span>Manage Blocks</span>
             </div>
 
-            <div id="block-manage" class="hidden close px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-lg mb-6">
+            <div id="block-manage" class="hidden close px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-b-lg mb-6">
                 <?php
                     if ($hasBlocks) {
                         foreach ($blocks as $blocked_user) {
@@ -54,12 +54,12 @@
             </div>
 
             <!-- Name -->
-            <div id="name" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-lg text-xl">
+            <div id="name" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-t-lg rounded-b-lg text-xl mb-6">
                 <i class="fas fa-signature"></i>
                 <span>Exchange Name</span>
             </div>
 
-            <div id="name-manage" class="hidden px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-lg mb-6">
+            <div id="name-manage" class="hidden px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-b-lg mb-6">
                 <form action="changeUserData" method="POST">
                     <div class="mb-8">
                         <label for="current-name" class="font-medium">Current Name</label>
@@ -78,11 +78,11 @@
             </div>
 
             <!-- Info -->
-            <div id="info" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-lg text-xl">
+            <div id="info" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-t-lg rounded-b-lg text-xl mb-6">
                 <i class="fas fa-info-circle"></i>
                 <span>Edit Info</span>
             </div>
-            <div id="info-manage" class="hidden close px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-lg mb-6">
+            <div id="info-manage" class="hidden close px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-b-lg mb-6">
                 <form action="changeUserData" method="POST">
                     <label for="update-info">Current info about you:</label>
 
@@ -96,12 +96,12 @@
             <h3 class="mb-4 text-2xl font-bold">Security</h3>
 
             <!-- Email -->
-            <div id="email" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-lg text-xl">
+            <div id="email" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-t-lg rounded-b-lg text-xl mb-6">
                 <i class="fas fa-at"></i>
                 <span>Change Email</span>
             </div>
 
-            <div id="email-manage" class="hidden close px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-lg mb-6">
+            <div id="email-manage" class="hidden close px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-b-lg mb-6">
                 <form action="changeUserData" method="POST">
                     <div class="mb-8">
                         <label for="current-email" class="font-medium">Current Email</label>
@@ -120,12 +120,12 @@
             </div>
 
             <!-- Password -->
-            <div id="password" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-lg text-xl">
+            <div id="password" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-t-lg rounded-b-lg text-xl mb-6">
                 <i class="fas fa-key"></i>
                 <span>Exchange Password</span>
             </div>
 
-            <div id="password-manage" class="hidden close px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-lg mb-6">
+            <div id="password-manage" class="hidden close px-8 py-4 drop-shadow-md border-2 border-gray-700 rounded-b-lg mb-6">
                 <form action="changeUserData" method="POST">
                     <div class="mb-8">
                         <label for="current-password" class="font-medium">Current Password</label>

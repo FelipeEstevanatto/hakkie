@@ -4,6 +4,8 @@ buttonSetting.forEach((btn) => {
     btn.addEventListener('click', () => {
         const form = window.document.querySelector(`#container .settings #${btn.id}-manage`);
         form.classList.toggle('hidden');
+        btn.classList.toggle('rounded-b-lg');
+        btn.classList.toggle('mb-6');
     });
 });
 

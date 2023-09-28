@@ -7,13 +7,13 @@
     
 ?>
     <div id="container" class="flex justify-center bg-almost-black text-white min-h-screen border-x-2 border-slate-500 p-8 relative"> 
-        <div class="settings pb-24 w-1/2 p-8">
+        <div class="settings pb-24 w-1/2 p-8 font-popins">
             <span class="font-bold text-4xl block">Settings</span>
             <!-- Theme -->
             <label class="relative inline-flex items-center cursor-pointer my-8">
                 <input type="checkbox" value="" id="theme-check" name="theme-check" <?= $_SESSION['user']['theme'] == 'dark' ? 'checked' : '' ?> class="sr-only peer">
                 <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">DarkMode: <span id="theme-state"><?= $_SESSION['user']['theme'] == 'dark' ?  'ON' : 'OFF' ?></span></span>
+                <span class="ml-3 text-sm font-bold text-gray-900 dark:text-gray-300">DarkMode: <span id="theme-state"><?= $_SESSION['user']['theme'] == 'dark' ?  'ON' : 'OFF' ?></span></span>
             </label>
 
             <h3 class="mb-4 text-2xl font-bold">Profile</h3>
@@ -86,7 +86,7 @@
                 <form action="changeUserData" method="POST">
                     <label for="update-info">Current info about you:</label>
 
-                    <textarea id="textarea" name="update-info" type="text" maxlength="256" rows="3" class="w-full bg-gray-700"><?=!is_null($info) ? $info : '' ?></textarea>
+                    <textarea id="textarea" name="update-info" type="text" maxlength="256" rows="3" class="w-full bg-gray-700 rounded-lg p-2"><?=!is_null($info) ? $info : '' ?></textarea>
                     <label id="count" for="update-info" class="absolute right-10 bottom-20 text-right w-auto rounded-full font-normal"></label>
 
                     <input type="submit" name='change-user-info' value="Submit" class="py-4 px-12 bg-green-800 rounded-lg font-bold">

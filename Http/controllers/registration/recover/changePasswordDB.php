@@ -5,6 +5,8 @@ use Core\Database;
 use Core\Session;
 use Core\Validator;
 
+$db = App::resolve(Database::class);
+
 $selector = $_POST['selector'];
 $validator = $_POST['validator']; //token
 $new_password = $_POST['password'];

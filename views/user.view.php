@@ -136,14 +136,14 @@
         
             <div id="feed">        
                 <?php
-                    include(__DIR__ . "/../app/php/showPosts.php");
+                    // include(__DIR__ . "/showPosts.php");
     
-                    // Post layout
-                    showPosts($conn, decodeId($_GET['user']), 10);
+                    // // Post layout
+                    // showPosts($conn, $_GET['user'], 10);
     
-                    echo'<div class="post text">
-                    No more posts from this user to show!
-                    </div>';
+                    // echo'<div class="post text">
+                    // No more posts from this user to show!
+                    // </div>';
                 ?>
      
             </div>

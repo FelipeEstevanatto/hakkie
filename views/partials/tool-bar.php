@@ -1,5 +1,5 @@
 
-<div class="flex min-h-screen w-screen px-8 lg:w-3/12 fixed lg:pt-8 text-white border-x-2 border-slate-500 z-50">
+<div class="flex min-h-screen w-screen px-8 lg:w-3/12 fixed lg:pt-8 text-white border-r-2 border-slate-500 z-50 drop-shadow-xl">
     <div>
         <div class="logo">Hakkie</div>
         <div class="buttons text-2xl">

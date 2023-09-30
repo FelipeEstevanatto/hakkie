@@ -6,7 +6,7 @@
     // dd($_SESSION);
     
 ?>
-    <div id="container" class="flex justify-center bg-almost-black text-white min-h-screen border-x-2 border-slate-500 p-8 relative"> 
+    <div id="container" class="flex justify-center bg-almost-black text-white min-h-screen p-8 relative"> 
         <div class="settings pb-24 w-1/2 p-8 font-popins">
             <span class="font-bold text-4xl block">Settings</span>
             <!-- Theme -->
@@ -54,7 +54,7 @@
             </div>
 
             <!-- Name -->
-            <div id="name" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-t-lg rounded-b-lg text-xl mb-6">
+            <div id="name" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-t-lg rounded-b-lg text-xl mb-6 cursor-pointer">
                 <i class="fas fa-signature"></i>
                 <span>Exchange Name</span>
             </div>
@@ -78,7 +78,7 @@
             </div>
 
             <!-- Info -->
-            <div id="info" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-t-lg rounded-b-lg text-xl mb-6">
+            <div id="info" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-t-lg rounded-b-lg text-xl mb-6 cursor-pointer">
                 <i class="fas fa-info-circle"></i>
                 <span>Edit Info</span>
             </div>
@@ -96,7 +96,7 @@
             <h3 class="mb-4 text-2xl font-bold">Security</h3>
 
             <!-- Email -->
-            <div id="email" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-t-lg rounded-b-lg text-xl mb-6">
+            <div id="email" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-t-lg rounded-b-lg text-xl mb-6 cursor-pointer">
                 <i class="fas fa-at"></i>
                 <span>Change Email</span>
             </div>
@@ -120,7 +120,7 @@
             </div>
 
             <!-- Password -->
-            <div id="password" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-t-lg rounded-b-lg text-xl mb-6">
+            <div id="password" class="btn bg-gradient-to-r from-indigo-600 to-orange-700 p-4 rounded-t-lg rounded-b-lg text-xl mb-6 cursor-pointer">
                 <i class="fas fa-key"></i>
                 <span>Exchange Password</span>
             </div>
@@ -144,12 +144,13 @@
                 </form>
             </div>
             <?php   } ?>
-            <a href="logout">
+            <form method="POST" action="session">
+                <input type="hidden" name="_method" value="DELETE"/>
                 <div class="p-4 bg-red-500 rounded-lg w-1/4" id="logout-btn">
                     <i class="fas fa-door-open"></i>
-                    <span>Logout</span>
+                    <button>Logout</button>
                 </div>
-            </a> 
+            </form> 
         </div>
     </div>
 

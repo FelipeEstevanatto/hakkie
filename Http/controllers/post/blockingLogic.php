@@ -2,7 +2,7 @@
 
 if (isset($_POST['unblock']) && !is_numeric($_POST['unblock'])) {
     
-    if (!is_numeric(decodeId($_POST['unblock']))) {
+    if (!is_numeric($_POST['unblock'])) {
         exit;
     }
 
@@ -10,8 +10,8 @@ if (isset($_POST['unblock']) && !is_numeric($_POST['unblock'])) {
 
     $stmt = $conn -> prepare($query);
 
-    $stmt -> bindValue(':id_blocked', decodeId($_POST['unblock']), PDO::PARAM_INT);
-    $stmt -> bindValue(':session_user', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id_blocked', $_POST['unblock'], PDO::PARAM_INT);
+    $stmt -> bindValue(':session_user', $_SESSION['user']['id'], PDO::PARAM_INT);
 
     $stmt -> execute();
 
@@ -21,7 +21,7 @@ if (isset($_POST['unblock']) && !is_numeric($_POST['unblock'])) {
 
 } elseif (isset($_POST['block']) && !is_numeric($_POST['block'])) {
 
-    if (!is_numeric(decodeId($_POST['block']))) {
+    if (!is_numeric($_POST['block'])) {
         exit;
     }
 
@@ -32,10 +32,10 @@ if (isset($_POST['unblock']) && !is_numeric($_POST['unblock'])) {
     $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
     $stmt = $conn -> prepare($query);
     
-    $stmt -> bindValue(':user_blocked', decodeId($_POST['block']), PDO::PARAM_INT);
-    $stmt -> bindValue(':fk_user', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
-    $stmt -> bindValue(':user_blocked', decodeId($_POST['block']), PDO::PARAM_INT);
-    $stmt -> bindValue(':fk_user', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
+    $stmt -> bindValue(':user_blocked', $_POST['block'], PDO::PARAM_INT);
+    $stmt -> bindValue(':fk_user', $_SESSION['user']['id'], PDO::PARAM_INT);
+    $stmt -> bindValue(':user_blocked', $_POST['block'], PDO::PARAM_INT);
+    $stmt -> bindValue(':fk_user', $_SESSION['user']['id'], PDO::PARAM_INT);
 
     $stmt -> execute();
 

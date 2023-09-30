@@ -19,7 +19,17 @@
                     Create Account
                 </div>
 
-                <form action="registerLogic" method="POST" class="text-lg font-semibold font-popins">
+                <?php
+                    if(!empty($errors)) {
+                        echo "<div class='bg-red-500 text-white p-4 rounded-lg mb-4'>"; 
+                        foreach ($errors as $error) {
+                            echo $error[0]."<br>";
+                        }
+                        echo "</div><br>";
+                    }
+                ?>
+
+                <form action="register" method="POST" class="text-lg font-semibold font-popins">
                     <div class="mb-6">
                         <label for="email" class="font-medium">Name</label>
                         <input type="text" name="name" id="name" required class="p-4 w-full text-black rounded-lg font-normal">

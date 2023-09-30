@@ -4,7 +4,7 @@ namespace Http\controllers;
 
 use Core\Session;
 
-view("index.view.php", [
-    'heading' => 'Home',
+view("notifications.view.php", [
+    'heading' => 'Notifications',
     'errors' => Session::get('errors'),
 ]);

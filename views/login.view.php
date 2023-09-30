@@ -8,14 +8,15 @@
                 Log into your account
             </div>
             <?php
-                if (isset($_GET['error']) && $_GET['error'] == 'invalid') {
-                    echo"<div class='feedback error'>Invalid email or password</div><br>";
-                } elseif (isset($_GET['newpwd']) && $_GET['newpwd'] == 'passwordupdated') {
-                    echo"<div class='feedback success'>Now login with your new password</div><br>";
+                if(!empty($errors)) {
+                    echo "<div class='bg-red-500 text-white p-4 rounded-lg mb-4'>"; 
+                    foreach ($errors as $error) {
+                        echo $error[0]."<br>";
+                    }
+                    echo "</div><br>";
                 }
             ?>
-
-            <form action="login" method="POST" class="max-w-[600px] text-lg font-semibold font-popins">
+            <form action="session" method="POST" class="max-w-[600px] text-lg font-semibold font-popins">
                 <div class="mb-6">
                     <label for="email" class="font-medium">Email</label>
                     <input type="email" name="email" id="email" required class="p-4 w-full text-black rounded-lg font-normal">

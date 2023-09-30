@@ -11,7 +11,7 @@ $id = $_GET['user'] ?? $_SESSION['user']['id'];
 
 
 if (!isset($id) || !is_numeric($id)) {
-    include(__DIR__ . "/../../views/user-nonexistent.php"); //This user does not exist in DB!
+    include(__DIR__ . "/../../views/user-nonexistent.view.php"); //This user does not exist in DB!
     exit();    
 }
 

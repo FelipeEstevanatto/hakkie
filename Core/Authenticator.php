@@ -7,7 +7,7 @@ class Authenticator
     public function attempt($email, $password)
     {
         $user = App::resolve(Database::class)
-            ->query('select * from users where email = :email', [
+            ->query('SELECT * FROM users WHERE email = :email', [
             'email' => $email
         ])->find();
 

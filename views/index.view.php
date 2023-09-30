@@ -23,7 +23,7 @@
                     if(!empty($errors)) {
                         echo "<div class='bg-red-500 text-white p-4 rounded-lg mb-4'>"; 
                         foreach ($errors as $error) {
-                            echo $error[0]."<br>";
+                            echo "- ".$error[0]."<br>";
                         }
                         echo "</div><br>";
                     }
@@ -32,17 +32,35 @@
                 <form action="register" method="POST" class="text-lg font-semibold font-popins">
                     <div class="mb-6">
                         <label for="email" class="font-medium">Name</label>
-                        <input type="text" name="name" id="name" required class="p-4 w-full text-black rounded-lg font-normal">
+                        <input 
+                            class="p-4 w-full text-black rounded-lg font-normal"
+                            type="text"
+                            name="name"
+                            id="name"
+                            required
+                        >
                     </div>
                     <div class="mb-6">
                         <label for="email" class="font-medium">Email</label>
-                        <input type="email" name="email" id="email" required class="p-4 w-full text-black rounded-lg font-normal">
+                        <input 
+                            class="p-4 w-full text-black rounded-lg font-normal"
+                            type="email" 
+                            name="email" 
+                            id="email" 
+                            required 
+                            value="<?= old('email') ?>"
+                        >
                     </div>
 
                     <div class="mb-8">
                         <label for="password" class="font-medium">Password</label>
                         <div class="relative">
-                            <input type="password" name="password" id="password" required class="w-full p-4 rounded-lg text-black font-normal">
+                            <input type="password"
+                                class="w-full p-4 rounded-lg text-black font-normal"
+                                name="password"
+                                id="password"
+                                required
+                            >
                             <i class="text-gray-300 fas fa-eye-slash absolute top-0 right-0 p-4 cursor-pointer text-xl" id="show-password-btn"></i>
                         </div>
                     </div>

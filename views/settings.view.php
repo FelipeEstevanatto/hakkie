@@ -3,8 +3,7 @@
     require('partials/header.php');
     include('partials/no-script.php');
     include('partials/tool-bar.php');
-    // dd($_SESSION);
-    
+
 ?>
     <div id="container" class="flex justify-center bg-almost-black text-white min-h-screen p-8 relative"> 
         <div class="settings pb-24 w-1/2 p-8 font-popins">

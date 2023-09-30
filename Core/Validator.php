@@ -4,6 +4,7 @@ namespace Core;
 
 use Core\App;
 use Core\Database;
+use Core\ValidationException;
 
 class Validator
 {
@@ -30,19 +31,19 @@ class Validator
                 switch ($ruleName) {
                     case 'required':
                         if (empty($value)) {
-                            $this->addError($field, 'The ' . $field . ' field is required.');
+                            $this->addError($field, $this->getCustomMessage($field, 'required') ?: 'The ' . $field . ' field is required.', 'required');
                         }
                         break;
     
                     case 'email':
                         if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                            $this->addError($field, 'The ' . $field . ' field must be a valid email address.');
+                            $this->addError($field, $this->getCustomMessage($field, 'email') ?: 'The ' . $field . ' field must be a valid email address.', 'email');
                         }
                         break;
     
                     case 'min':
                         if (strlen($value) < $ruleArgs[0]) {
-                            $this->addError($field, 'The ' . $field . ' field must be at least ' . $ruleArgs[0] . ' characters long.');
+                            $this->addError($field, $this->getCustomMessage($field, 'min') ?: 'The ' . $field . ' field must be at least ' . substr($rule, 4) . ' characters.', 'min');
                         }
                         break;
     
@@ -51,7 +52,8 @@ class Validator
                         break;
                     case 'matches':
                         if ($value !== $this->data[$ruleArgs[0]]) {
-                            $this->addError($field, 'The ' . $field . ' field must match the ' . $ruleArgs[0] . ' field.');
+                            $this->addError($field, $this->getCustomMessage($field, 'matches') ?: 'The ' . $field . ' field does not match the confirmation.', 'matches');
+
                         }
                         break;
                 }
@@ -74,7 +76,7 @@ class Validator
             $result = $query->find();
 
             if ($result) {
-                $this->addError($field, 'The ' . $field . ' field must be unique.');
+                $this->addError($field, $this->getCustomMessage($field, 'unique') ?: 'The ' . $field . ' field must be unique.', 'unique');
             }
         }
 
@@ -91,8 +93,42 @@ class Validator
         return !empty($this->errors);
     }
 
-    protected function addError($field, $message)
+    protected function addError($field, $message, $rule = null)
     {
+        if (!isset($this->errors[$field])) {
+            $this->errors[$field] = [];
+        }
+    
+        $customMessage = $this->getCustomMessage($field, $rule);
+    
+        if ($customMessage) {
+            $message = $customMessage;
+        }
+    
         $this->errors[$field][] = $message;
+    }
+
+    protected function getCustomMessage($field, $rule)
+    {
+        $messages = $this->message();
+
+        if (isset($messages[$field]) && isset($messages[$field][$rule])) {
+            return $messages[$field][$rule];
+        }
+
+        return null;
+    }
+
+    /**
+     * Return custom error messages
+     * return [
+     *    'field' => [
+     *       'rule' => 'message'
+     *   ]
+     * ];
+     */
+    public function message()
+    {
+        return [];
     }
 }

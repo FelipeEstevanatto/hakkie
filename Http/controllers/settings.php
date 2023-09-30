@@ -4,16 +4,15 @@ namespace Http\controllers;
 
 use Core\App;
 use Core\Database;
-use Core\Validator;
 
 $_SESSION['email'] = 'felipe.estevanatto@gmail.com';
 
 $db = App::resolve(Database::class);
-//dd($_SESSION);
+
 $user = $db->query("SELECT * FROM users WHERE email = :email", [
     'email' => $_SESSION['email']
 ])->find();
-//dd($user); // This is the user that is logged in (if logged in
+
 $name = $user['username'];
 $email = $user['email'];
 $info = $user['user_info'];

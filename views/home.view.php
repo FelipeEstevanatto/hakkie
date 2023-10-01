@@ -8,7 +8,7 @@
 
         <div id="feed">
             <!-- <?php
-                include(__DIR__ . '/../../app/php/showPosts.php');
+                include(__DIR__ . '/showPosts.php');
 
                 foreach ($return as $user) {
 
@@ -26,7 +26,7 @@
 
     <?php 
         
-        include(__DIR__ . '../includes/message.php')
+        include('partials/message.php')
 
     ?>
 

@@ -152,7 +152,7 @@
 
     <?php 
 
-        include(__DIR__ . '/../includes/message.php')
+        include('partials/message.php')
 
     ?>
 

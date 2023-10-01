@@ -3,7 +3,7 @@
 use Core\App;
 use Core\Database;
 
-function showPosts($user, $posts, $choosenId = '') {
+function showPosts($user, $maxPosts, $choosenId = '') {
     
     $session_user = $_SESSION['user']['id'];
 
@@ -51,16 +51,18 @@ function showPosts($user, $posts, $choosenId = '') {
     [
         'id' => $user,
         'session_user' => $session_user,
-    ])->find();
+    ])->get();
 
     foreach ($returnPosts as $key=>$post) {
-        if ($key >= $posts) break;
+        //dd($post);
+        if ($key >= $maxPosts) break;
 
         if ($post['post_media'] > 0) {
             $returnMedia = $db->query('SELECT file_name, file_type, fk_post FROM files WHERE fk_owner = :id AND fk_post = :post_id',[
                 'id' => $user,
                 'post_id' => $post['id'],
-            ])->find();
+            ])->get();
+            //dd($returnMedia);
         }
         
         if ($isGoogle) {
@@ -109,11 +111,10 @@ function showPosts($user, $posts, $choosenId = '') {
                 //================== Post Media ==================
                 if ($post['post_media'] > 0) {
                     foreach ($returnMedia as $filesPost) {
-
                         $temparray = explode(".",$filesPost["file_name"]);
                         $extension = strtolower(end($temparray));
 
-                        if ( in_array($extension , $permitedVideoFormats) ) {
+                        if (in_array($extension , $permitedVideoFormats)) {
                             echo'<video width="100%" controls style="border-radius: 5%;">
                                 <source src="../posts/'.$filesPost["file_name"].'" type="video/'.$extension.'" >
                                 Your browser do not support the video tag
@@ -133,25 +134,23 @@ function showPosts($user, $posts, $choosenId = '') {
                 ?>
             </div>
         </div>
-        <?
-        //================== Start of post DIV ================== (with post id and user id)
-        echo '<!--Post layout-->
-        <div class="post text" id="'.$post['id'].'">
-            <div class="top-post">
-                <div class="left" id="'.$user.'">
-                    <img src="'.$imageurl;
-                    //================== User Picture and name ==================
-                    echo'">
-                    <a href="user?user='.$user.'">'.$username.'</a>
-                </div>
+        <!-- ================== Start of post DIV ================== (with post id and user id) -->
+        <!--Post layout-->
+        <div class="post text" id="<?=$post['id']?>">
+        <div class="top-post">
+            <div class="left" id="<?=$user?>">
+                <img src="<?=$imageurl?>">
+                <!-- ================== User Picture and name ================== -->
+                <a href="user?user=<?=$user?>"><?=$username?></a>
+            </div>
+            
+            <div class="right">
+                <span><?=time_elapsed_string($post['date'])?>
+                <i class="fas fa-ellipsis-v" class="interative-form-btn"></i>
+                </span>
                 
-                <div class="right">
-                    <span>'
-                    .time_elapsed_string($post['date']).'
-                    <i class="fas fa-ellipsis-v" class="interative-form-btn"></i>
-                    </span>
-
-                    <div class="interative-form close">';
+                <div class="interative-form close">';
+                    <?php   
                         if ($post['fk_owner'] != $_SESSION['user']['id']) {
                             echo'
                             <div class="btn-form '.$following_status.'" id="follow">'.$following_status.' User</div>
@@ -159,15 +158,16 @@ function showPosts($user, $posts, $choosenId = '') {
                         } else {
                             echo'<div class="btn-form" id="delete">Delete Post</div>';
                         }
-                    echo'
+                    ?>
                     </div>
                 </div>
-            </div>';
-            //================== Post Text ==================
+            </div>
+            <?php
+            // <!-- ================== Post Text ================== -->
             if ($post['content'] != 'NULL') {
                 echo'<div class="content-post">'.convertYoutube($post['content']).'</div>';
             }
-            //================== Post Media ==================
+            // <!-- ================== Post Media ================== -->
             if ($post['post_media'] > 0) {
                 foreach ($returnMedia as $filesPost) {
 
@@ -189,7 +189,7 @@ function showPosts($user, $posts, $choosenId = '') {
                     }
                 }
             }
-            //================== Post Footer ==================
+            // <!-- ================== Post Footer ================== -->
             $alreadyliked = $post['already_liked'] == 1 ? ' my-like' : '';
         ?>
             <!-- ================== End of Post Footer ================== -->

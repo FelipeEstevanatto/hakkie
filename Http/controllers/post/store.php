@@ -4,6 +4,7 @@ namespace Http\controllers\post;
 
 use Core\App;
 use Core\Database;
+use Core\ValidationException;
 use Http\Forms\PostForm;
 
 $db = App::resolve(Database::class);

@@ -32,7 +32,14 @@ $db->query('INSERT INTO users(username, email, password) VALUES(:username, :emai
     'password' => password_hash($password, PASSWORD_BCRYPT)
 ]);
 
-(new Authenticator)->login($user);
+$user = $db->query('SELECT id FROM users WHERE email = :email', [
+    'email' => $email
+])->find();
+
+(new Authenticator)->login([
+    'email' => $email,
+    'id' => $user['id'],
+]);
 
 header('location: home');
 exit();

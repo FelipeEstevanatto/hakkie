@@ -1,27 +1,21 @@
 <?php
 
 use Core\Authenticator;
-use Core\Validator;
 use Core\Session;
+use Http\Forms\LoginForm;
 
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-$validator = new Validator([
+$form = new LoginForm([
     'email' => $email,
     'password' => $password
 ]);
 
-$validator->validate([
-    'email' => 'required|email',
-    'password' => 'required'
-]);
+$errors = $form->validateForm()->errors();
 
-if ($validator->hasErrors()) {
-    $errors = $validator->errors();
-
-    Session::put('errors', $errors);
-    header('location: /hakkie');
+if ($form->hasErrors()) {
+    ValidationException::throw($errors, $_POST);
     exit();
 }
 

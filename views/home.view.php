@@ -13,7 +13,7 @@
                 }
 
                 echo'<div class="post text p-6 border-2 border-gray-500 rounded-lg text-center">
-                    No more posts from this user to show!
+                    No more posts to show!
                     </div>';
             ?>
         </div>

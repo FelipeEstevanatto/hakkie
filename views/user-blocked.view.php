@@ -1,18 +1,12 @@
 <?php
 
-    $query = "SELECT user_blocked FROM blocks WHERE fk_user = :id";
-    $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id', 1);
-    $stmt -> execute();
-
     require('partials/header.php');
     include('partials/tool-bar.php');
 
 ?>
 
-    <div id="container">
-
-    <div class="top">
+    <div class="flex justify-center bg-almost-black text-white min-h-screen relative">
+        <div class="w-1/2">
             <div class="banner">
                 <img src="../images/defaultBanner.jpg" alt="Banner of user">
             </div>

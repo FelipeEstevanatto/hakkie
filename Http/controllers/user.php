@@ -82,7 +82,7 @@ $follow_info = $db->query('SELECT
 
 $followers = $follow_info['followers'];
 $following = $follow_info['followings'];
-$follow_status = $follow_info['isfollowing'] ? 'unfollow' : 'follow';
+$follow_status = $follow_info['isfollowing'] ? 'Unfollow' : 'follow';
 
 view("user.view.php", [
     'heading' => 'User',

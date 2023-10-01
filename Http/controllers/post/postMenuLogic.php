@@ -31,14 +31,14 @@ if (isset($_POST['follow']) && is_numeric($_POST['follow'])) {
     }
 
 //Unfollow
-} elseif (isset($_POST['unfollow']) && is_numeric($_POST['unfollow'])) {
+} elseif (isset($_POST['Unfollow']) && is_numeric($_POST['Unfollow'])) {
 
     $stmt = $db->query('DELETE FROM follows WHERE user_followed = :user_unfollowed AND fk_user = :id;
     UPDATE users SET user_followers = user_followers-1 WHERE id = :user_unfollowed;
     UPDATE users SET user_following = user_following-1 WHERE id = :id;',[
-        'user_unfollowed' => $_POST['unfollow'],
+        'user_unfollowed' => $_POST['Unfollow'],
         'id' => $_SESSION['user']['id'],
-        'user_unfollowed' => $_POST['unfollow'],
+        'user_unfollowed' => $_POST['Unfollow'],
         'id' => $_SESSION['user']['id']
     ]);
 

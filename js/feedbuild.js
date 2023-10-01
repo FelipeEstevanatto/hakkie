@@ -1,5 +1,7 @@
-const tab_index = window.document.querySelectorAll('.tab-list .tab');
-const underlines = window.document.querySelectorAll('.tab-list .tab div');
+const doc = window.document;
+
+const tab_index = doc.querySelectorAll('.tab-list .tab');
+const underlines = doc.querySelectorAll('.tab-list .tab div');
 let lastUnderline = 0; 
 
 tab_index.forEach((i, index) => {
@@ -11,20 +13,19 @@ tab_index.forEach((i, index) => {
     });
 });
 
-const menupost = window.document.querySelectorAll('#feed .post .top-post .right i.fas.fa-ellipsis-v');
-const likebtn = window.document.querySelectorAll('#feed .post .bottom-post .list #tab-like');
-const commentbtn = window.document.querySelectorAll('#feed .post .bottom-post .list #tab-comment');
-const sharebtn = window.document.querySelectorAll('#feed .post .bottom-post .list #tab-share');
-const post_ids = window.document.querySelectorAll('#feed .post');
-const user_ids = window.document.querySelectorAll('#feed .post .top-post .left');
-const interativeForm = window.document.querySelectorAll('.interative-form');
+const menupost = doc.querySelectorAll('#feed .post .top-post .right i.fas.fa-ellipsis-v');
+const likebtn = doc.querySelectorAll('#feed .post .bottom-post .list #tab-like');
+const commentbtn = doc.querySelectorAll('#feed .post .bottom-post .list #tab-comment');
+const sharebtn = doc.querySelectorAll('#feed .post .bottom-post .list #tab-share');
+const post_ids = doc.querySelectorAll('#feed .post');
+const user_ids = doc.querySelectorAll('#feed .post .top-post .left');
+const interativeForm = doc.querySelectorAll('.interative-form');
 
-const document = window.document;
-const feed = document.getElementById('feed');
+console.log(post_ids)
+const feed = doc.getElementById('feed');
 
 feed.addEventListener('click', (event) => {
     const target = event.target;
-
     if (target.matches('#feed .post .top-post .right i.fas.fa-ellipsis-v')) {
         const post = target.closest('.post');
         const form = post.querySelector('.interative-form');
@@ -81,8 +82,8 @@ feed.addEventListener('click', (event) => {
     const target = event.target;
     if (target.classList.contains('likebtn')) {
         const index = Array.from(target.parentNode.parentNode.parentNode.children).indexOf(target.parentNode.parentNode);
-        const span = document.querySelectorAll('#feed .post .bottom-post .list #tab-like span');
-        const checklike = document.querySelectorAll('#feed .post .bottom-post .list #tab-like');
+        const span = doc.querySelectorAll('#feed .post .bottom-post .list #tab-like span');
+        const checklike = doc.querySelectorAll('#feed .post .bottom-post .list #tab-like');
 
         let url = 'likeLogic';
         let body = '';
@@ -131,7 +132,7 @@ sharebtn.forEach((btn, index) => {
         const link = `/post?id=${post_id}`;
         navigator.clipboard.writeText(link)
             .then(() => {
-                const shareTab = document.querySelectorAll('#feed .post .bottom-post .list #tab-share')[index];
+                const shareTab = doc.querySelectorAll('#feed .post .bottom-post .list #tab-share')[index];
                 shareTab.innerHTML = 'Link Copied!';
             })
             .catch((error) => {

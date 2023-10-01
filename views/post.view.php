@@ -5,25 +5,24 @@
 
 ?>
 
-    <div id="container">
-        <div id="feed">
-            <?php
-                include(__DIR__.'/../../../app/php/showPosts.php');
+<div class="flex justify-center bg-almost-black text-white min-h-screen relative">
+    <div class="w-1/2 p-4">
+        <?php
 
-                showPosts($conn, $id, 1, $_GET['id']);
+            showPosts($id, 1, $_GET['id']);
 
-            ?>
-        </div>
+        ?>
     </div>
+</div>
 
-    <?php 
+<?php 
 
-        include('partials/message.php')
+    include('partials/message.php')
 
-    ?>
+?>
 
-    <script type="text/javascript" src="<?= $GLOBALS['base_url'] ?>/js/functions.js"></script>
-    <script type="text/javascript"src="<?= $GLOBALS['base_url'] ?>/js/feedbuild.js"></script>
+<script type="text/javascript" src="<?= $GLOBALS['base_url'] ?>/js/functions.js"></script>
+<script type="text/javascript"src="<?= $GLOBALS['base_url'] ?>/js/feedbuild.js"></script>
 
 </body>
 </html>

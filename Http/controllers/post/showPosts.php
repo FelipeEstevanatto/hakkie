@@ -137,15 +137,15 @@ function showPosts($user, $maxPosts, $choosenId = '') {
             <!-- ================== Post Footer ================== -->
             <div class="bottom-post">
                 <div class="list flex justify-around text-center">
-                    <div class="tab <?=$alreadyliked?> py-1 px-4 cursor-pointer" id="tab-like">
+                    <div id="tab-like" class="tab <?=$alreadyliked?> py-1 px-4 cursor-pointer rounded-full hover:bg-indigo-900 transition duration-300">
                         <i class="fas fa-thumbs-up mr-1"></i>
                         <span><?=$post['post_likes']?> Likes</span>
                     </div>
-                    <div class="tab py-1 px-4 cursor-pointer" id="tab-comment">
+                    <div id="tab-comment" class="tab py-1 px-4 cursor-pointer rounded-full hover:bg-indigo-900 transition duration-300">
                         <i class="fas fa-comment mr-1"></i>
                         <span><?=$post['post_comments']?><span class="text"> Comments</span></span>
                     </div>
-                    <div class="tab py-1 px-4 cursor-pointer" id="tab-share">
+                    <div id="tab-share" class="tab py-1 px-4 cursor-pointer rounded-full hover:bg-indigo-900 transition duration-300">
                         <i class="fas fa-share-square mr-1"></i>
                         <span><span class="text">Share</span></span>
                     </div>

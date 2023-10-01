@@ -45,11 +45,11 @@
                                 if (!$own_profile) {
                                     echo'<div class="btn '.$follow_status.'" id="interact-btn">';
                                     if ($follow_status == 'Follow') {
-                                        echo '<i class="fas fa-user-plus"></i>';
+                                        echo '<i class="fas fa-user-plus rounded-md border-2"></i>';
                                     } else
-                                        echo'<i class="fas fa-user-times"></i>';
+                                        echo'<div class="rounded-md border-2 p-1"><i class="fas fa-user-times"></i>';
                                         echo'<span> '.$follow_status.'</span>
-                                        </div>';
+                                        </div></div>';
                                 } 
                             ?>
     

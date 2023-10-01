@@ -8,7 +8,7 @@ use Core\Database;
 $db = App::resolve(Database::class);
 
 //Follow
-if (isset($_POST['follow']) || is_numeric($_POST['unfollow'])) {
+if (isset($_POST['follow']) || is_numeric($_POST['Unfollow'])) {
     // Check if user is already following
 
     $return = $db->query('SELECT * FROM follows WHERE user_followed = :user_followed AND fk_user = :id;', [

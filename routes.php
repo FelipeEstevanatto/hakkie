@@ -19,6 +19,8 @@ $router->post('/changeUserData', 'changeUserData.php')->only('auth');
 // Content routes
 $router->get('/', 'index.php')->only('guest');
 $router->get('/post', 'post.php')->only('auth');
+$router->post('/post', 'post/store.php')->only('auth');
+$router->get('/post/{id}', 'post.php')->only('auth');
 $router->get('/home', 'home.php')->only('auth');
 $router->get('/notifications', 'notifications.php')->only('auth');
 

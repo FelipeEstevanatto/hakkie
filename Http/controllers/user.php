@@ -9,9 +9,11 @@ $db = App::resolve(Database::class);
 
 $id = $_GET['user'] ?? $_SESSION['user']['id'];
 
-
 if (!isset($id) || !is_numeric($id)) {
-    include(__DIR__ . "/../../views/user-nonexistent.view.php"); //This user does not exist in DB!
+    // Invalid user id
+    view("user-nonexistent.view.php", [
+        'heading' => 'User',
+    ]);
     exit();    
 }
 
@@ -35,7 +37,10 @@ if ($id != $_SESSION['user']['id']){
             $details = 'own_block';
         }
 
-        include(__DIR__."/../includes/user-blocked.php"); //This user does not exist in DB! (we don't have blocked page yet)
+        view("user-blocked.view.php", [
+            'heading' => 'User',
+            'details' => $details,
+        ]);
         exit();
     }
 
@@ -46,7 +51,10 @@ $user_info = $db->query('SELECT username, user_info, picture, banner, created_at
 ])->find();
 
 if ($user_info == null) {
-    include(__DIR__."/../includes/user-nonexistent.php"); //This user does not exist in DB!
+    //This user does not exist in DB!
+    view("user-nonexistent.view.php", [
+        'heading' => 'User',
+    ]);
     exit();
 }
 

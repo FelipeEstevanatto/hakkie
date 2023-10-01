@@ -144,16 +144,14 @@
             }
             ?>
         
-            <div id="feed">        
+            <div id="feed" class="p-4">        
                 <?php
-                    // include(__DIR__ . "/showPosts.php");
+                    // Post layout
+                    showPosts($_GET['user'], 10);
     
-                    // // Post layout
-                    // showPosts($conn, $_GET['user'], 10);
-    
-                    // echo'<div class="post text">
-                    // No more posts from this user to show!
-                    // </div>';
+                    echo'<div class="post text p-6 border-2 border-gray-500 rounded-lg text-center">
+                    No more posts from this user to show!
+                    </div>';
                 ?>
      
             </div>

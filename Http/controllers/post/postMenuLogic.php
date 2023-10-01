@@ -1,13 +1,11 @@
 <?php
 
+namespace Http\controllers\post;
 
+use Core\App;
+use Core\Database;
 
-require_once("../../database/connect.php");
-require_once("../functions.php");
-
-if(!isset($_SESSION['isAuth'])){
-    exit();
-}
+$db = App::resolve(Database::class);
 
 //Follow
 if (isset($_POST['follow']) && is_numeric($_POST['follow'])) {
@@ -25,48 +23,27 @@ if (isset($_POST['follow']) && is_numeric($_POST['follow'])) {
         UPDATE users SET user_following = user_following+1 WHERE id = :id;
         ';
     //Force PDO to either always emulate prepared statements
-    $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-    $stmt = $conn -> prepare($query);
+    //$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+    $stmt = $db->query($query);
 
-    $stmt -> bindValue(':id', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
-    $stmt -> bindValue(':user_followed', decodeId($_POST['follow']), PDO::PARAM_INT);
-    $stmt -> bindValue(':user_followed', decodeId($_POST['follow']), PDO::PARAM_INT);
-    $stmt -> bindValue(':id', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
-    $stmt -> bindValue(':user_followed', decodeId($_POST['follow']), PDO::PARAM_INT);
-    $stmt -> bindValue(':id', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
-    
-    $stmt -> execute();
-
-    $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-
-    if ($stmt && count($return) == 1) {
-        echo"1";
+    if ($stmt) {
+        echo "1";
     }
 
 //Unfollow
 } elseif (isset($_POST['unfollow']) && is_numeric($_POST['unfollow'])) {
 
-    $query = "DELETE FROM follows WHERE user_followed = :user_unfollowed AND fk_user = :id;
-             UPDATE users SET user_followers = user_followers-1 WHERE id = :user_unfollowed;
-             UPDATE users SET user_following = user_following-1 WHERE id = :id;
-             ";
+    $stmt = $db->query('DELETE FROM follows WHERE user_followed = :user_unfollowed AND fk_user = :id;
+    UPDATE users SET user_followers = user_followers-1 WHERE id = :user_unfollowed;
+    UPDATE users SET user_following = user_following-1 WHERE id = :id;',[
+        'user_unfollowed' => $_POST['unfollow'],
+        'id' => $_SESSION['user']['id'],
+        'user_unfollowed' => $_POST['unfollow'],
+        'id' => $_SESSION['user']['id']
+    ]);
 
-    $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-    $stmt = $conn -> prepare($query);
-    
-    $stmt -> bindValue(':user_unfollowed', decodeId($_POST['unfollow']), PDO::PARAM_INT);
-    $stmt -> bindValue(':id', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
-    $stmt -> bindValue(':user_unfollowed', decodeId($_POST['unfollow']), PDO::PARAM_INT);
-    $stmt -> bindValue(':id', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
-
-    $stmt -> execute();
-
-    $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-
-    if ($stmt && count($return) == 1) {
-        echo"0";
+    if ($stmt) {
+        echo "0";
     }
 
 }
-
-$conn = null;

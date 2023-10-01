@@ -1,30 +1,31 @@
 <?php
 
+namespace Http\controllers\post;
 
+use Core\App;
+use Core\Database;
 
-require_once(__DIR__."/../../bootstrap.php");
-require(__DIR__."/../functions.php");
-
-if(!isset($_SESSION['isAuth'])){
-    exit();
-}
+$db = App::resolve(Database::class);
 
 //Follow
-if (isset($_POST['deletePost']) && !is_numeric($_POST['deletePost'])) {
+if (isset($_POST['deletePost']) && is_numeric($_POST['deletePost'])) {
 
-    $query = 'DELETE FROM files WHERE fk_post = :id AND fk_owner = :session_user RETURNING file_name;';
+    $return = $db->query('SELECT * FROM posts WHERE fk_owner = :session_user AND id = :id;', [
+        'session_user' => $_SESSION['user']['id'],
+        'id' => $_POST['deletePost']
+    ])->find();
 
-    $stmt = $conn -> prepare($query);
+    if ($return == null) {
+        echo"Something went wrong";
+        exit();
+    }
 
-    $stmt -> bindValue(':id', decodeId($_POST['deletePost']), PDO::PARAM_INT);
-    $stmt -> bindValue(':session_user', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
-    
-    $stmt -> execute();
+    $return = $db->query('DELETE FROM files WHERE fk_post = :id AND fk_owner = :session_user RETURNING file_name;', [
+        'id' => $_POST['deletePost'],
+        'session_user' => $_SESSION['user']['id']
+    ])->find();
 
-    if ($stmt -> rowCount() > 0) {
-        
-        $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-    
+    if ($return != null) {
         foreach ($return as $filenames) {
             if (file_exists('../../../public/posts/'.$filenames['file_name'])) {  
                 if(!unlink('../../../public/posts/'.$filenames['file_name'])){
@@ -34,26 +35,15 @@ if (isset($_POST['deletePost']) && !is_numeric($_POST['deletePost'])) {
         }
     }
 
-    $query = 'DELETE FROM likes WHERE fk_post = :id;';
-    $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id', decodeId($_POST['deletePost']), PDO::PARAM_INT);
-    $result = $stmt -> execute();
+    $db->query('DELETE FROM likes WHERE fk_post = :id;', [
+        'id' => $_POST['deletePost']
+    ]);
 
-    $query = 'DELETE FROM comments WHERE fk_post = :id;';
-    $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id', decodeId($_POST['deletePost']), PDO::PARAM_INT);
-    $result2 = $stmt -> execute();
+    $db->query('DELETE FROM comments WHERE fk_post = :id;', [
+        'id' => $_POST['deletePost']
+    ]);
 
-    $query = 'DELETE FROM posts WHERE fk_owner = :session_user AND id = :id;';
-    $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':session_user', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
-    $stmt -> bindValue(':id', decodeId($_POST['deletePost']), PDO::PARAM_INT);
-    $result3 = $stmt -> execute();
-
-    if ($result && $result2 && $result3) {
-        echo"Deleted";
-    } else {
-        echo"Something went wrong";
-    }
-
+    $db->query('DELETE FROM notifications WHERE fk_post = :id;', [
+        'id' => $_POST['deletePost']
+    ]);
 }

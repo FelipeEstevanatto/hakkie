@@ -3,7 +3,7 @@
 use Core\App;
 use Core\Database;
 
-function showPosts($conn, $user, $posts, $choosenId = '') {
+function showPosts($user, $posts, $choosenId = '') {
     
     $session_user = $_SESSION['user']['id'];
 
@@ -57,28 +57,26 @@ function showPosts($conn, $user, $posts, $choosenId = '') {
         if ($key >= $posts) break;
 
         if ($post['post_media'] > 0) {
-
             $returnMedia = $db->query('SELECT file_name, file_type, fk_post FROM files WHERE fk_owner = :id AND fk_post = :post_id',[
                 'id' => $user,
                 'post_id' => $post['id'],
             ])->find();
         }
         
+        if ($isGoogle) {
+            $imageurl = $userpicture;
+        } elseif ($userpicture != NULL) {
+            $imageurl = $GLOBALS['base_url'] . '/../profiles/' . basename($userpicture);
+        } else {
+            $imageurl = $GLOBALS['base_url'] . '/../public/images/defaultUser.png'; //fallback
+        }
+
         ?>
         <!--Post layout-->
         <div class="post text" id="<?=$post['id']?>">
             <div class="top-post">
                 <div class="left" id="<?=$user?>">
-                    <img src="<?
-                    //================== User Picture and name ==================
-                    if ($isGoogle) {
-                        echo$userpicture;
-                    } elseif ($userpicture != NULL) {
-                        echo $GLOBALS['base_url'] . '/../profiles/'.$userpicture;
-                    } else {
-                        echo $GLOBALS['base_url'] . '/../public/images/defaultUser.png'; //fallback
-                    }
-                    ?>">
+                    <img src="<?=$imageurl?>">
                     <a href="user?user=<?=$user?>"><?=$username?></a>
                 </div>
                 <div class="right">
@@ -89,14 +87,14 @@ function showPosts($conn, $user, $posts, $choosenId = '') {
                     <div class="interative-form close">
                         <?php
                         if ($post['fk_owner'] != $_SESSION['user']['id']) {
-                            ?>
+                        ?>
                             <div class="btn-form <?=$following_status?>" id="follow"><?=$following_status?> User</div>
                             <div class="btn-form" id="block">Block User</div>
-                            <?php
+                        <?php
                         } else {
-                            ?>
+                        ?>
                             <div class="btn-form" id="delete">Delete Post</div>
-                            <?php
+                        <?php
                         }
                         ?>
                     </div>
@@ -131,32 +129,20 @@ function showPosts($conn, $user, $posts, $choosenId = '') {
                     }
                 }
                 //================== Post Footer ==================
-                if ($post['already_liked'] == 1) {
-                    $alreadyliked = ' my-like';
-                } else {
-                    $alreadyliked = '';
-                }
+                $alreadylike = $post['already_liked'] == 1 ? ' my-like' : '';
                 ?>
-
             </div>
         </div>
         <?
         //================== Start of post DIV ================== (with post id and user id)
-        $actual_post = '<!--Post layout-->
-        <div class="post text" id="'.encodeId($post['id']).'">
+        echo '<!--Post layout-->
+        <div class="post text" id="'.$post['id'].'">
             <div class="top-post">
-                <div class="left" id="'.encodeId($user).'">
-                    <img src="';
+                <div class="left" id="'.$user.'">
+                    <img src="'.$imageurl;
                     //================== User Picture and name ==================
-                    if ($isGoogle) {
-                        $actual_post.=$userpicture;
-                    } elseif ($userpicture != NULL) {
-                        $actual_post.= $GLOBALS['base_url'] . '/../profiles/'.$userpicture;
-                    } else {
-                        $actual_post.= $GLOBALS['base_url'] . '/../public/images/defaultUser.png'; //fallback
-                    }
-                    $actual_post.='">
-                    <a href="user?user='.encodeId($user).'">'.$username.'</a>
+                    echo'">
+                    <a href="user?user='.$user.'">'.$username.'</a>
                 </div>
                 
                 <div class="right">
@@ -166,22 +152,20 @@ function showPosts($conn, $user, $posts, $choosenId = '') {
                     </span>
 
                     <div class="interative-form close">';
-                        if ($post['fk_owner'] != decodeId($_SESSION['user']['id'])) {
-                            $actual_post.='
+                        if ($post['fk_owner'] != $_SESSION['user']['id']) {
+                            echo'
                             <div class="btn-form '.$following_status.'" id="follow">'.$following_status.' User</div>
                             <div class="btn-form" id="block">Block User</div>';
                         } else {
-                            $actual_post.='<div class="btn-form" id="delete">Delete Post</div>';
+                            echo'<div class="btn-form" id="delete">Delete Post</div>';
                         }
-                    $actual_post.='
+                    echo'
                     </div>
                 </div>
             </div>';
             //================== Post Text ==================
             if ($post['content'] != 'NULL') {
-            $actual_post.='<div class="content-post">
-                                '.convertYoutube($post['content']).'
-                        </div>';
+                echo'<div class="content-post">'.convertYoutube($post['content']).'</div>';
             }
             //================== Post Media ==================
             if ($post['post_media'] > 0) {
@@ -190,38 +174,34 @@ function showPosts($conn, $user, $posts, $choosenId = '') {
                     $temparray = explode(".",$filesPost["file_name"]);
                     $extension = strtolower(end($temparray));
 
-                    if ( in_array($extension , $permitedVideoFormats) ) {
-                        $actual_post.='<video width="100%" controls style="border-radius: 5%;">
+                    if (in_array($extension , $permitedVideoFormats)) {
+                        echo'<video width="100%" controls style="border-radius: 5%;">
                             <source src="../posts/'.$filesPost["file_name"].'" type="video/'.$extension.'" >
                             Your browser do not support the video tag
                         </video>';
                     } else {
                         if (file_exists(substr(__DIR__,0,-7).'public\posts\\'.$filesPost["file_name"])) {
-                            $actual_post.='<img src="../posts/'.$filesPost["file_name"].'" alt="'.$filesPost["file_name"];
+                            echo'<img src="../posts/'.$filesPost["file_name"].'" alt="'.$filesPost["file_name"];
                         } else {
-                            $actual_post.='<img src="../images/lost-image.png" alt="'.$filesPost["file_name"];
+                            echo'<img src="../images/lost-image.png" alt="'.$filesPost["file_name"];
                         }
-                        $actual_post.='" style="border-radius: 5%; margin: 10px 0; width:100%;">';
+                        echo'" style="border-radius: 5%; margin: 10px 0; width:100%;">';
                     }
                 }
             }
             //================== Post Footer ==================
-            if ($post['already_liked'] == 1) {
-                $alreadyliked = ' my-like';
-            } else {
-                $alreadyliked = '';
-            }
-
-            $actual_post.='
+            $alreadyliked = $post['already_liked'] == 1 ? ' my-like' : '';
+        ?>
+            <!-- ================== End of Post Footer ================== -->
             <div class="bottom-post">
                 <div class="list">
                     <div class="tab'.$alreadyliked.'" id="tab-like">
                         <i class="fas fa-thumbs-up"></i>
-                        <span>'.$post['post_likes'].' Likes</span>
+                        <span><?=$post['post_likes']?> Likes</span>
                     </div>
                     <div class="tab" id="tab-comment">
                         <i class="fas fa-comment"></i>
-                        <span>'.$post['post_comments'].'<span class="text">Comments</span></span>
+                        <span><?=$post['post_comments']?><span class="text"> Comments</span></span>
                     </div>
                     <div class="tab" id="tab-share">
                         <i class="fas fa-share-square"></i>
@@ -230,9 +210,7 @@ function showPosts($conn, $user, $posts, $choosenId = '') {
                 </div>
             </div>
         </div>';
-        //================== End of Post Footer ==================
-
-        echo$actual_post;
+        <?php
     }
 
     return;

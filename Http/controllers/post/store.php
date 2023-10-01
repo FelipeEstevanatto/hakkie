@@ -32,7 +32,7 @@ if(count($_FILES["uploadfile"]['name']) > 4){
 //     header("Location: user?user=".$sessionID);
 //     exit();   
 // }
-//  dd($form);
+
 $db->query('INSERT INTO posts(content, fk_owner) VALUES(:content, :id)', [
     'content' => $_POST['post-text'],
     'id' => $sessionID

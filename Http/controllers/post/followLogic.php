@@ -1,45 +1,33 @@
 <?php
 
+namespace Http\controllers\post;
 
+use Core\App;
+use Core\Database;
 
-require_once(__DIR__."/../../../bootstrap.php");
-require(__DIR__."/../functions.php");
-
-if(!isset($_SESSION['isAuth'])){
-    exit();
-}
+$db = App::resolve(Database::class);
 
 //Follow
-if (isset($_POST['follow']) || !is_numeric($_POST['unfollow'])) {
-
+if (isset($_POST['follow']) || is_numeric($_POST['unfollow'])) {
     // Check if user is already following
-    $query = 'SELECT * FROM follows WHERE user_followed = :user_followed AND fk_user = :id;';
-    $stmt = $conn -> prepare($query);
 
-    $stmt -> bindValue(':user_followed', decodeId($_POST['follow']), PDO::PARAM_INT);
-    $stmt -> bindValue(':id', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
-    $stmt -> execute();
+    $return = $db->query('SELECT * FROM follows WHERE user_followed = :user_followed AND fk_user = :id;', [
+        'user_followed' => $_POST['follow'],
+        'id' => $_SESSION['user']['id']
+    ])->find();
 
-    $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-
-    if ( count($return) > 0 ) {
-        $query = 'DELETE FROM follows WHERE user_followed = :user_followed AND fk_user = :id;';
-    } else {
+    if ($return == null) {
         $query = 'INSERT IGNORE INTO follows VALUES(DEFAULT, :user_followed , DEFAULT, :id);';
+    } else {
+        $query = 'DELETE FROM follows WHERE user_followed = :user_followed AND fk_user = :id;';
     }
-    $stmt = $conn -> prepare($query);
 
-    $stmt -> bindValue(':user_followed', decodeId($_POST['follow']), PDO::PARAM_INT);
-    $stmt -> bindValue(':id', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
-    
-    $stmt -> execute();
+    $return = $db->query($query, [
+        'user_followed' => $_POST['follow'],
+        'id' => $_SESSION['user']['id']
+    ]);
 
-    $return = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-    // explain the return of fetch
-    var_dump($return);
-    if ($stmt == 1) {
+    if ($return) {
         echo"Success";
     }
 }
-
-$conn = null;

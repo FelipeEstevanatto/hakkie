@@ -1,45 +1,33 @@
 <?php
 
-if (isset($_POST['unblock']) && !is_numeric($_POST['unblock'])) {
-    
-    if (!is_numeric($_POST['unblock'])) {
-        exit;
-    }
+namespace Http\controllers\post;
 
-    $query = "DELETE FROM blocks WHERE user_blocked = :id_blocked AND fk_user = :session_user";
+use Core\App;
+use Core\Database;
 
-    $stmt = $conn -> prepare($query);
+$db = App::resolve(Database::class);
 
-    $stmt -> bindValue(':id_blocked', $_POST['unblock'], PDO::PARAM_INT);
-    $stmt -> bindValue(':session_user', $_SESSION['user']['id'], PDO::PARAM_INT);
+if (isset($_POST['unblock']) && is_numeric($_POST['unblock'])) {
 
-    $stmt -> execute();
+    $return = $db->query('DELETE FROM blocks WHERE user_blocked = :id_blocked AND fk_user = :session_user', [
+        'id_blocked' => $_POST['unblock'],
+        'session_user' => $_SESSION['user']['id']
+    ]);
 
-    if ($stmt && $stmt -> rowCount() == 1) {
+    if ($return) {
         echo"Sucess unblocking";
     }
 
-} elseif (isset($_POST['block']) && !is_numeric($_POST['block'])) {
+} elseif (isset($_POST['block']) && is_numeric($_POST['block'])) {
 
-    if (!is_numeric($_POST['block'])) {
-        exit;
-    }
+    $return = $db->query('INSERT INTO blocks VALUES(DEFAULT, :user_blocked, DEFAULT, :fk_user); DELETE FROM follows WHERE user_followed = :user_blocked AND fk_user = :fk_user;',[
+        'user_blocked' => $_POST['block'],
+        'fk_user' => $_SESSION['user']['id'],
+        'user_blocked' => $_POST['block'],
+        'fk_user' => $_SESSION['user']['id']
+    ]);
 
-    $query = "INSERT INTO blocks VALUES(DEFAULT, :user_blocked, DEFAULT, :fk_user);
-              DELETE FROM follows WHERE user_followed = :user_blocked AND fk_user = :fk_user;";
-
-    //Force PDO to either always emulate prepared statements
-    $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-    $stmt = $conn -> prepare($query);
-    
-    $stmt -> bindValue(':user_blocked', $_POST['block'], PDO::PARAM_INT);
-    $stmt -> bindValue(':fk_user', $_SESSION['user']['id'], PDO::PARAM_INT);
-    $stmt -> bindValue(':user_blocked', $_POST['block'], PDO::PARAM_INT);
-    $stmt -> bindValue(':fk_user', $_SESSION['user']['id'], PDO::PARAM_INT);
-
-    $stmt -> execute();
-
-    if ($stmt && $stmt -> rowCount() > 1) {
+    if ($return) {
         echo"Sucess blocking";
     }
 }

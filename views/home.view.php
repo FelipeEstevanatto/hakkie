@@ -12,7 +12,7 @@
 
                 foreach ($return as $user) {
 
-                    showPosts($conn, $user['id'] , 10);
+                    showPosts($user['id'] , 10);
 
                 }
 

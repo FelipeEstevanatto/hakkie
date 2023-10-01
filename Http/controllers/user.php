@@ -18,7 +18,7 @@ if (!isset($id) || !is_numeric($id)) {
 }
 
 $own_profile = true;
-
+include(__DIR__ . "../post/showPosts.php");
 // Get user info
 if ($id != $_SESSION['user']['id']){
 

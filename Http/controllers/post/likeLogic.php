@@ -1,43 +1,33 @@
 <?php
 
+namespace Http\controllers\post;
 
+use Core\App;
+use Core\Database;
 
-require_once(__DIR__."/../../../bootstrap.php");
-require_once(__DIR__."/../functions.php");
-
-if(!isset($_SESSION['isAuth'])){
-    exit();
-}
+$db = App::resolve(Database::class);
 
 //Like
 if (isset($_POST['like']) && !is_numeric($_POST['like'])) {
 
-    $query = 'INSERT INTO likes VALUES(DEFAULT, :id , DEFAULT, :id) ON CONFLICT DO NOTHING;';
+    $return = $db->query('INSERT INTO likes(fk_post, fk_like_owner) VALUES(:fk_post, :fk_like_owner)', [
+        'fk_post' => $_POST['like'],
+        'fk_like_owner' => $_SESSION['user']['id']
+    ]);
 
-    $stmt = $conn -> prepare($query);
-
-    $stmt -> bindValue(':id', decodeId($_POST['like']), PDO::PARAM_INT);
-    $stmt -> bindValue(':id', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
-
-    $stmt -> execute();
-
-    if ($stmt && $stmt -> rowCount() > 0) {
+    if ($return) {
         echo"1";
     }
 
 //Unlike
 } else if (isset($_POST['unlike']) && !is_numeric($_POST['unlike'])) {
 
-    $query = 'DELETE FROM likes WHERE fk_like_owner = :id AND fk_post = :id;';
+    $return = $db->query('DELETE FROM likes WHERE fk_like_owner = :fk_like_owner AND fk_post = :fk_post', [
+        'fk_post' => $_POST['unlike'],
+        'fk_like_owner' => $_SESSION['user']['id']
+    ]);
 
-    $stmt = $conn -> prepare($query);
-
-    $stmt -> bindValue(':id', decodeId($_SESSION['user']['id']), PDO::PARAM_INT);
-    $stmt -> bindValue(':id', decodeId($_POST['unlike']), PDO::PARAM_INT);
-    
-    $stmt -> execute();
-
-    if ($stmt && $stmt -> rowCount() > 0) {
+    if ($return ) {
         echo"0";
     }
 

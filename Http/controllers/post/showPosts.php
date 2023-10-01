@@ -73,20 +73,22 @@ function showPosts($user, $maxPosts, $choosenId = '') {
             $imageurl = $GLOBALS['base_url'] . '/../public/images/defaultUser.png'; //fallback
         }
 
+        $alreadyliked = $post['already_liked'] == 1 ? ' my-like' : '';
+
         ?>
         <!--Post layout-->
-        <div class="post text" id="<?=$post['id']?>">
-            <div class="top-post">
-                <div class="left" id="<?=$user?>">
-                    <img src="<?=$imageurl?>">
+        <div class="post text p-6 rounded-lg border-4 border-gray-800 font-popins mb-4" id="<?=$post['id']?>">
+            <div class="top-post flex items-center justify-between">
+                <div class="left flex items-center font-medium" id="<?=$user?>">
+                    <img src="<?=$imageurl?>" class="h-16 rounded-full mr-3.5">
                     <a href="user?user=<?=$user?>"><?=$username?></a>
                 </div>
                 <div class="right">
                     <span>
                         <?=time_elapsed_string($post['date'])?>
-                        <i class="fas fa-ellipsis-v" class="interative-form-btn"></i>
+                        <i class="fas fa-ellipsis-v interative-form-btn pl-2 cursor-pointer"></i>
                     </span>
-                    <div class="interative-form close">
+                    <div class="interative-form close hidden">
                         <?php
                         if ($post['fk_owner'] != $_SESSION['user']['id']) {
                         ?>
@@ -102,7 +104,8 @@ function showPosts($user, $maxPosts, $choosenId = '') {
                     </div>
                 </div>
             </div>
-            <div class="content-post">
+            <!-- ================== Post Content ================== -->
+            <div class="content-post my-4">
                 <?php
                 //================== Post Text ==================
                 if ($post['content'] != 'NULL') {
@@ -129,87 +132,26 @@ function showPosts($user, $maxPosts, $choosenId = '') {
                         }
                     }
                 }
-                //================== Post Footer ==================
-                $alreadylike = $post['already_liked'] == 1 ? ' my-like' : '';
                 ?>
             </div>
-        </div>
-        <!-- ================== Start of post DIV ================== (with post id and user id) -->
-        <!--Post layout-->
-        <div class="post text" id="<?=$post['id']?>">
-        <div class="top-post">
-            <div class="left" id="<?=$user?>">
-                <img src="<?=$imageurl?>">
-                <!-- ================== User Picture and name ================== -->
-                <a href="user?user=<?=$user?>"><?=$username?></a>
-            </div>
-            
-            <div class="right">
-                <span><?=time_elapsed_string($post['date'])?>
-                <i class="fas fa-ellipsis-v" class="interative-form-btn"></i>
-                </span>
-                
-                <div class="interative-form close">';
-                    <?php   
-                        if ($post['fk_owner'] != $_SESSION['user']['id']) {
-                            echo'
-                            <div class="btn-form '.$following_status.'" id="follow">'.$following_status.' User</div>
-                            <div class="btn-form" id="block">Block User</div>';
-                        } else {
-                            echo'<div class="btn-form" id="delete">Delete Post</div>';
-                        }
-                    ?>
-                    </div>
-                </div>
-            </div>
-            <?php
-            // <!-- ================== Post Text ================== -->
-            if ($post['content'] != 'NULL') {
-                echo'<div class="content-post">'.convertYoutube($post['content']).'</div>';
-            }
-            // <!-- ================== Post Media ================== -->
-            if ($post['post_media'] > 0) {
-                foreach ($returnMedia as $filesPost) {
-
-                    $temparray = explode(".",$filesPost["file_name"]);
-                    $extension = strtolower(end($temparray));
-
-                    if (in_array($extension , $permitedVideoFormats)) {
-                        echo'<video width="100%" controls style="border-radius: 5%;">
-                            <source src="../posts/'.$filesPost["file_name"].'" type="video/'.$extension.'" >
-                            Your browser do not support the video tag
-                        </video>';
-                    } else {
-                        if (file_exists(substr(__DIR__,0,-7).'public\posts\\'.$filesPost["file_name"])) {
-                            echo'<img src="../posts/'.$filesPost["file_name"].'" alt="'.$filesPost["file_name"];
-                        } else {
-                            echo'<img src="../images/lost-image.png" alt="'.$filesPost["file_name"];
-                        }
-                        echo'" style="border-radius: 5%; margin: 10px 0; width:100%;">';
-                    }
-                }
-            }
-            // <!-- ================== Post Footer ================== -->
-            $alreadyliked = $post['already_liked'] == 1 ? ' my-like' : '';
-        ?>
-            <!-- ================== End of Post Footer ================== -->
+            <!-- ================== Post Footer ================== -->
             <div class="bottom-post">
-                <div class="list">
-                    <div class="tab'.$alreadyliked.'" id="tab-like">
-                        <i class="fas fa-thumbs-up"></i>
+                <div class="list flex justify-around text-center">
+                    <div class="tab <?=$alreadyliked?> py-1 px-4 cursor-pointer" id="tab-like">
+                        <i class="fas fa-thumbs-up mr-1"></i>
                         <span><?=$post['post_likes']?> Likes</span>
                     </div>
-                    <div class="tab" id="tab-comment">
-                        <i class="fas fa-comment"></i>
+                    <div class="tab py-1 px-4 cursor-pointer" id="tab-comment">
+                        <i class="fas fa-comment mr-1"></i>
                         <span><?=$post['post_comments']?><span class="text"> Comments</span></span>
                     </div>
-                    <div class="tab" id="tab-share">
-                        <i class="fas fa-share-square"></i>
+                    <div class="tab py-1 px-4 cursor-pointer" id="tab-share">
+                        <i class="fas fa-share-square mr-1"></i>
                         <span><span class="text">Share</span></span>
                     </div>
                 </div>
             </div>
-        </div>';
+        </div>
         <?php
     }
 

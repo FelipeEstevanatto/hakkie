@@ -34,7 +34,7 @@ $chats = [
     ?>
 </div>
 
-<div id="message-btn" class="bg-gradient-to-r from-indigo-600 to-orange-700 rounded-t-lg p-4 shadow-xl fixed right-0 bottom-0 w-1/4 text-center cursor-pointer text-white">
+<div id="message-btn" class="bg-gradient-to-r from-indigo-600 to-orange-700 rounded-t-lg p-4 shadow-xl fixed right-0 bottom-0 w-screen lg:w-1/4 text-center cursor-pointer text-white">
     <i class="fas fa-chevron-up duration-200"></i>
 </div>
 

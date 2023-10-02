@@ -1,5 +1,10 @@
 
-<div class="flex min-h-screen w-screen px-8 lg:w-3/12 fixed lg:pt-8 text-white border-r-2 border-slate-500 z-50 drop-shadow-xl">
+<div class="flex lg:hidden border-b-2 border-slate-500 bg-almost-black justify-between">
+    <div class="logo pl-6">Hakkie</div>
+    <i id="sandwich-menu-button" class="fa-solid fa-bars text-white text-4xl p-6 cursor-pointer"></i>
+</div>
+
+<div class="flex min-h-screen w-screen pl-8 md:pl-8 lg:w-3/12 lg:max-w-xl hidden lg:block lg:fixed lg:pt-8 text-white border-r-2 border-slate-500 z-50 drop-shadow-xl">
     <div>
         <div class="logo">Hakkie</div>
         <div class="buttons text-2xl">

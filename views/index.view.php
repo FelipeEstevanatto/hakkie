@@ -1,9 +1,8 @@
 <?php
-    $data_login_uri = $_ENV['GOOGLE_LOGIN_URI']."/app/google/verifyIntegrity.php";
     require('partials/header.php');
 ?>
     <div class="flex items-center justify-center bg-almost-black text-white justify-center h-screen">
-        <div class="w-screen p-12 block md:flex">
+        <div class="w-screen p-12 block md:flex md:justify-evenly">
             <div class="p-4 font-popins md:w-3/5 max-w-[900px] flex flex-col items-left justify-center">
                 <div class="mb-6 bg-clip-text text-transparent font-comfortaa text-3xl font-bold tracking-widest text-center bg-gradient-to-tr from-purple-700 via-purple-700 to-blue-500 drop-shadow-glow text-start">
                     Hakkie
@@ -14,7 +13,7 @@
                 </div>
             </div>
 
-            <div class="right md:w-2/5">
+            <div class="right md:w-2/5 md:max-w-3xl">
                 <div class="mb-6 bg-clip-text text-transparent font-comfortaa text-3xl font-bold tracking-widest text-center bg-gradient-to-tr from-purple-700 via-purple-700 to-blue-500 drop-shadow-glow">
                     Create Account
                 </div>
@@ -73,10 +72,10 @@
 
                 <div class="flex align items-center justify-center">
                     <div id="g_id_onload"
-                        data-client_id="1014049574641-u1pcchh1thdc0futl5an649j2m85222a.apps.googleusercontent.com"
+                        data-client_id="<?=$google_client_id?>"
                         data-context="signin"
                         data-ux_mode="popup"
-                        data-login_uri="<?=$data_login_uri?>"
+                        data-login_uri="<?=$google_uri?>"
                         data-auto_prompt="false"
                         style="transform: scale(1.25);">
                     </div>

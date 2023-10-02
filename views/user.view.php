@@ -6,7 +6,7 @@
 
 ?>
     <div class="flex justify-center bg-almost-black text-white min-h-screen relative">
-        <div class="w-1/2">
+        <div class="w-screen lg:w-1/2">
             <div class="top relative">
                 <div class="banner w-full h-96">
                     <img src="<?= $GLOBALS['base_url'] . "/../public/images/" ?><?= is_null($banner) ? "defaultBanner.jpg" : $banner ?>" alt="Banner of user" class="w-full h-full">

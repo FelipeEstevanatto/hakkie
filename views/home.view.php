@@ -6,7 +6,7 @@
 
     <div class="flex justify-center bg-almost-black text-white justify-center h-screen">
 
-        <div id="feed" class="w-1/2 p-4">
+        <div id="feed" class="w-screen lg:w-1/2 p-4">
             <?php
                 foreach ($users as $user) {
                     showPosts($user['id'] , 10);

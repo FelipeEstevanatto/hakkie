@@ -1,7 +1,6 @@
 <?php
 
 use Core\Authenticator;
-use Core\Session;
 use Http\Forms\LoginForm;
 
 $email = $_POST['email'];
@@ -28,8 +27,7 @@ if (!$signedIn) {
         'email' => ['These credentials do not match our records.']
     ];
 
-    Session::put('errors', $errors);
-    header('location: login');
+    ValidationException::throw($errors, $_POST);
     exit();
 } else {
     header('location: home');

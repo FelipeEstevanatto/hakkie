@@ -3,7 +3,7 @@
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/');
 $dotenv->safeLoad();
 
-$GLOBALS['base_url'] = 'http://localhost/hakkie/';
+$GLOBALS['base_url'] = $_ENV['BASE_URL'];
 
 try {
     $conn = new PDO($_ENV['DB_ENGINE'] . ':host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);

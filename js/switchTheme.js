@@ -13,4 +13,4 @@ inputTheme.addEventListener('click', (value) => {
         localStorage.setItem('theme', 'light');
         stateTheme.innerHTML = 'Light';
     }
-}); 
+});

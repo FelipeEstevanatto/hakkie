@@ -6,7 +6,7 @@
 
 ?>
     <div id="container" class="flex justify-center bg-almost-black text-white min-h-screen p-8 relative"> 
-        <div class="settings pb-24 w-1/2 p-8 font-popins">
+        <div class="settings pb-24 w-screen lg:w-1/2 p-8 font-popins">
             <span class="font-bold text-4xl block">Settings</span>
             <!-- Theme -->
             <label class="relative inline-flex items-center cursor-pointer my-8">

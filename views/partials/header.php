@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $heading ?? "Documento"?></title>
+    <title><?= $heading ?? "Hakkie"?></title>
 
     <!-- Styles -->
-    <!-- <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>public/css/home/grid/grid.css">
-    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>public/css/style.css">
-    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>public/css/home/feed/feed.css">
-    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>public/css/forms/forms.css"> -->
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap");
+    </style>
     <!-- Font Awesome-->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="<?= $GLOBALS['base_url'] ?>public/tailwind.js"></script>
@@ -26,6 +26,7 @@
     <script>
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            // add the class to the body
             document.documentElement.classList.add('dark')
             console.log('dark mode')
         } else {

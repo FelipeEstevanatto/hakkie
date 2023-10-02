@@ -5,9 +5,9 @@ use Google\Auth\OAuth2;
 require_once('../../vendor/autoload.php');
 
 DEFINE("GOOGLE", [
-    'clientId'        =>  $_ENV['GOOGLE_CLIENTID'],
-    'clientSecret'    =>  $_ENV['GOOGLE_CLIENTSECRET'],
-    'redirectUri'     =>  $_ENV['GOOGLE_REDIRECT']
+    'clientId'        =>  $_ENV['GOOGLE_CLIENT_ID'],
+    'clientSecret'    =>  $_ENV['GOOGLE_CLIENT_SECRET'],
+    'redirectUri'     =>  $_ENV['GOOGLE_REDIRECT_URI']
 ]);
 
 //Make object of Google API Client for call Google API

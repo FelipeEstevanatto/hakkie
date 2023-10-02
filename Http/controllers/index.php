@@ -5,7 +5,7 @@ namespace Http\controllers;
 use Core\Session;
 
 $google_uri = $_ENV['GOOGLE_LOGIN_URI'];
-$google_client_id = $_ENV['GOOGLE_CLIENTID'];
+$google_client_id = $_ENV['GOOGLE_CLIENT_ID'];
 
 view("index.view.php", [
     'heading' => 'Home',

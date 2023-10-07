@@ -7,20 +7,8 @@ const blockUserBtn = window.document.querySelector('#ellipsis-modal .btn#block_u
 const silenceUserBtn = window.document.querySelector('#ellipsis-modal .btn#silence_user');
 const linkUserBtn = window.document.querySelector('#ellipsis-modal .btn#link_user');
 
-function findGetParameter(parameterName) {
-    var result = null,
-        tmp = [];
-    location.search
-        .substr(1)
-        .split("&")
-        .forEach(function (item) {
-          tmp = item.split("=");
-          if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
-        });
-    return result;
-}
-
 btn.addEventListener('click', () => {
+    modal.classList.toggle('hidden');
     if(modal.classList.contains('open')) {
         modal.classList.remove('open');
         modal.classList.add('close');
@@ -29,6 +17,7 @@ btn.addEventListener('click', () => {
         linkUserBtn.innerHTML = 'Copy Profile Link';    
     }
     else {
+        
         modal.classList.add('open');
         modal.classList.remove('close');
 

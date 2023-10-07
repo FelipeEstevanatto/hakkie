@@ -5,18 +5,18 @@ include('partials/tool-bar.php');
 
 ?>
 
-    <div id="container">
-
+<div id="container" class="flex justify-center bg-almost-black text-white min-h-screen p-8 relative"> 
+    <div id="feed" class="w-screen lg:w-1/2 p-4">
         <div class="top">
             <img class="profile-picture" src="<?=$picture?>" alt="Picture of user">
-            <a href="user?user=<?=encodeId($GET_user)?>"><?=$user_name?></a>
+            <a href="user?user=<?=$GET_user?>"><?=$user_name?></a>
          </div>
 
         <div class="tab-list">
-            <a href="following?user=<?=encodeId($GET_user)?>" class="tab">
+            <a href="following?user=<?=$GET_user?>" class="tab">
                 (<?=$following?>) Following
             </a>
-            <a href="followers?user=<?=encodeId($GET_user)?>" class="tab">
+            <a href="followers?user=<?=$GET_user?>" class="tab">
                 (<?=$followers?>) Followers
                 <div class="underline"></div>
             </a>
@@ -25,25 +25,19 @@ include('partials/tool-bar.php');
          <div id="feed">
             <?php
                 foreach ($data as $users) {
-                    $each_user ='
+                    $user_picture = is_null($users['picture']) ? '../images/defaultUser.png' : '../images/'.$users['picture'];
+
+                    echo'
                     <div class="user-box">
                         <div class="box-top">
                             <div class="info">
-                                <img src="';
-                                if ($users['auth_type'] == 'GOOGLE') {
-                                    $each_user .= $users['picture'];
-                                } elseif (!is_null($picture)) {
-                                    $each_user .= '../images/'.$users['picture'];
-                                } else {
-                                    $each_user .= '../images/defaultUser.png'; // Fallback
-                                }
-                        $each_user .='" alt="Picture of user">
-                                <a href="user?user='.encodeId($users['fk_user']).'">'.$users['username'].'</a>
+                                <img src="'.$user_picture.'" alt="Picture of user">
+                                <a href="user?user='.$users['fk_user'].'">'.$users['username'].'</a>
                             </div>
                             
                             <div class="btn follow">
                                 <i class="fas fa-user-plus"></i>
-                                <a href="user?user='.encodeId($$users['fk_user']).'"><span>Follow</span></a>
+                                <a href="user?user='.$$users['fk_user'].'"><span>Follow</span></a>
                             </div>
                         </div>
 
@@ -53,8 +47,8 @@ include('partials/tool-bar.php');
 
                         <div class="box-about">';
                         if (!is_null($users['user_info']))
-                            $each_user .= $users['user_info'];
-                        $each_user .='
+                        echo $users['user_info'];
+                        echo'
                         </div>
 
                         <div class="btn-responsive">
@@ -63,18 +57,15 @@ include('partials/tool-bar.php');
                         </div>
                     </div>
                     ';
-                    echo$each_user;
                 }
             ?>
             
          </div>
     </div>
+</div>
+<?php 
 
-    <?php 
+    include('partials/message.php');
+    include('partials/no-script.php');
 
-        include(__DIR__.'/../includes/message.php')
-
-    ?>
-
-</body>
-</html>
+?>

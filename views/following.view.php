@@ -6,8 +6,8 @@
     $picture_url = $isGoogle ? $picture : '../images/'.$picture;
 ?>
 
-    <div id="container">
-
+<div id="container" class="flex justify-center bg-almost-black text-white min-h-screen p-8 relative"> 
+    <div id="feed" class="w-screen lg:w-1/2 p-4">
         <div class="top">
             <img class="profile-picture" src="<?=$picture_url?>" alt="Picture of user">
 
@@ -41,12 +41,12 @@
                                     $each_user .= '../images/defaultUser.png'; // Fallback
                                 }
                         $each_user .='" alt="Picture of user">
-                                <a href="user?user='.encodeId($users['user_followed']).'">'.$users['username'].'</a>
+                                <a href="user?user='.$users['user_followed'].'">'.$users['username'].'</a>
                             </div>
                             
                             <div class="btn follow">
                                 <i class="fas fa-user-plus"></i>
-                                <a href="user?user='.encodeId($users['fk_user']).'"><span>Follow</span></a>
+                                <a href="user?user='.$users['fk_user'].'"><span>Follow</span></a>
                             </div>
                         </div>
 
@@ -72,9 +72,9 @@
             
          </div>
     </div>
-
+</div>
 <?php 
 
-    include(__DIR__.'/../includes/message.php');
+    include('partials/message.php');
     require('partials/footer.php');
 ?>

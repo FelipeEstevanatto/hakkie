@@ -9,7 +9,7 @@ class FollowersController {
     public function index() {
         $db = App::resolve(Database::class);
 
-        $return = $db->query('SELECT username, user_info, picture, created_at, auth_type, darkmode FROM users WHERE id = :id',[
+        $return = $db->query('SELECT username, user_info, picture, created_at, auth_type, darkmode FROM users WHERE users.id = :id',[
             'id' => $_GET['user'] ?? $_SESSION['user']['id'],
         ])->find();
 
@@ -25,16 +25,16 @@ class FollowersController {
         $user_info = $return['user_info'];
 
         $data = $db->query('SELECT user_followed, follow_date, fk_user, username, picture, user_info, auth_type FROM follows 
-        INNER JOIN users ON id = fk_user WHERE user_followed = :id ORDER BY follow_date',[
+        INNER JOIN users ON users.id = follows.user_followed WHERE fk_user = :id ORDER BY follow_date',[
             'id' => $_GET['user'] ?? $_SESSION['user']['id'],
-        ])->find();
+        ])->get();
 
         $followers = count($data);
 
 
         $return = $db->query('SELECT user_followed, follow_date, fk_user FROM follows WHERE fk_user = :id ORDER BY follow_date',[
             'id' => $_GET['user'] ?? $_SESSION['user']['id'],
-        ])->find();
+        ])->get();
 
         $following = count($return);
 
@@ -48,6 +48,14 @@ class FollowersController {
 
         return view("followers.view.php", [
             'heading' => 'followers',
+            'user_id' => $_GET['user'] ?? $_SESSION['user']['id'],
+            'user_name' => $user_name,
+            'picture' => $picture,
+            'user_info' => $user_info,
+            'followers' => $followers,
+            'following' => $following,
+            'data' => $data,
+            'isGoogle' => $isGoogle,
         ]);
     }
 }

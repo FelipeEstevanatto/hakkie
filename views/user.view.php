@@ -57,18 +57,18 @@
                                 <i class="fas fa-comment-dots"></i>
                             </div>
     
-                            <div id="ellipsis-modal" class="close hidden">
+                            <div id="ellipsis-modal" class="hidden border-2 border-stone-700 rounded-lg p-2 absolute w-32 divide-y divide-stone-700 mt-12 mr-4 bg-almost-black">
                             <?php 
     
                                 if (!$own_profile) {
-                                echo '<div class="btn" id="silence_user">Silence User</div>
+                                echo '<div class="btn hover:bg-indigo-500 rounded p-2" id="silence_user">Silence User</div>
                                       <div class="btn" id="block_user">Block User</div>';
                                 } else {
-                                    echo '<a href="settings"><div class="btn" id="edit_user">Edit User</div></a>';
+                                    echo '<a href="settings"><div class="btn hover:bg-indigo-500 rounded p-2" id="edit_user">Edit User</div></a>';
                                 }
     
                             ?>
-                                <div class="btn" id="link_user">Copy Profile Link</div>
+                                <div class="btn cursor-pointer hover:bg-indigo-500 rounded p-2" id="link_user">Copy Profile Link</div>
                             </div>
     
                             <div id="ellipsis" class="btn border-2 border-white rounded-md p-2 cursor-pointer">
@@ -80,15 +80,15 @@
              </div>
     
             <div class="tab-list flex">
-                <div class="tab flex-grow border-2 border-stone-700/75 p-2 grid justify-items-center">
+                <div class="tab flex-grow border-2 border-stone-700/75 p-2 grid justify-items-center cursor-pointer">
                     Posts
                     <div class="underline w-1/3 bg-purple-900 h-1 rounded-full"></div>
                 </div>
-                <div class="tab flex-grow border-2 border-stone-700/75 p-2 grid justify-items-center">
+                <div class="tab flex-grow border-2 border-stone-700/75 p-2 grid justify-items-center cursor-pointer">
                     Media
                     <div class=""></div>
                 </div>
-                <div class="tab flex-grow border-2 border-stone-700/75 p-2 grid justify-items-center">
+                <div class="tab flex-grow border-2 border-stone-700/75 p-2 grid justify-items-center cursor-pointer">
                     Likes
                     <div class=""></div>
                 </div>

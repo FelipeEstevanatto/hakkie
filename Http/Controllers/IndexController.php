@@ -6,8 +6,8 @@ use Core\Session;
 
 class IndexController {
     public function index() {
-        $google_uri = $_ENV['GOOGLE_LOGIN_URI'];
-        $google_client_id = $_ENV['GOOGLE_CLIENT_ID'];
+        $google_uri = $_ENV['GOOGLE_LOGIN_URI'] ?? null;
+        $google_client_id = $_ENV['GOOGLE_CLIENT_ID'] ?? null;
 
         return view("index.view.php", [
             'heading' => 'Home',

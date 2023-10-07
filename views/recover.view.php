@@ -9,18 +9,21 @@ $userIP = getUserIP()->ip;
             <div class="mb-6 bg-clip-text text-transparent font-comfortaa text-3xl font-bold tracking-widest text-center bg-gradient-to-tr from-purple-700 via-purple-700 to-blue-500 drop-shadow-glow">
                 Recover you password
             </div>
+            <?php
+                if (!empty($errors)) {
+                    echo "<div class='bg-red-500 text-white p-4 rounded-lg mb-4'>"; 
+                    foreach ($errors as $error) {
+                        echo "- ".$error[0]."<br>";
+                    }
+                    echo "</div><br>";
+                }
+            ?>
             <form action="recover" method="POST">
 
-                <input type="hidden" name="sender-ip" value="<?php echo$userIP; ?>">
-
-                <?php
-                if (isset($_GET['newpwd']) && $_GET['newpwd'] = 'error'){
-                    echo"<div class='warning'>Use a proper email!</div>";
-                }
-                ?>
+                <input type="hidden" name="sender-ip" value="<?=$userIP?>">
                 <div class="mb-6">
                     <label for="email" class="font-medium">Email</label>
-                    <input type="email" name="email" id="email" required class="p-4 text-white text-base w-full text-black rounded-lg font-normal font-popins">
+                    <input type="email" name="email" id="email" required class="p-4 text-base w-full text-black rounded-lg font-normal font-popins">
                 </div>
 
                 <input type="submit" value="Submit" class="w-full text-white font-semibold text-lg p-4 bg-gradient-to-tr from-purple-700 via-purple-600 to-blue-600 rounded-lg cursor-pointer">

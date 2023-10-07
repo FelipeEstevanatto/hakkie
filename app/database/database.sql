@@ -95,10 +95,10 @@ CREATE TABLE pwdreset (
   cityRequest VARCHAR(128),
   regionRequest VARCHAR(128),
   countryRequest VARCHAR(128),
-  pwdResetEmail VARCHAR(256) NOT NULL,
-  pwdResetSelector TEXT NOT NULL,
-  pwdResetToken TEXT NOT NULL,
-  pwdResetExpires VARCHAR(32) NOT NULL
+  email VARCHAR(256) NOT NULL,
+  selector TEXT NOT NULL,
+  token TEXT NOT NULL,
+  expires VARCHAR(32) NOT NULL
 );
 
 /* Drop tables

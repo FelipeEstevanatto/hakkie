@@ -15,6 +15,7 @@ class RecoverForm extends Validator
     {
         $rules = [
             'email' => 'required|email',
+            'sender-ip' => 'required',
         ];
 
         parent::validate($rules);
@@ -28,6 +29,9 @@ class RecoverForm extends Validator
             'email' => [
                 'required' => 'The email field is required.',
                 'email' => 'The email field must be a valid email address.',
+            ],
+            'sender-ip' => [
+                'required' => 'There was an error in your request.',
             ],
         ];
     }

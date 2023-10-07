@@ -37,6 +37,7 @@
                             name="name"
                             id="name"
                             required
+                            value="<?= old('name') ?>"
                         >
                     </div>
                     <div class="mb-6">

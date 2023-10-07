@@ -47,14 +47,15 @@ function showPosts($user, $maxPosts, $choosenId = '') {
         LEFT JOIN comments c ON c.fk_post = p.id
         LEFT JOIN likes lk ON lk.fk_post = p.id AND lk.fk_like_owner = :session_user
         WHERE p.fk_owner = :id
-        GROUP BY p.id',
+        GROUP BY p.id
+        ORDER BY p.date DESC
+        ',
     [
         'id' => $user,
         'session_user' => $session_user,
     ])->get();
 
     foreach ($returnPosts as $key=>$post) {
-        //dd($post);
         if ($key >= $maxPosts) break;
 
         if ($post['post_media'] > 0) {
@@ -62,7 +63,6 @@ function showPosts($user, $maxPosts, $choosenId = '') {
                 'id' => $user,
                 'post_id' => $post['id'],
             ])->get();
-            //dd($returnMedia);
         }
         
         if ($isGoogle) {
@@ -97,7 +97,7 @@ function showPosts($user, $maxPosts, $choosenId = '') {
                         <?php
                         } else {
                         ?>
-                            <div class="btn-form" id="delete">Delete Post</div>
+                            <div class="btn-form border rounded-lg p-2 cursor-pointer absolute" id="delete">Delete Post</div>
                         <?php
                         }
                         ?>
@@ -119,12 +119,12 @@ function showPosts($user, $maxPosts, $choosenId = '') {
 
                         if (in_array($extension , $permitedVideoFormats)) {
                             echo'<video width="100%" controls style="border-radius: 5%;">
-                                <source src="../posts/'.$filesPost["file_name"].'" type="video/'.$extension.'" >
+                                <source src="../public/posts/'.$filesPost["file_name"].'" type="video/'.$extension.'" >
                                 Your browser do not support the video tag
                             </video>';
                         } else {
-                            if (file_exists(substr(__DIR__,0,-7).'public\posts\\'.$filesPost["file_name"])) {
-                                echo'<img src="../posts/'.$filesPost["file_name"].'" alt="'.$filesPost["file_name"];
+                            if (file_exists('public/posts/' . basename($filesPost["file_name"]))) {
+                                echo'<img src="public/posts/'.$filesPost["file_name"].'" alt="'.$filesPost["file_name"];
                             } else {
                                 echo'<img src="../images/lost-image.png" alt="'.$filesPost["file_name"];
                             }

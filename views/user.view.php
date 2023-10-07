@@ -96,6 +96,15 @@
     
             <?php 
                 if ($own_profile) {
+                    var_dump($errors);
+                    // errors = array(1) { ["post-text"]=> array(1) { [0]=> string(32) "The post-text field is required." } }
+                    if (!is_null($errors)) {
+                        echo '<div class="error p-4 m-4 border-2 border-red-500 rounded-lg">';
+                        foreach ($errors as $field=>$error) {
+                            echo '<p class="text-red-500 font-bold">'.$error[0].'</p>';
+                        }
+                        echo '</div>';
+                    }
             ?>
     
             <div class="post-input p-4 m-4 border-2 border-stone-700/75 rounded-lg">
@@ -107,7 +116,7 @@
                         maxlength="256" cols="30" rows="10" 
                         placeholder="What is going on?"
                         class="w-full h-48 rounded-lg p-4 my-4 bg-gray-800"
-                    ></textarea>
+                    ><?= !empty($old) ? $old['post-text'] : '' ?></textarea>
                     <label id="count" for="post-text" class="absolute right-2 top-40 text-right w-auto rounded-full font-normal bg-gray-900 p-1"></label>
     
                     <div id="images-preview" class="flex mb-4"></div>
@@ -132,7 +141,7 @@
                 if (this.disabled) return;
                 const files = e.target.files || e.dataTransfer.files;
                 if (files.length > 4) {
-                    alert('You are only allowed to upload a maximum of 2 files at a time');
+                    alert('You are only allowed to upload a maximum of 4 files at a time');
                 }
                 if (!files.length) return;
                 for (let i = 0; i < Math.min(files.length, 2); i++) {

@@ -31,35 +31,124 @@ class Validator
                 switch ($ruleName) {
                     case 'required':
                         if (empty($value)) {
-                            $this->addError($field, $this->getCustomMessage($field, 'required') ?: 'The ' . $field . ' field is required.', 'required');
+                            $this->addError($field, 'The ' . $field . ' field is required.', 'required');
                         }
                         break;
     
                     case 'email':
                         if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                            $this->addError($field, $this->getCustomMessage($field, 'email') ?: 'The ' . $field . ' field must be a valid email address.', 'email');
+                            $this->addError($field, 'The ' . $field . ' field must be a valid email address.', 'email');
                         }
                         break;
     
                     case 'min':
                         if (strlen($value) < $ruleArgs[0]) {
-                            $this->addError($field, $this->getCustomMessage($field, 'min') ?: 'The ' . $field . ' field must be at least ' . substr($rule, 4) . ' characters.', 'min');
+                            $this->addError($field,  'The ' . $field . ' field must be at least ' . substr($rule, 4) . ' characters.', 'min');
                         }
                         break;
-    
+
+                    case 'max':
+                        if (strlen($value) > $ruleArgs[0]) {
+                            $this->addError($field, 'The ' . $field . ' field must be less than ' . substr($rule, 4) . ' characters.', 'max');
+                        }
+                        break;
+
                     case 'unique':
                         $this->unique($field, $ruleArgs[0], isset($ruleArgs[1]) ? $ruleArgs[1] : 'id');
                         break;
+
                     case 'matches':
                         if ($value !== $this->data[$ruleArgs[0]]) {
-                            $this->addError($field, $this->getCustomMessage($field, 'matches') ?: 'The ' . $field . ' field does not match the confirmation.', 'matches');
+                            $this->addError($field, 'The ' . $field . ' field does not match the confirmation.', 'matches');
 
                         }
                         break;
+                    
+                        case 'file':
+                            if (!empty($_FILES[$field]['name'])) {
+                                if ($_FILES[$field]['error'] !== UPLOAD_ERR_OK) {
+                                    $this->addError($field, $this->getCustomMessage($field, 'file') ?: 'The ' . $field . ' field must be a valid file.', 'file');
+                                } else {
+                                    $fileSize = $_FILES[$field]['size'];
+                                    $maxSize = $ruleArgs[0] ?? 0;
+        
+                                    if ($maxSize > 0 && $fileSize > $maxSize) {
+                                        $this->addError($field, $this->getCustomMessage($field, 'file') ?: 'The ' . $field . ' field must be smaller than ' . $maxSize . ' bytes.', 'file');
+                                    }
+        
+                                    $fileType = $_FILES[$field]['type'];
+                                    $allowedTypes = $ruleArgs[1] ?? [];
+        
+                                    if (!empty($allowedTypes) && !in_array($fileType, $allowedTypes)) {
+                                        $this->addError($field, $this->getCustomMessage($field, 'file') ?: 'The ' . $field . ' field must be a valid file type.', 'file');
+                                    }
+                                }
+                            } elseif ($ruleName !== 'nullable' && empty($_FILES[$field]['name'])) {
+                                $this->addError($field, $this->getCustomMessage($field, 'required') ?: 'The ' . $field . ' field is required.', 'required');
+                            }
+                            break;
+        
+                        case 'nullable':
+                            if (empty($_FILES[$field]['name']) || empty($value)) {
+                                break 2;
+                            }
+                            break;
+        
+                        case 'files':
+                            if (empty($_FILES[$field]['name'])) {
+                                if ($ruleName !== 'nullable') {
+                                    $this->addError($field, $this->getCustomMessage($field, 'required') ?: 'The ' . $field . ' field is required.', 'required');
+                                } else {
+                                    break 2;
+                                }
+                            } else {
+                                $this->files($field, $ruleArgs[0]);
+                            }
+                            break;
+        
+                        case 'images':
+                            if (!empty($_FILES[$field]['name'])) {
+                                $this->images($field, $ruleArgs[0]);
+                            } elseif ($ruleName !== 'nullable' && empty($_FILES[$field]['name'])) {
+                                $this->addError($field, $this->getCustomMessage($field, 'required') ?: 'The ' . $field . ' field is required.', 'required');
+                            }
+                            break;
                 }
             }
         }
     
+        return $this;
+    }
+
+    public function files($field, $size)
+    {
+        $files = $this->data[$field];
+        $totalSize = 0;
+
+        foreach ($files['size'] as $fileSize) {
+            $totalSize += $fileSize;
+        }
+
+        if ($totalSize > $size) {
+            $this->addError($field, 'The ' . $field . ' field must be less than ' . $size . ' bytes.', 'files');
+        }
+
+        return $this;
+    }
+
+    public function image($field, $formats)
+    {
+        $files = $this->data[$field];
+
+        foreach ($files['type'] as $fileType) {
+            $temparray = explode("/",$fileType);
+            $extension = strtolower(end($temparray));
+
+            if (!in_array($extension, $formats)) {
+                $this->addError($field, 'The ' . $field . ' field must be an image.', 'image');
+            }
+        }
+
         return $this;
     }
 
@@ -76,7 +165,7 @@ class Validator
             $result = $query->find();
 
             if ($result) {
-                $this->addError($field, $this->getCustomMessage($field, 'unique') ?: 'The ' . $field . ' field must be unique.', 'unique');
+                $this->addError($field, 'The ' . $field . ' field must be unique.', 'unique');
             }
         }
 
@@ -110,12 +199,13 @@ class Validator
 
     protected function getCustomMessage($field, $rule)
     {
-        $messages = $this->message();
-
+        $messages = $this->messages();
+    
         if (isset($messages[$field]) && isset($messages[$field][$rule])) {
             return $messages[$field][$rule];
         }
 
+    
         return null;
     }
 
@@ -127,7 +217,7 @@ class Validator
      *   ]
      * ];
      */
-    public function message()
+    public function messages()
     {
         return [];
     }

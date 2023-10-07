@@ -13,7 +13,6 @@ class Authenticator
 
         if ($user) {
             if (password_verify($password, $user['password'])) {
-                //dd($user);
                 $this->login([
                     'email' => $email,
                     'id' => $user['id'],

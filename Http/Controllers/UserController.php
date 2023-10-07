@@ -4,6 +4,8 @@ namespace Http\Controllers;
 
 use Core\App;
 use Core\Database;
+use Core\Session;
+use Core\ValidationException;
 
 class UserController {
     public function index() {
@@ -29,7 +31,7 @@ class UserController {
             $blocks = $db->query('SELECT user_blocked, fk_user FROM blocks WHERE fk_user = :id OR user_blocked = :id',[
                 'id' => $_SESSION['user']['id'],
                 'id' => $_SESSION['user']['id'],
-            ])->find();
+            ])->get();
 
             if ($blocks != null) {
 
@@ -98,7 +100,8 @@ class UserController {
             'following' => $following,
             'follow_status' => $follow_status,
             'isGoogle' => $isGoogle,
-
+            'errors' => Session::get('errors'),
+            'old' => Session::get('old'),
         ]);
     }
 
@@ -154,6 +157,7 @@ class UserController {
             $newPass = $_POST['password'];
         
             if (empty($newPass) && strlen($newPass) > 255) {
+                ValidationException::throw(['password' => 'The password field must be less than 255 characters.'], $_POST);
                 header("Location: settings?error=invalidpassword");
                 exit();
             }

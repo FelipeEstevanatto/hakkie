@@ -17,126 +17,94 @@ const menupost = doc.querySelectorAll('#feed .post .top-post .right i.fas.fa-ell
 const likebtn = doc.querySelectorAll('#feed .post .bottom-post .list #tab-like');
 const commentbtn = doc.querySelectorAll('#feed .post .bottom-post .list #tab-comment');
 const sharebtn = doc.querySelectorAll('#feed .post .bottom-post .list #tab-share');
-const post_ids = doc.querySelectorAll('#feed .post');
 const user_ids = doc.querySelectorAll('#feed .post .top-post .left');
 const interativeForm = doc.querySelectorAll('.interative-form');
+const posts = doc.querySelectorAll('#feed .post');
 
-console.log(post_ids)
-const feed = doc.getElementById('feed');
-
-feed.addEventListener('click', (event) => {
-    const target = event.target;
-    if (target.matches('#feed .post .top-post .right i.fas.fa-ellipsis-v')) {
-        const post = target.closest('.post');
-        const form = post.querySelector('.interative-form');
-
-        if (form.classList.contains('open')) {
-            form.classList.remove('open');
-            form.classList.add('close');
-        } else {
-            form.classList.add('open');
-            form.classList.remove('close');
-
-            const followBtn = form.querySelector('#follow');
-            const blockBtn = form.querySelector('#block');
-            const deleteBtn = form.querySelector('#delete');
-            const postId = post.id;
-            const userId = post.querySelector('.top-post .left').id;
-
-            followBtn.addEventListener('click', () => {
-                // Handle follow button click
-                fetch('followLogic', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: 'follow=' + userId
-                })
-                .then(response => response.text())
-                .then(data => {
-                    if (data === '0') {
-                        followBtn.innerHTML = 'Follow';
-                    } else if (data === '1') {
-                        followBtn.innerHTML = 'Unfollow';
-                    }
-                })
-                .catch(error => {
-                    console.error('Failed to update follow:', error);
-                });
-                
-            });
-
-            blockBtn.addEventListener('click', () => {
-                // Handle block button click
-                
-            });
-
-            deleteBtn.addEventListener('click', () => {
-                // Handle delete button click
-            });
+posts.forEach(post => {
+    post.addEventListener('click', (event) => {
+        const target = event.target;
+        switch (true) {
+            case post.querySelector('i.fas.fa-ellipsis-v').contains(target):
+                console.log('menu')
+                openMenu(post);
+                break;
+            case post.querySelector('#tab-like').contains(target):
+                console.log('like')
+                likePost(post);
+                break;
+            case post.querySelector('#tab-comment').contains(target):
+                console.log('comment')
+                commentPost(post);
+                break;
+            case post.querySelector('#tab-share').contains(target):
+                console.log('share')
+                shareLink(post);
+                break;
         }
-    }
+        console.log(target, post.id)
+    });
 });
 
-feed.addEventListener('click', (event) => {
-    const target = event.target;
-    if (target.classList.contains('likebtn')) {
-        const index = Array.from(target.parentNode.parentNode.parentNode.children).indexOf(target.parentNode.parentNode);
-        const span = doc.querySelectorAll('#feed .post .bottom-post .list #tab-like span');
-        const checklike = doc.querySelectorAll('#feed .post .bottom-post .list #tab-like');
+function openMenu(post) {
+    const form = post.querySelector('.interative-form');
+    if (form !== null) {
+        form.classList.toggle('hidden');
+    }
+}
 
-        let url = 'likeLogic';
-        let body = '';
+function likePost(post) {
+    const span = post.querySelector('#tab-like span');
+    const checklike = post.querySelector('#tab-like');
 
-        if (checklike[index].classList.contains('my-like')) {
-            body = 'unlike=' + post_ids[index].id;
-        } else {
-            body = 'like=' + post_ids[index].id;
+    let url = 'like';
+    let body = '';
+
+    if (checklike.classList.contains('my-like')) {
+        url = 'unlike';
+        body = 'unlike=' + post.id;
+    }
+    else {
+        body = 'like=' + post.id;
+    }
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: body
+    })
+    .then(response => response.text())
+    .then(data => {
+        if (data === '0') {
+            span.innerHTML = parseInt(span.innerHTML.replace(/\D/g,'')) - 1 + ' Likes';
+            checklike.classList.remove('my-like')
+        } else if (data === '1') {
+            span.innerHTML = parseInt(span.innerHTML.replace(/\D/g,'')) + 1 + ' Likes';
+            checklike.classList.add('my-like')
         }
+    })
+    .catch(error => {
+        console.error('Failed to update like:', error);
+    });
+}
 
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: body
+function commentPost(post) {
+    const post_id = post.id;
+    window.location = 'post?id='+post_id;
+}
+
+function shareLink(post) {
+    const post_id = post.id;
+    // Get current URL domain
+    const link = window.location.origin + '/hakkie/post?id=' + post_id;
+    navigator.clipboard.writeText(link)
+        .then(() => {
+            const shareTab = post.querySelector('#tab-share');
+            shareTab.innerHTML = 'Link Copied!';
         })
-        .then(response => response.text())
-        .then(data => {
-            if (data === '0') {
-                span[index].innerHTML = parseInt(span[index].innerHTML.replace(/\D/g,'')) - 1 + ' Likes';
-                checklike[index].classList.remove('my-like')
-            } else if (data === '1') {
-                span[index].innerHTML = parseInt(span[index].innerHTML.replace(/\D/g,'')) + 1 + ' Likes';
-                checklike[index].classList.add('my-like')
-            }
-        })
-        .catch(error => {
-            console.error('Failed to update like:', error);
+        .catch((error) => {
+            console.error('Failed to copy text: ', error);
         });
-    }
-});
-
-commentbtn.forEach((btn, index) => {
-    btn.addEventListener('click', () => {
-
-        var post_id = post_ids[index].id;
-
-        window.location = 'post?id='+post_id;
-    });
-});
-
-sharebtn.forEach((btn, index) => {
-    btn.addEventListener('click', () => {
-        const post_id = post_ids[index].id;
-        const link = `/post?id=${post_id}`;
-        navigator.clipboard.writeText(link)
-            .then(() => {
-                const shareTab = doc.querySelectorAll('#feed .post .bottom-post .list #tab-share')[index];
-                shareTab.innerHTML = 'Link Copied!';
-            })
-            .catch((error) => {
-                console.error('Failed to copy text: ', error);
-            });
-    });
-});
+}

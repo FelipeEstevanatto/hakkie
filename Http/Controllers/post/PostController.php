@@ -140,7 +140,7 @@ class PostController {
                     'file_name' => $imagename,
                     'file_type' => $extensions[$key],
                     'fk_post' => $postId,
-                    'session_user' => decodeId($sessionID)
+                    'session_user' => $sessionID
                 ]);
             }
             

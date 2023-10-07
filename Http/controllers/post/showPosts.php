@@ -88,7 +88,7 @@ function showPosts($user, $maxPosts, $choosenId = '') {
                         <?=time_elapsed_string($post['date'])?>
                         <i class="fas fa-ellipsis-v interative-form-btn pl-2 cursor-pointer"></i>
                     </span>
-                    <div class="interative-form close hidden">
+                    <div class="interative-form hidden">
                         <?php
                         if ($post['fk_owner'] != $_SESSION['user']['id']) {
                         ?>

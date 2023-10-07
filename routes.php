@@ -25,6 +25,8 @@ $router->post('/post', 'post/PostController@store')->only('auth');
 $router->get('/post/{id}', 'post/post@view')->only('auth');
 $router->get('/home', 'HomeController@index')->only('auth');
 $router->get('/notifications', 'NotificationsController@index')->only('auth');
+$router->post('/like', 'post/LikeController@like')->only('auth');
+$router->post('/unlike', 'post/LikeController@unlike')->only('auth');
 
 // Settings routes
 $router->get('/settings', 'SettingsController@index')->only('auth');

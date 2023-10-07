@@ -1,6 +1,6 @@
 <?php
 
-namespace Http\controllers;
+namespace Http\Controllers;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require base_path('app/php/' . 'recoverLogic.php');

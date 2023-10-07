@@ -12,7 +12,8 @@
     "autoload": {
         "psr-4": {
             "Core\\": "Core/",
-            "Http\\": "Http/"
+            "Http\\": "Http/",
+            "Http\\Controllers\\": "Http/Controllers/"
         }
     }
 }

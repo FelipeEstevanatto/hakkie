@@ -1,28 +1,30 @@
 <?php
 
 // Authentication routes
-$router->get('/login', 'session/create.php')->only('guest');
-$router->post('/session', 'session/store.php')->only('guest');
-$router->delete('/session', 'session/destroy.php')->only('auth');
+$router->get('/login', 'session/SessionController@create')->only('guest');
+$router->post('/session', 'session/SessionController@store')->only('guest');
+$router->delete('/session', 'session/SessionController@destroy')->only('auth');
+$router->get('/login/google', 'session/SessionController@google')->only('guest');
+$router->get('/login/google/callback', 'session/SessionController@create')->only('guest');
 
-$router->get('/recover', 'registration/recover/create.php');
-$router->post('/recover', 'registration/recover/store.php');
-$router->get('/new-password', 'registration/recover/new-password.php');
-$router->post('/register', 'registration/store.php')->only('guest');
+$router->get('/recover', 'registration/recover/create');
+$router->post('/recover', 'registration/recover/store');
+$router->get('/new-password', 'registration/recov/new-password');
+$router->post('/register', 'registration/RegistrationController@store')->only('guest');
 
 // User routes
-$router->get('/user', 'user.php')->only('auth');
-$router->get('/following', 'following.php')->only('auth');
-$router->get('/followers', 'followers.php')->only('auth');
-$router->post('/changeUserData', 'changeUserData.php')->only('auth');
+$router->get('/user', 'UserController@index')->only('auth');
+$router->get('/following', 'FollowingController@index')->only('auth');
+$router->get('/followers', 'FollowersController@index')->only('auth');
+$router->post('/changeUserData', 'UserController@edit')->only('auth');
 
 // Content routes
-$router->get('/', 'index.php')->only('guest');
-$router->get('/post', 'post/post.php')->only('auth');
-$router->post('/post', 'post/store.php')->only('auth');
-$router->get('/post/{id}', 'post/post.php')->only('auth');
-$router->get('/home', 'home.php')->only('auth');
-$router->get('/notifications', 'notifications.php')->only('auth');
+$router->get('/', 'IndexController@index');//->only('guest');
+$router->get('/post', 'post/PostController@view')->only('auth');
+$router->post('/post', 'post/PostController@store')->only('auth');
+$router->get('/post/{id}', 'post/post@view')->only('auth');
+$router->get('/home', 'HomeController@index')->only('auth');
+$router->get('/notifications', 'NotificationsController@index')->only('auth');
 
 // Settings routes
-$router->get('/settings', 'settings.php')->only('auth');
+$router->get('/settings', 'SettingsController@index')->only('auth');

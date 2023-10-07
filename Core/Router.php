@@ -2,8 +2,6 @@
 
 namespace Core;
 
-use Core\Middleware\Authenticated;
-use Core\Middleware\Guest;
 use Core\Middleware\Middleware;
 
 class Router
@@ -59,11 +57,33 @@ class Router
         foreach ($this->routes as $route) {
             if ($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
                 Middleware::resolve($route['middleware']);
+    
+                // Extract the controller class and method from the route value
+                if (strpos($route['controller'], '@') !== false) {
+                    [$controllerClass, $controllerMethod] = explode('@', $route['controller']);
+                } else {
+                    $controllerClass = ltrim($route['controller']);
+                    $controllerMethod = strtolower($method);
+                }
+                // Load the controller file
+                $controllerClass = str_replace('/', '\\', $controllerClass);
+                $controllerClass = 'Http\Controllers\\' . $controllerClass;
+                $controllerFile = base_path(str_replace('\\', '/', $controllerClass) . '.php');
 
-                return require base_path('Http/controllers/' . $route['controller']);
+                if (!file_exists($controllerFile)) {
+                    throw new \Exception("Controller file not found: $controllerFile");
+                }
+
+                require_once $controllerFile;
+
+                // Create a new instance of the controller
+                $controller = new $controllerClass;
+
+                // Call the controller method dynamically
+                return $controller->$controllerMethod();
             }
         }
-
+    
         $this->abort();
     }
 

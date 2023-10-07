@@ -1,6 +1,6 @@
 <?php
 
-namespace Http\controllers\registration;
+namespace Http\Controllers\registration;
 
 view("recover.view.php", [
     'heading' => 'Recover',

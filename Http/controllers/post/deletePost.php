@@ -1,6 +1,6 @@
 <?php
 
-namespace Http\controllers\post;
+namespace Http\Controllers\post;
 
 use Core\App;
 use Core\Database;

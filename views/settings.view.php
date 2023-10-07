@@ -72,7 +72,7 @@
                             <input type="text" name="name" id="name" required class="w-full p-4 rounded-lg text-black font-normal" placeholder="New Name">
                         </div>
                     </div>
-                    <input type="submit" name='change-user-name' value="Submit" class="py-4 px-12 bg-green-800 rounded-lg font-bold">
+                    <input type="submit" name='change-user-name' value="Submit" class="py-4 px-12 bg-green-800 rounded-lg font-bold cursor-pointer">
                 </form>
             </div>
 
@@ -88,7 +88,7 @@
                     <textarea id="textarea" name="update-info" type="text" maxlength="256" rows="3" class="w-full bg-gray-700 rounded-lg p-2"><?=!is_null($info) ? $info : '' ?></textarea>
                     <label id="count" for="update-info" class="absolute right-10 bottom-20 text-right w-auto rounded-full font-normal"></label>
 
-                    <input type="submit" name='change-user-info' value="Submit" class="py-4 px-12 bg-green-800 rounded-lg font-bold">
+                    <input type="submit" name='change-user-info' value="Submit" class="py-4 px-12 bg-green-800 rounded-lg font-bold cursor-pointer">
                 </form>
             </div>
             <?php if( isset($_SESSION['user']['authType']) && $_SESSION['user']['authType'] != 'GOOGLE') {?>
@@ -114,7 +114,7 @@
                             <input type="email" name="change-user-email" id="change-user-email" required class="w-full p-4 rounded-lg text-black font-normal" placeholder="New Email">
                         </div>
                     </div>
-                    <input type="submit" name='change-user-email' value="Submit" class="py-4 px-12 bg-green-800 rounded-lg font-bold">
+                    <input type="submit" name='change-user-email' value="Submit" class="py-4 px-12 bg-green-800 rounded-lg font-bold cursor-pointer">
                 </form>
             </div>
 
@@ -139,7 +139,7 @@
                             <input type="password" name="password-repeat" id="password-repeat" required class="w-full p-4 rounded-lg text-black font-normal" placeholder="New password">
                         </div>
                     </div>
-                    <input type="submit" name='change-user-password' value="Submit" class="py-4 px-12 bg-green-800 rounded-lg font-bold">
+                    <input type="submit" name='change-user-password' value="Submit" class="py-4 px-12 bg-green-800 rounded-lg font-bold cursor-pointer">
                 </form>
             </div>
             <?php   } ?>

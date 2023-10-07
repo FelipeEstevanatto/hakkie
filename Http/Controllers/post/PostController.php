@@ -110,7 +110,6 @@ class PostController {
         $this->db = App::resolve(Database::class);
         $this->sessionID = $_SESSION['user']['id'];
 
-        //dd($_POST);
         $return = $this->db->query('SELECT fk_owner FROM posts WHERE id = :id', [
             'id' => $_POST['post_id']
         ])->find();
@@ -194,8 +193,6 @@ class PostController {
         
         $folder = str_replace("\\", '/',substr(__DIR__,0,-21))."public/posts/";
         foreach ($_FILES['uploadfile']['tmp_name'] as $key => $filestempname) {
-            //dd($filestempname);
-
             if (!move_uploaded_file($filestempname, $folder.$renamed[$key])) {
                 $error = error_get_last();
                 ValidatorException::throw(['uploadfile' => ['The uploadfile failed to upload.']], $_POST);

@@ -8,9 +8,14 @@ use Core\Session;
 use Core\ValidationException;
 
 class UserController {
-    public function index() {
-        $db = App::resolve(Database::class);
 
+    private $db = null;
+
+    public function __construct() {
+        $this->db = App::resolve(Database::class);
+    }
+
+    public function index() {
         $id = $_GET['user'] ?? $_SESSION['user']['id'];
 
         if (!isset($id) || !is_numeric($id)) {
@@ -28,29 +33,27 @@ class UserController {
 
             $own_profile = false;
             
-            $blocks = $db->query('SELECT user_blocked, fk_user FROM blocks WHERE fk_user = :id OR user_blocked = :id',[
+            $details = $this->db->query('SELECT user_blocked, fk_user, users.username, users.created_at, picture, user_info, banner FROM blocks INNER JOIN users ON users.id = blocks.user_blocked WHERE fk_user = :id OR user_blocked = :id', [
                 'id' => $_SESSION['user']['id'],
                 'id' => $_SESSION['user']['id'],
-            ])->get();
+            ])->find();
 
-            if ($blocks != null) {
-
-                $details = $blocks;
-
-                if ($details['fk_user'] == $_SESSION['user']['id']) {
-                    $details = 'own_block';
-                }
-
+            if ($details != null) {
                 view("user-blocked.view.php", [
                     'heading' => 'User',
-                    'details' => $details,
+                    'own_block' => $details['fk_user'] == $_SESSION['user']['id'],
+                    'user_since' => joinedSince($details['created_at']),
+                    'user_name' => $details['username'],
+                    'user_info' => $details['user_info'],
+                    'picture' => $details['picture'],
+                    'banner' => $details['banner'],
+                    'details' => $details
                 ]);
                 exit();
             }
-
         }
 
-        $user_info = $db->query('SELECT username, user_info, picture, banner, created_at, darkmode, auth_type FROM users WHERE users.id = :id;',[
+        $user_info = $this->db->query('SELECT username, user_info, picture, banner, created_at, darkmode, auth_type FROM users WHERE users.id = :id;',[
             'id' => $id,
         ])->find();
 
@@ -72,7 +75,7 @@ class UserController {
         $user_info = $user_info['user_info'];
 
         // Get followers, following number and if SESSION is following 
-        $follow_info = $db->query('SELECT 
+        $follow_info = $this->db->query('SELECT 
             COUNT(CASE WHEN user_followed = :id THEN 1 END) AS followers,
             COUNT(CASE WHEN fk_user = :id THEN 1 END) AS followings,
             EXISTS (SELECT user_followed FROM follows WHERE fk_user = :fk_user AND 
@@ -106,9 +109,7 @@ class UserController {
     }
 
     public function edit() {
-        $db = App::resolve(Database::class);
-
-        $return = $db->query('SELECT username, email, password, user_info FROM users WHERE id = :id',[
+        $return = $this->db->query('SELECT username, email, password, user_info FROM users WHERE id = :id',[
             'id' => $_SESSION['user']['id'],
         ])->find();
 
@@ -121,7 +122,7 @@ class UserController {
         $user_info = $_POST['update-info'] ?? $return['user_info'];
 
             try {
-                $db->query('UPDATE users SET username = :username, email = :email, password = :password, user_info = :user_info WHERE id = :id',[
+                $this->db->query('UPDATE users SET username = :username, email = :email, password = :password, user_info = :user_info WHERE id = :id',[
                     'username' => $username,
                     'email' => $email,
                     'password' => $password,
@@ -137,5 +138,32 @@ class UserController {
             }
 
         redirect('settings');
+    }
+
+    public function block() {
+        // see if the user is already blocked
+        $return = $this->db->query('SELECT user_blocked, fk_user FROM blocks WHERE user_blocked = :user_blocked AND fk_user = :fk_user',[
+            'user_blocked' => $_POST['user'],
+            'fk_user' => $_SESSION['user']['id'],
+        ])->find();
+
+        if ($return != null) {
+            // remove the block
+            $this->db->query('DELETE FROM blocks WHERE user_blocked = :user_blocked AND fk_user = :fk_user',[
+                'user_blocked' => $_POST['user'],
+                'fk_user' => $_SESSION['user']['id'],
+            ]);
+            echo "1";
+            exit(1);
+        }
+
+        // block the user
+        $this->db->query('INSERT INTO blocks VALUES(DEFAULT, :user_blocked, DEFAULT, :fk_user); DELETE FROM follows WHERE user_followed = :user_blocked AND fk_user = :fk_user;',[
+            'user_blocked' => $_POST['user'],
+            'fk_user' => $_SESSION['user']['id']
+        ]);
+        echo "2";
+        exit(2);
+
     }
 }

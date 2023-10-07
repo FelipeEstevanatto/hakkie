@@ -41,30 +41,31 @@
                         </div>
     
                         <div class="right flex">
-                            <?php 
+                            <?php
                                 if (!$own_profile) {
-                                    echo'<div class="btn '.$follow_status.'" id="interact-btn">';
-                                    if ($follow_status == 'Follow') {
-                                        echo '<i class="fas fa-user-plus rounded-md border-2"></i>';
-                                    } else
-                                        echo'<div class="rounded-md border-2 p-1"><i class="fas fa-user-times"></i>';
-                                        echo'<span> '.$follow_status.'</span>
-                                        </div></div>';
+                                    ?>
+                                        <div class="btn flex border-2 rounded-lg mr-2 cursor-pointer <?=$follow_status?>" id="interact-btn">
+                                            <div class="align-middle">
+                                                <i class="fas fa-user-plus"></i>
+                                                <span> <?=$follow_status?></span>
+                                            </div>
+                                        </div>
+                                    <?php
                                 } 
                             ?>
-    
-                            <div class="btn border-2 border-white rounded-md mr-4 p-2 cursor-pointer" id="direct_message">
+
+                            <div class="btn border-2 border-white rounded-md mr-2 p-2 cursor-pointer" id="direct_message">
                                 <i class="fas fa-comment-dots"></i>
                             </div>
     
-                            <div id="ellipsis-modal" class="hidden border-2 border-stone-700 rounded-lg p-2 absolute w-32 divide-y divide-stone-700 mt-12 mr-4 bg-almost-black">
+                            <div id="ellipsis-modal" class="hidden border-2 border-stone-700 rounded-lg p-2 absolute w-32 divide-y divide-stone-700 mt-12 mr-4 bg-almost-black z-50">
                             <?php 
     
                                 if (!$own_profile) {
-                                echo '<div class="btn hover:bg-indigo-500 rounded p-2" id="silence_user">Silence User</div>
-                                      <div class="btn" id="block_user">Block User</div>';
+                                echo '<div class="btn hover:bg-indigo-500 rounded p-2 cursor-pointer" id="silence_user">Silence User</div>
+                                      <div class="btn hover:bg-indigo-500 rounded p-2 cursor-pointer" id="block_user">Block User</div>';
                                 } else {
-                                    echo '<a href="settings"><div class="btn hover:bg-indigo-500 rounded p-2" id="edit_user">Edit User</div></a>';
+                                    echo '<a href="settings"><div class="btn hover:bg-indigo-500 rounded p-2 cursor-pointer" id="edit_user">Edit User</div></a>';
                                 }
     
                             ?>
@@ -176,12 +177,12 @@
     <script type="text/javascript" src="<?= $GLOBALS['base_url'] ?>/js/openMenu.js"></script>   
     <script type="text/javascript" src="<?= $GLOBALS['base_url'] ?>/js/<?= !$own_profile ? 'followUser.js' : 'imagePreview.js' ?>"></script>   
 
-    <?php 
-        if ($own_profile) {   
-    ?>
-        <script src="<?= $GLOBALS['base_url'] ?>/js/letterCount.js">
-            letterCount(140, 'post-text', 'post-count')
-        </script>
-    <?php } ?>
-</body>
-</html>
+<?php 
+    if ($own_profile) {   
+?>
+    <script src="<?= $GLOBALS['base_url'] ?>/js/letterCount.js">
+        letterCount(140, 'post-text', 'post-count')
+    </script>
+<?php }
+    include('partials/footer.php');
+?>

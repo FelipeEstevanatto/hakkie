@@ -4,6 +4,7 @@ namespace Http\Controllers\session;
 
 use Core\Session;
 use Core\Authenticator;
+use Core\ValidationException;
 use Http\Forms\LoginForm;
 //echo "Hello World";
 class SessionController {

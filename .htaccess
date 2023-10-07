@@ -1,3 +1,7 @@
+# Allow access only from the local machine
+Require local
+
+# Rewrite all requests to index.php
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

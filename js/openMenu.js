@@ -52,15 +52,28 @@ if(silenceUserBtn != null && blockUserBtn != null) {
     });
 
     blockUserBtn.addEventListener('click', () => {
-        let xhr = new XMLHttpRequest();
-        xhr.open('POST', 'blockingLogic');
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    
-        xhr.send('block='+findGetParameter('user'));
-        
-        if (xhr.responseText = 'Sucess blocking') {
-            window.location.reload(true);
+        fetch('block', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'user=' + findGetParameter('user')
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                throw new Error('Network response was not ok');
         }
+        })
+        .then(text => {
+            if (text === 'Sucess blocking') {
+                window.location.reload(true);
+            }
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
     });
 }
 

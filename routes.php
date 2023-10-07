@@ -7,9 +7,10 @@ $router->delete('/session', 'session/SessionController@destroy')->only('auth');
 $router->get('/login/google', 'session/SessionController@google')->only('guest');
 $router->get('/login/google/callback', 'session/SessionController@create')->only('guest');
 
-$router->get('/recover', 'registration/recover/create');
-$router->post('/recover', 'registration/recover/store');
-$router->get('/new-password', 'registration/recov/new-password');
+# Registration routes
+$router->get('/recover', 'registration/recover/RecoverController@index')->only('guest');
+$router->post('/recover', 'registration/recover/RecoverController@store')->only('guest');
+$router->get('/new-password', 'registration/recover/RenewPasswordController@index')->only('guest');
 $router->post('/register', 'registration/RegistrationController@store')->only('guest');
 
 // User routes
@@ -17,6 +18,7 @@ $router->get('/user', 'UserController@index')->only('auth');
 $router->get('/following', 'FollowingController@index')->only('auth');
 $router->get('/followers', 'FollowersController@index')->only('auth');
 $router->post('/changeUserData', 'UserController@edit')->only('auth');
+$router->post('/block', 'UserController@block')->only('auth');
 
 // Content routes
 $router->get('/', 'IndexController@index');//->only('guest');

@@ -65,18 +65,25 @@ class Router
                     $controllerClass = ltrim($route['controller']);
                     $controllerMethod = strtolower($method);
                 }
+                
+                // Construct the full namespace of the controller class
+                $controllerNamespace = 'Http\Controllers';
+                if (strpos($controllerClass, '/') !== false) {
+                    $controllerNamespace .= '\\' . str_replace('/', '\\', dirname($controllerClass));
+                    $controllerClass = basename($controllerClass);
+                }
+                
                 // Load the controller file
-                $controllerClass = str_replace('/', '\\', $controllerClass);
-                $controllerClass = 'Http\Controllers\\' . $controllerClass;
-                $controllerFile = base_path(str_replace('\\', '/', $controllerClass) . '.php');
-
+                $controllerFile = base_path(str_replace('\\', '/', $controllerNamespace . '/' . $controllerClass) . '.php');
+                
                 if (!file_exists($controllerFile)) {
                     throw new \Exception("Controller file not found: $controllerFile");
                 }
-
+                
                 require_once $controllerFile;
-
+      
                 // Create a new instance of the controller
+                $controllerClass = $controllerNamespace . '\\' . $controllerClass;
                 $controller = new $controllerClass;
 
                 // Call the controller method dynamically

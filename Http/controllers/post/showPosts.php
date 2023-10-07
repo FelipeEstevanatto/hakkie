@@ -88,16 +88,16 @@ function showPosts($user, $maxPosts, $choosenId = '') {
                         <?=time_elapsed_string($post['date'])?>
                         <i class="fas fa-ellipsis-v interative-form-btn pl-2 cursor-pointer"></i>
                     </span>
-                    <div class="interative-form hidden">
+                    <div class="interative-form hidden border rounded-lg absolute bg-almost-black">
                         <?php
                         if ($post['fk_owner'] != $_SESSION['user']['id']) {
                         ?>
-                            <div class="btn-form <?=$following_status?>" id="follow"><?=$following_status?> User</div>
-                            <div class="btn-form" id="block">Block User</div>
+                            <div class="btn-form p-2 <?=$following_status?>" id="follow"><?=$following_status?> User</div>
+                            <div class="btn-form p-2" id="block">Block User</div>
                         <?php
                         } else {
                         ?>
-                            <div class="btn-form border rounded-lg p-2 cursor-pointer absolute w-auto" id="delete">Delete Post</div>
+                            <div class="btn-form  p-2 cursor-pointer absolute w-auto" id="delete">Delete Post</div>
                         <?php
                         }
                         ?>

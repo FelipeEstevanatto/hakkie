@@ -2,6 +2,7 @@
 
 namespace Http\Controllers\registration;
 
+use Core\App;
 use Core\Session;
 use Core\Database;
 use Core\Authenticator;

@@ -8,6 +8,15 @@
     <div id="container" class="flex justify-center bg-almost-black text-white min-h-screen p-8 relative"> 
         <div class="settings pb-24 w-screen lg:w-1/2 p-8 font-popins">
             <span class="font-bold text-4xl block">Settings</span>
+            <?php
+                if (!is_null($errors)) {
+                    echo '<div class="error p-4 m-4 border-2 border-red-500 rounded-lg">';
+                    foreach ($errors as $field=>$error) {
+                        echo '<p class="text-red-500 font-bold">'.$error[0].'</p>';
+                    }
+                    echo '</div>';
+                }
+            ?>
             <!-- Theme -->
             <label class="relative inline-flex items-center cursor-pointer my-8">
                 <input type="checkbox" value="" id="theme-check" name="theme-check" <?= $_SESSION['user']['theme'] == 'dark' ? 'checked' : '' ?> class="sr-only peer">

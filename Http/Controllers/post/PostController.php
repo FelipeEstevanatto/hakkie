@@ -105,6 +105,56 @@ class PostController {
 
     }
 
+    // Delete post by id
+    public function destroy() {
+        $this->db = App::resolve(Database::class);
+        $this->sessionID = $_SESSION['user']['id'];
+
+        //dd($_POST);
+        $return = $this->db->query('SELECT fk_owner FROM posts WHERE id = :id', [
+            'id' => $_POST['post_id']
+        ])->find();
+
+        if ($return == null) {
+            //ValidatorException::throw(['post_id' => ['This post does not exist.']], $_POST);
+            echo 'This post does not exist.';
+            exit();
+        }
+        
+        if ($return['fk_owner'] != $this->sessionID) {
+            //ValidatorException::throw(['post_id' => ['You can only delete your own posts.']], $_POST);
+            echo 'You can only delete your own posts.';
+            exit();
+        }
+        $this->db->query('DELETE FROM comments WHERE fk_post = :id', [
+            'id' => $_POST['post_id']
+        ]);
+        $this->db->query('DELETE FROM likes WHERE fk_post = :id', [
+            'id' => $_POST['post_id']
+        ]);
+        $this->db->query('DELETE FROM posts WHERE id = :id', [
+            'id' => $_POST['post_id']
+        ]);
+
+        $return = $this->db->query('SELECT file_name FROM files WHERE fk_post = :id', [
+            'id' => $_POST['post_id']
+        ])->get();
+
+        if ($return != null) {
+            foreach ($return as $key => $value) {
+                $folder = str_replace("\\", '/',substr(__DIR__,0,-21))."public/posts/";
+                unlink($folder.$value['file_name']);
+            }
+        }
+
+        $this->db->query('DELETE FROM files WHERE fk_post = :id', [
+            'id' => $_POST['post_id']
+        ]);
+
+        echo '1';        
+        exit();
+    }
+
     public function upload($postId) { 
         // check if the file is less than 4 files ====================================
         if (count($_FILES['uploadfile']['name']) > 4) {

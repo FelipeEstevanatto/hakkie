@@ -96,8 +96,6 @@
     
             <?php 
                 if ($own_profile) {
-                    var_dump($errors);
-                    // errors = array(1) { ["post-text"]=> array(1) { [0]=> string(32) "The post-text field is required." } }
                     if (!is_null($errors)) {
                         echo '<div class="error p-4 m-4 border-2 border-red-500 rounded-lg">';
                         foreach ($errors as $field=>$error) {

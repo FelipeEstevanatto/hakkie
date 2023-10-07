@@ -4,6 +4,7 @@ namespace Http\Controllers;
 
 use Core\App;
 use Core\Database;
+use Core\Session;
 
 class SettingsController {
 
@@ -34,6 +35,9 @@ class SettingsController {
             'info' => $info,
             'theme' => $theme,
             'hasBlocks' => $hasBlocks,
+            'blocks' => $blocks,
+            'errors' => Session::get('errors'),
+            'old' => Session::get('old'),
         ]);
     }
 

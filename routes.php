@@ -22,7 +22,7 @@ $router->post('/changeUserData', 'UserController@edit')->only('auth');
 $router->get('/', 'IndexController@index');//->only('guest');
 $router->get('/post', 'post/PostController@view')->only('auth');
 $router->post('/post', 'post/PostController@store')->only('auth');
-$router->get('/post/{id}', 'post/post@view')->only('auth');
+$router->post('/post/delete', 'post/PostController@destroy')->only('auth');
 $router->get('/home', 'HomeController@index')->only('auth');
 $router->get('/notifications', 'NotificationsController@index')->only('auth');
 $router->post('/like', 'post/LikeController@like')->only('auth');

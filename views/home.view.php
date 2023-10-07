@@ -9,7 +9,7 @@
         <div id="feed" class="w-screen lg:w-1/2 p-4">
             <?php
                 foreach ($users as $user) {
-                    showPosts($user['id'] , 10);
+                    showPosts($user['id'] , 50);
                 }
 
                 echo'<div class="post text p-6 border-2 border-gray-500 rounded-lg text-center">

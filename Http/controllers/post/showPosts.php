@@ -77,7 +77,7 @@ function showPosts($user, $maxPosts, $choosenId = '') {
 
         ?>
         <!--Post layout-->
-        <div class="post text p-6 rounded-lg border-4 border-gray-800 font-popins mb-4" id="<?=$post['id']?>">
+        <div class="post text p-6 rounded-lg border-4 border-gray-800 font-popins mb-4 transition duration-500 ease-in-out transform" id="<?=$post['id']?>">
             <div class="top-post flex items-center justify-between">
                 <div class="left flex items-center font-medium" id="<?=$user?>">
                     <img src="<?=$imageurl?>" class="h-16 rounded-full mr-3.5">
@@ -97,7 +97,7 @@ function showPosts($user, $maxPosts, $choosenId = '') {
                         <?php
                         } else {
                         ?>
-                            <div class="btn-form border rounded-lg p-2 cursor-pointer absolute" id="delete">Delete Post</div>
+                            <div class="btn-form border rounded-lg p-2 cursor-pointer absolute w-auto" id="delete">Delete Post</div>
                         <?php
                         }
                         ?>

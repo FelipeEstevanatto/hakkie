@@ -41,6 +41,10 @@ posts.forEach(post => {
                 console.log('share')
                 shareLink(post);
                 break;
+            case post.querySelector('#delete').contains(target):
+                console.log('form')
+                deletePost(post);
+                break;
         }
         console.log(target, post.id)
     });
@@ -107,4 +111,27 @@ function shareLink(post) {
         .catch((error) => {
             console.error('Failed to copy text: ', error);
         });
+}
+
+function deletePost(post) {
+    const post_id = post.id;
+    fetch('post/delete', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'post_id=' + post_id
+    })
+    .then(response => response.text())
+    .then(data => {
+        if (data === '1') {
+            post.classList.add('opacity-0', 'scale-0');
+            post.addEventListener('transitionend', () => {
+                post.remove();
+            }, {once: true});
+        }
+    })
+    .catch(error => {
+        console.error('Failed to delete post:', error);
+    });
 }

@@ -37,18 +37,19 @@
                 <?php
                     if ($hasBlocks) {
                         foreach ($blocks as $blocked_user) {
-                            $photo_path = $GLOBALS['base_url'] . '/../public/' . $blocked_user['picture'] ?? '/images/defaultUser.png';
+                            $photo_path = $GLOBALS['base_url'] . 'public/' . $blocked_user['picture'] == NULL ? $blocked_user['picture'] : '/images/defaultUser.png';
                         ?>
-                            <div class="block" id="<?=$blocked_user['id']?>">
-                                <div class="left">  
-                                    <img src="<?$photo_path?>" alt="user-blocked-picture" width=50px style="clip-path:circle();">
-                                    <a href="#"><?=$blocked_user['username']?></a>
+                            <div class="block flex justify-between" id="<?=$blocked_user['id']?>">
+                                <div class="left flex">
+                                    <img class="profile-picture rounded-full h-16 w-16 border-4 border-stone-500" src="<?= is_null($blocked_user['picture']) ? $GLOBALS['base_url']."/../public/images/defaultUser.png" : $blocked_user['picture'] ?>" alt="Picture of user">
+                                    <a href="user?user=<?=$blocked_user['id']?>"><?=$blocked_user['username']?></a>
                                 </div>
 
-                                <div class="right">
-                                    <i class="fas fa-times" id="unblock-user-btn'.$blocked_user['id'].'"></i>                    
+                                <div class="right flex align-middle">
+                                    <div class="time">Blocked since: <?=$blocked_user['block_date']?></div>              
+                                    <i class="fas fa-times" id="unblock-user-btn'.$blocked_user['id'].'"></i>
                                 </div>
-                                <div class="time">Blocked since: <?=$blocked_user['block_date']?></div>
+                                
                             </div>
                         <?php
                         }

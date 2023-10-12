@@ -4,10 +4,10 @@
     <i id="sandwich-menu-button" class="fa-solid fa-bars text-white text-4xl p-6 cursor-pointer"></i>
 </div>
 
-<div id="sandwich-menu" class="flex min-h-screen w-screen bg-almost-black pl-8 md:pl-8 lg:w-3/12 lg:max-w-xl hidden lg:block lg:fixed lg:pt-8 text-white border-r-2 border-slate-500 z-50 drop-shadow-xl">
+<div id="sandwich-menu" class="flex min-h-screen w-screen bg-almost-black pl-8 md:pl-8 lg:w-3/12 hidden lg:block lg:fixed lg:pt-8 text-white border-r-2 border-slate-500 z-50 drop-shadow-xl">
     <div>
         <div class="logo hidden lg:block">Hakkie</div>
-        <div class="buttons text-4xl 2xl:text-2xl">
+        <div class="buttons text-2xl 2xl:text-4xl">
             <a href="home" class="btn pl-8 py-2 py-2 block font-semibold">
                 <i class="fas fa-home mr-2"></i>
                 <span>Home</span>

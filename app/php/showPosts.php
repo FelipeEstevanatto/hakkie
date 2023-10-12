@@ -1,33 +1,31 @@
 <?php
 
-function showPosts($user, $posts, $choosenId = '') {
-
-    require("../../app/database/connect.php");
-    require_once("functions.php");
+function showPosts($conn, $user, $posts, $choosenId = '') {
+    require_once(__DIR__."/functions.php");
 
     $session_user = decodeId($_SESSION['idUser']);
 
-    $query = 'SELECT name_user, user_picture, auth_type,
-              EXISTS (SELECT user_blocked FROM blocks WHERE (fk_user = :id_user AND user_blocked = :session_user) OR (fk_user = :session_user AND user_blocked = :id_user)) AS blocked,
-              EXISTS (SELECT * FROM follows WHERE fk_user = :session_user AND user_followed = :id_user) AS following
-              FROM users WHERE id_user = :id_user';
+    $query = 'SELECT username, picture, auth_type,
+              EXISTS (SELECT user_blocked FROM blocks WHERE (fk_user = :id AND user_blocked = :session_user) OR (fk_user = :session_user AND user_blocked = :id)) AS blocked,
+              EXISTS (SELECT * FROM follows WHERE fk_user = :session_user AND user_followed = :id) AS following
+              FROM users WHERE id = :id';
 
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', $user);
+    $stmt -> bindValue(':id', $user);
     $stmt -> bindValue(':session_user', $session_user);
     $stmt -> bindValue(':session_user', $session_user);
-    $stmt -> bindValue(':id_user', $user);
+    $stmt -> bindValue(':id', $user);
     $stmt -> bindValue(':session_user', $session_user);
-    $stmt -> bindValue(':id_user', $user);
-    $stmt -> bindValue(':id_user', $user);
+    $stmt -> bindValue(':id', $user);
+    $stmt -> bindValue(':id', $user);
     $stmt -> execute();
 
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
 
     if ($return['blocked']) return;
 
-    $username = $return['name_user'];
-    $userpicture = $return['user_picture'];
+    $username = $return['username'];
+    $userpicture = $return['picture'];
     $following_status = $return['following'] ? 'Unfollow' : 'Follow';
     $permitedVideoFormats = array("webm","mp4","mov");
     
@@ -35,22 +33,22 @@ function showPosts($user, $posts, $choosenId = '') {
 
     if ( count($return) > 0) { 
         //Coalesce returns 0 instead of null, so we don't need an if
-        $query = 'SELECT id_post, post_text, post_date, fk_owner,
-                        (SELECT COUNT(file_name) FROM files WHERE fk_owner = fk_owner AND fk_post = id_post) AS post_media,
-                        COALESCE((SELECT COUNT(id_like) FROM likes WHERE fk_post = id_post GROUP BY fk_post),0) AS post_likes,
-                        COALESCE((SELECT COUNT(id_comment) FROM comments WHERE fk_post = id_post GROUP BY fk_post),0) AS post_comments,
-                        (SELECT COUNT(*) FROM likes WHERE fk_post = id_post AND fk_like_owner = :session_user ) AS already_liked
-                  FROM posts WHERE fk_owner = :id_user'; 
+        $query = 'SELECT id, content, date, fk_owner,
+                        (SELECT COUNT(file_name) FROM files WHERE fk_owner = fk_owner AND fk_post = id) AS post_media,
+                        COALESCE((SELECT COUNT(likes.id) FROM likes WHERE fk_post = id GROUP BY fk_post),0) AS post_likes,
+                        COALESCE((SELECT COUNT(comments.id) FROM comments WHERE fk_post = id GROUP BY fk_post),0) AS post_comments,
+                        (SELECT COUNT(*) FROM likes WHERE fk_post = id AND fk_like_owner = :session_user ) AS already_liked
+                  FROM posts WHERE fk_owner = :id'; 
         if (!empty($choosenId) && !is_float(decodeId(cleanString($choosenId))) ) {
-            $query .= ' AND id_post = :choosen_id';
+            $query .= ' AND id = :choosen_id';
         }
-        $query .=' ORDER BY post_date DESC';
+        $query .=' ORDER BY date DESC';
 
         $stmt = $conn -> prepare($query);
 
-        $stmt -> bindValue(':id_user', $user);
+        $stmt -> bindValue(':id', $user);
         $stmt -> bindValue(':session_user', $session_user);
-        $stmt -> bindValue(':id_user', $user);
+        $stmt -> bindValue(':id', $user);
         
         if (!empty($choosenId) && !is_float(decodeId(cleanString($choosenId))) ) {
             $stmt -> bindValue(':choosen_id', decodeId(cleanString($choosenId)));
@@ -64,17 +62,17 @@ function showPosts($user, $posts, $choosenId = '') {
             if ($key >= $posts) break;
 
             if ($post['post_media'] > 0) {
-                $query = 'SELECT file_name, file_type, fk_post FROM files WHERE fk_owner = :id_user AND fk_post = :post_id';
+                $query = 'SELECT file_name, file_type, fk_post FROM files WHERE fk_owner = :id AND fk_post = :post_id';
                 $stmt = $conn -> prepare($query);
-                $stmt -> bindValue(':id_user', $user);
-                $stmt -> bindValue(':post_id', $post['id_post']);
+                $stmt -> bindValue(':id', $user);
+                $stmt -> bindValue(':post_id', $post['id']);
                 $stmt -> execute();
                 $returnMedia = $stmt -> fetchAll(PDO::FETCH_ASSOC);
             }
 
-            //================== Start of post DIV ================== (with post_id and user_id)
+            //================== Start of post DIV ================== (with post id and user id)
             $actual_post = '<!--Post layout-->
-            <div class="post text" id="'.encodeId($post['id_post']).'">
+            <div class="post text" id="'.encodeId($post['id']).'">
                 <div class="top-post">
                     <div class="left" id="'.encodeId($user).'">
                         <img src="';
@@ -82,17 +80,17 @@ function showPosts($user, $posts, $choosenId = '') {
                         if ($isGoogle) {
                             $actual_post.=$userpicture;
                         } elseif ($userpicture != NULL) {
-                            $actual_post.='../profiles/'.$userpicture;
+                            $actual_post.= $GLOBALS['base_url'] . '/../profiles/'.$userpicture;
                         } else {
-                            $actual_post.='../images/defaultUser.png'; //fallback
+                            $actual_post.= $GLOBALS['base_url'] . '/../public/images/defaultUser.png'; //fallback
                         }
                         $actual_post.='">
-                        <a href="user.php?user='.encodeId($user).'">'.$username.'</a>
+                        <a href="user?user='.encodeId($user).'">'.$username.'</a>
                     </div>
                     
                     <div class="right">
                         <span>'
-                        .time_elapsed_string($post['post_date']).'
+                        .time_elapsed_string($post['date']).'
                         <i class="fas fa-ellipsis-v" class="interative-form-btn"></i>
                         </span>
 
@@ -109,9 +107,9 @@ function showPosts($user, $posts, $choosenId = '') {
                     </div>
                 </div>';
                 //================== Post Text ==================
-                if ($post['post_text'] != 'NULL') {
+                if ($post['content'] != 'NULL') {
                 $actual_post.='<div class="content-post">
-                                    '.convertYoutube($post['post_text']).'
+                                    '.convertYoutube($post['content']).'
                             </div>';
                 }
                 //================== Post Media ==================

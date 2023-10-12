@@ -1,18 +1,13 @@
 <?php
 
-    session_start();
-
-    require '../../vendor/autoload.php';
-
-    require_once("../database/connect.php");
-    require_once("../database/env.php");
-    require_once("functions.php");
+    require_once(__DIR__."/../../bootstrap.php");
+    require_once(__DIR__."/functions.php");
 
     $email_user = cleanEmail($_POST['email']);
 
     if (!empty($email_user) && isset($_POST['sender-ip']) && isset($_POST['recover-user-submit'])) {
 
-        $query = "SELECT user_email, user_password, name_user, auth_type FROM users WHERE user_email = :email_user";
+        $query = "SELECT email, password, username, auth_type FROM users WHERE email = :email_user";
 
         $stmt = $conn -> prepare($query);
 
@@ -25,22 +20,22 @@
         if (count($return) > 0) {
 
             if ($return[0]['auth_type'] == 'GOOGLE') {
-                header("Location: ../../public/views/recover.php?error=googleaccount");
+                header("Location: recover?error=googleaccount");
                 exit();
             }
 
-            $name_user = $return[0]['name_user'];
+            $username = $return[0]['username'];
             $ipDetails = getUserIP();
             $selector = bin2hex(random_bytes(8));
             $token = random_bytes(32);
             $hashedToken = password_hash($token, PASSWORD_BCRYPT);
 
-            if (getenv('GOOGLE_LOGIN_URI')){
-                $url = getenv('GOOGLE_LOGIN_URI').'public/views/'; 
+            if ($_ENV['GOOGLE_LOGIN_URI']){
+                $url = $_ENV['GOOGLE_LOGIN_URI'].'public/views/'; 
             } else {
                 $url = 'http://'.$_SERVER['HTTP_HOST'].'/hakkie/public/views/';
             }
-            $url .= 'new-password.php?selector=' . $selector . '&validator='. bin2hex($token);
+            $url .= 'new-password?selector=' . $selector . '&validator='. bin2hex($token);
             
             $expires = date("U") + 3600; // 1 hour token validation in UNIX time
 
@@ -76,16 +71,16 @@
             try {
                 //Server settings
                 $mail->isSMTP();                                        //Send using SMTP
-                $mail->Host       = PHPMAILER_INFO['smtp_host'];        //Set the SMTP server to send through
+                $mail->Host       = $_ENV['PHPMAILER_HOST'];        //Set the SMTP server to send through
                 $mail->SMTPAuth   = true;                               //Enable SMTP authentication
-                $mail->Username   = PHPMAILER_INFO['mail_user'];        //SMTP username
-                $mail->Password   = PHPMAILER_INFO['password_user'];    //SMTP password
+                $mail->Username   = $_ENV['PHPMAILER_USER'];        //SMTP username
+                $mail->Password   = $_ENV['PHPMAILER_PASSWORD'];    //SMTP password
                 $mail->SMTPSecure = $mail::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-                $mail->Port       = PHPMAILER_INFO['mail_port'];        //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+                $mail->Port       = $_ENV['PHPMAILER_PORT'];        //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
                 //Recipients
-                $mail->setFrom(PHPMAILER_INFO['mail_user'], 'Hakkie');
-                $mail->addAddress($email_user, $name_user);             //Add a recipient
+                $mail->setFrom($_ENV['mail_user'], 'Hakkie');
+                $mail->addAddress($email_user, $username);             //Add a recipient
                 $mail->addReplyTo('no-reply@gmail.com', 'No Reply');
 
                 //Content
@@ -140,7 +135,7 @@
                     </div>
                     <h1>Password Recover</h1>
                         <p class='texto'>
-                        Hello ".$name_user.", we received a password recovery requisition of your Hakkie account ";
+                        Hello ".$username.", we received a password recovery requisition of your Hakkie account ";
                         if ($ipDetails->ip == 'Localhost'){
                             $mail->Body.="by some ".$ipDetails->ip." machine";
                         } else {
@@ -160,7 +155,7 @@
                 </html>
                 ";
                 
-                $mail->AltBody = "Hello ".$name_user.", your Email provider has disabled HTML in emails, or you deactivated it yourself manually,
+                $mail->AltBody = "Hello ".$username.", your Email provider has disabled HTML in emails, or you deactivated it yourself manually,
                 therefore, if you requested a password change/recovery of your Hakkie account";
                 if ($ipDetails->ip == 'Localhost'){
                     $mail->AltBody.="by some ".$ipDetails->ip." machine";
@@ -172,7 +167,7 @@
 
                 $mail->send(); //echo 'Message has been sent';
 
-                header("Location: ../../public/views/new-password.php?newpwd=checkyouremail");
+                header("Location: new-password?newpwd=checkyouremail");
                 exit();
 
             } catch (Exception $e) {
@@ -180,11 +175,11 @@
                 exit();
             }
         } else {
-            header("Location: ../../public/views/recover.php?error=emailnotfound");
+            header("Location: recover?error=emailnotfound");
             exit();
         }
 
     } else {
-        header("Location: ../../public/views/new-password.php?newpwd=error");
+        header("Location: new-password?newpwd=error");
         exit();
     }

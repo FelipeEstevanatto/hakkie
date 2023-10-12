@@ -1,43 +1,43 @@
 <?php
-    session_start();
+    
 
-    if (!isset($_SESSION['isAuth'])) {
+    // if (!isset($_SESSION['isAuth'])) {
 
-        if (isset($_GET["id"])) {
-            setcookie("resumeP", $_GET["id"], time()+3600, "/");
-        }
+    //     if (isset($_GET["id"])) {
+    //         setcookie("resumeP", $_GET["id"], time()+3600, "/");
+    //     }
 
-        header("Location: login.php");
-	    exit();
-    }
+    //     header("Location: login.php");
+	//     exit();
+    // }
 
-    require("../../app/database/connect.php");
-    require_once("../../app/php/functions.php");
+    require_once(__DIR__. "/../../bootstrap.php");
+    require_once(__DIR__. "/../../app/php/functions.php");
 
     if ( !isset($_GET['id']) || is_numeric($_GET['id']) || is_float(decodeId($_GET['id']))) {
-        include("../includes/user-nonexistent.php"); //This user does not exist in DB!
+        include(__DIR__."/../includes/user-nonexistent.php"); //This user does not exist in DB!
         exit();      
     }
 
     $post = decodeId($_GET['id']);
 
-    $query = "SELECT user_blocked FROM blocks WHERE fk_user = :id_user";
+    $query = "SELECT user_blocked FROM blocks WHERE fk_user = :id";
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_user', $post);
+    $stmt -> bindValue(':id', $post);
     $stmt -> execute();
 
     if ($stmt -> rowCount() > 0) {
-        include("../includes/user-blocked.php"); //This user does not exist in DB! (we don't have blocked page yet)
+        include(__DIR__."/../includes/user-blocked.php"); //This user does not exist in DB! (we don't have blocked page yet)
         exit();
     }
 
-    $query = "SELECT id_user FROM users INNER JOIN posts ON fk_owner = id_user WHERE id_post = :id_post";
+    $query = "SELECT id FROM users INNER JOIN posts ON fk_owner = id WHERE id = :id";
     $stmt = $conn -> prepare($query);
-    $stmt -> bindValue(':id_post', $post);
+    $stmt -> bindValue(':id', $post);
     $stmt -> execute();
 
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
-    $id_user = $return['id_user'];
+    $id = $return['id'];
 
 ?>
 
@@ -50,10 +50,10 @@
     <title>Post - <?='aaa'?></title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="../css/home/grid/grid.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/../public/css/home/grid/grid.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/../public/css/style.css">
 
-    <link rel="stylesheet" href="../css/home/feed/feed.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/../public/css/home/feed/feed.css">
 
     <!-- Font Awesome-->
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>
@@ -65,16 +65,16 @@
     
     <?php 
 
-        include('../includes/tool-bar.php');
+        include(__DIR__.'/../includes/tool-bar.php');
 
     ?>
 
     <div id="container">
         <div id="feed">
             <?php
-                include('../../app/php/showPosts.php');
+                include(__DIR__.'/../../app/php/showPosts.php');
 
-                showPosts( $id_user , 1 , $_GET['id']);
+                showPosts($conn, $id, 1, $_GET['id']);
 
             ?>
         </div>
@@ -82,12 +82,12 @@
 
     <?php 
 
-        include('../includes/message.html')
+        include(__DIR__.'/../includes/message.php')
 
     ?>
 
-    <script type="text/javascript" src="../../js/functions.js"></script>
-    <script type="text/javascript"src="../../js/feedbuild.js"></script>
+    <script type="text/javascript" src="<?= $GLOBALS['base_url'] ?>/js/functions.js"></script>
+    <script type="text/javascript"src="<?= $GLOBALS['base_url'] ?>/js/feedbuild.js"></script>
 
 </body>
 </html>

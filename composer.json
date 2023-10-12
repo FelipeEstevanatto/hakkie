@@ -1,6 +1,18 @@
 {
     "require": {
-        "google/apiclient": "^2.10",
-        "phpmailer/phpmailer": "^6.5"
+        "google/apiclient": "^2.11",
+        "phpmailer/phpmailer": "^6.5",
+        "vlucas/phpdotenv": "^5.5"
+    },
+    "scripts": {
+        "setup-database": [
+            "php app/database/installation.php"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "Core\\": "Core/",
+            "Http\\": "Http/"
+        }
     }
 }

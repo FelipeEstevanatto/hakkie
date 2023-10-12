@@ -1,11 +1,11 @@
 <?php
 
 function cleanString($string) {
-    return filter_var(htmlspecialchars(trim($string),FILTER_SANITIZE_STRING));
+    return filter_var(htmlspecialchars(trim($string), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 }
 
 function cleanEmail($string) {
-    $string = trim(strtolower(filter_var($string,FILTER_SANITIZE_EMAIL)));
+    $string = trim(strtolower(filter_var($string, FILTER_SANITIZE_EMAIL)));
     if (strlen($string) < 256 && !empty($string)) {
         return $string;
     } else {

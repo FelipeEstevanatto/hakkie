@@ -1,12 +1,10 @@
 <?php
 
-session_start();
-
-require_once("../../database/connect.php");
-require_once("../functions.php");
+require_once(__DIR__ . "/../../../bootstrap.php");
+require_once(__DIR__ . "/../functions.php");
 
 if(!isset($_SESSION['isAuth']) || count($_FILES["uploadfile"]['name']) > 4){
-    header("location: ../../../public/views/user.php?user=".$_SESSION['idUser']."&error=toomuchfiles");
+    header("location: user?user=".$_SESSION['idUser']."&error=toomuchfiles");
     exit();
 }
 
@@ -16,21 +14,27 @@ if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empt
     
     $message = cleanString($_POST['post-text']) ?? '';
     
-    $query = 'INSERT INTO posts VALUES(DEFAULT, :post_text, DEFAULT, :id_user) RETURNING id_post;';
+    $query = 'INSERT INTO posts VALUES(DEFAULT, :content, DEFAULT, :id);';
     $stmt = $conn -> prepare($query);  
 
     if (empty($message)) {
-        $stmt -> bindValue(':post_text', 'NULL');
+        $stmt -> bindValue(':content', 'NULL');
     } else {
-        $stmt -> bindValue(':post_text', $message);
+        $stmt -> bindValue(':content', $message);
     }
     
-    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']));
+    $stmt -> bindValue(':id', decodeId($_SESSION['idUser']));
+    $stmt -> execute();
+
+    // Get post id
+    $query = 'SELECT id FROM posts WHERE fk_owner = :id ORDER BY id DESC LIMIT 1';
+    $stmt = $conn -> prepare($query);
+    $stmt -> bindValue(':id', decodeId($_SESSION['idUser']));
     $stmt -> execute();
 
     $return = $stmt -> fetch(PDO::FETCH_ASSOC);
 
-    $postId = $return["id_post"];
+    $postId = $return["id"];
 
     if (isset($_FILES) && !empty($_FILES["uploadfile"]["tmp_name"])) {
 
@@ -45,7 +49,7 @@ if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empt
             $extension = strtolower(end($temparray));
 
             if ( !in_array( $extension , $permitedFormats ) ) {
-                header("location: ../../../public/views/user.php?user=".$_SESSION['idUser']."&error=fileformat");
+                header("location: user?user=".$_SESSION['idUser']."&error=fileformat");
                 exit;
             }
 
@@ -56,7 +60,7 @@ if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empt
         // File sizes verification ====================================
         foreach ($_FILES['uploadfile']['size'] as $filessize) {
             if ( $filessize >= 33554432 ) { //32Mb max size
-                header("Location: ../../../public/views/user.php?user=".$_SESSION['idUser']."&error=bigfile");
+                header("Location: user?user=".$_SESSION['idUser']."&error=bigfile");
                 exit();
             }
         }
@@ -66,7 +70,7 @@ if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empt
         foreach ($_FILES['uploadfile']['tmp_name'] as $key => $filestempname) {
 
             if (!move_uploaded_file($filestempname, $folder.$renamed[$key])) {
-                header("Location: ../../../public/views/user.php?user=".$_SESSION['idUser']."&error=failedupload");
+                header("Location: user?user=".$_SESSION['idUser']."&error=failedupload");
                 exit();
             }
         }
@@ -92,14 +96,14 @@ if ( (!empty($_POST['post-text']) && strlen($_POST['post-text']) <= 256)|| !empt
     
 
     if ( $stmt ) {
-        header("Location: ../../../public/views/user.php?user=".$_SESSION['idUser']);
+        header("Location: user?user=".$_SESSION['idUser']);
         exit();
 
     } else {
-        header("Location: ../../../public/views/user.php?user=".$_SESSION['idUser']."&error=dberror");
+        header("Location: user?user=".$_SESSION['idUser']."&error=dberror");
         exit();
     }
 } else {
-    header("Location: ../../../public/views/user.php?user=".$_SESSION['idUser']);
+    header("Location: user?user=".$_SESSION['idUser']);
     exit();
 }

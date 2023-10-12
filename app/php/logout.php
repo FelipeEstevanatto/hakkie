@@ -1,9 +1,7 @@
 <?php
 
-    require_once("../database/connect.php");
-    require_once("functions.php");
-
-    session_start();
+    require_once(__DIR__."/../../bootstrap.php");
+    require(__DIR__."/functions.php");
 
     if (isset($_COOKIE['g_csrf_token'])) {
         setcookie("g_csrf_token", null, -1);
@@ -12,18 +10,14 @@
 
     if (isset($_COOKIE['darkMode']) && ($_COOKIE['darkMode'] === 'dark' || $_COOKIE['darkMode'] === 'light')) {
         
-        if ($_COOKIE['darkMode'] === 'dark') {
-            $darkMode = true;
-        } else {
-            $darkMode = false;
-        }
+        $darkMode = $_COOKIE['darkMode'] === 'dark' ? true : false;
         
-        $query = 'UPDATE users SET darkmode = :theme WHERE id_user = :id_user';
+        $query = 'UPDATE users SET darkmode = :theme WHERE id = :id';
     
         $stmt = $conn -> prepare($query);
         
         $stmt -> bindValue(':theme', $darkMode, PDO::PARAM_BOOL);
-        $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
+        $stmt -> bindValue(':id', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
     
         $stmt -> execute();
 
@@ -37,5 +31,5 @@
 
     $conn = null;
 
-    header('Location: ../../index.php');
+    header('Location: /hakkie');
     exit();

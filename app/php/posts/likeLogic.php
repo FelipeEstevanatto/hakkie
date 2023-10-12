@@ -1,9 +1,9 @@
 <?php
 
-session_start();
 
-require_once("../../database/connect.php");
-require_once("../../php/functions.php");
+
+require_once(__DIR__."/../../../bootstrap.php");
+require_once(__DIR__."/../functions.php");
 
 if(!isset($_SESSION['isAuth'])){
     exit();
@@ -12,12 +12,12 @@ if(!isset($_SESSION['isAuth'])){
 //Like
 if (isset($_POST['like']) && !is_numeric($_POST['like'])) {
 
-    $query = 'INSERT INTO likes VALUES(DEFAULT, :id_post , DEFAULT, :id_user) ON CONFLICT DO NOTHING;';
+    $query = 'INSERT INTO likes VALUES(DEFAULT, :id , DEFAULT, :id) ON CONFLICT DO NOTHING;';
 
     $stmt = $conn -> prepare($query);
 
-    $stmt -> bindValue(':id_post', decodeId($_POST['like']), PDO::PARAM_INT);
-    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id', decodeId($_POST['like']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
 
     $stmt -> execute();
 
@@ -28,12 +28,12 @@ if (isset($_POST['like']) && !is_numeric($_POST['like'])) {
 //Unlike
 } else if (isset($_POST['unlike']) && !is_numeric($_POST['unlike'])) {
 
-    $query = 'DELETE FROM likes WHERE fk_like_owner = :id_user AND fk_post = :id_post;';
+    $query = 'DELETE FROM likes WHERE fk_like_owner = :id AND fk_post = :id;';
 
     $stmt = $conn -> prepare($query);
 
-    $stmt -> bindValue(':id_user', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
-    $stmt -> bindValue(':id_post', decodeId($_POST['unlike']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id', decodeId($_SESSION['idUser']), PDO::PARAM_INT);
+    $stmt -> bindValue(':id', decodeId($_POST['unlike']), PDO::PARAM_INT);
     
     $stmt -> execute();
 

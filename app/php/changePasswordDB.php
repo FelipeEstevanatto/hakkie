@@ -1,9 +1,9 @@
 <?php
 
-session_start();
 
-require_once("functions.php");
-require_once("../database/connect.php");
+
+require_once(__DIR__."functions.php");
+require_once(__DIR__."/../../bootstrap.php");
 
 if (isset($_POST['new-password-submit'])) {
     
@@ -13,10 +13,10 @@ if (isset($_POST['new-password-submit'])) {
     $passwordRepeat = cleanString($_POST['password-repeat']);
 
     if ( empty($new_password) || empty($passwordRepeat) ) {
-        header("location: ../../public/views/new-password.php?selector=$selector&validator=$validator&newpwd=empty");
+        header("location: new-password?selector=$selector&validator=$validator&newpwd=empty");
         exit();
     } else if ( $new_password !== $passwordRepeat ) {
-        header("location: ../../public/views/new-password.php?selector=$selector&validator=$validator&newpwd=pwdnotsame");
+        header("location: new-password?selector=$selector&validator=$validator&newpwd=pwdnotsame");
         exit();
     }
     
@@ -34,7 +34,7 @@ if (isset($_POST['new-password-submit'])) {
     $row = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
     if (!$stmt || count($row) != 1) {
-        header("location: ../../public/views/new-password.php?newpwd=error");
+        header("location: new-password?newpwd=error");
         exit();
     }
 
@@ -42,13 +42,13 @@ if (isset($_POST['new-password-submit'])) {
     $tokenCheck = password_verify($tokenBin, $row[0]['pwdresettoken']);
 
     if ($tokenCheck === false) {
-        header("location: ../../public/views/new-password.php?newpwd=error");
+        header("location: new-password?newpwd=error");
         exit();
     } elseif ($tokenCheck === true) {
 
         $tokenEmail = $row[0]['pwdresetemail'];
 
-        $query = "SELECT * FROM users WHERE user_email = :email";
+        $query = "SELECT * FROM users WHERE email = :email";
         $stmt = $conn -> prepare($query);
         $stmt -> bindValue(":email", $tokenEmail);
         $stmt -> execute();
@@ -56,13 +56,13 @@ if (isset($_POST['new-password-submit'])) {
         $row = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
         if (!$stmt || count($row) < 1) {
-            header("location: ../../public/views/new-password.php?newpwd=error");
+            header("location: new-password?newpwd=error");
             exit();
         } else {
 
             $new_Password = password_hash($new_password, PASSWORD_BCRYPT);
 
-            $query = "UPDATE users SET user_password = :newpassword WHERE user_email = :email_user";
+            $query = "UPDATE users SET password = :newpassword WHERE email = :email_user";
             $stmt = $conn -> prepare($query);
             $stmt -> bindValue(":newpassword", $new_Password);
             $stmt -> bindValue(":email_user", $tokenEmail);
@@ -74,10 +74,10 @@ if (isset($_POST['new-password-submit'])) {
             $stmt2 -> execute();
 
             if ( !$stmt || !$stmt2) {
-                header("location: ../../public/views/new-password.php?newpwd=error");
+                header("location: new-password?newpwd=error");
                 exit();
             } else {
-                header("location: ../../public/views/login.php?newpwd=passwordupdated");
+                header("location: login?newpwd=passwordupdated");
                 exit();
             }
         }
@@ -85,6 +85,6 @@ if (isset($_POST['new-password-submit'])) {
     }
 
 } else { //Came from outside our form
-    header("location: ../../index.php");  
+    header("location: index");  
     exit();
 }

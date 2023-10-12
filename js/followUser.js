@@ -9,7 +9,7 @@ interactBtn.addEventListener('click', () => {
 
         let xhr = new XMLHttpRequest();
 
-        xhr.open('POST', '../../app/php/posts/followLogic.php');
+        xhr.open('POST', 'followLogic');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
         xhr.send('follow='+findGetParameter('user'));
@@ -24,7 +24,7 @@ interactBtn.addEventListener('click', () => {
 
         let xhr = new XMLHttpRequest();
 
-        xhr.open('POST', '../../app/php/posts/followLogic.php');
+        xhr.open('POST', 'followLogic');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
         xhr.send('unfollow='+findGetParameter('user'));

@@ -24,7 +24,7 @@ unblockBtn.forEach((i, index) => {
     i.addEventListener('click', () => {
         
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', '../../app/php/blockingLogic.php');
+        xhr.open('POST', 'blockingLogic');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
  
         xhr.addEventListener("readystatechange", function () {

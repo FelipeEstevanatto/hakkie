@@ -326,7 +326,6 @@ body.dark #switch-theme-btn .slider {
   /* Form manage */
   #container .settings .form-manage.open {
     padding: 2em 1em 1em 1em;
-    margin-top: -1.2em;
   }
   #container .settings .form-manage.open form {
     display: block;

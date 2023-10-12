@@ -19,121 +19,101 @@ const post_ids = window.document.querySelectorAll('#feed .post');
 const user_ids = window.document.querySelectorAll('#feed .post .top-post .left');
 const interativeForm = window.document.querySelectorAll('.interative-form');
 
-menupost.forEach((btn, index) => {
-    btn.addEventListener('click', () => {
-        
-        if(interativeForm[index].classList.contains('open')) {
-            interativeForm[index].classList.remove('open');
-            interativeForm[index].classList.add('close');
-        }
-        else {
-            interativeForm[index].classList.add('open');
-            interativeForm[index].classList.remove('close');
+const document = window.document;
+const feed = document.getElementById('feed');
 
-            const follow_op = window.document.querySelectorAll('.right .interative-form.open #follow');
-            const block_op = window.document.querySelectorAll('.right .interative-form.open #block');
-            const delete_post = window.document.querySelectorAll('.right .interative-form.open #delete');
-            var post_id = post_ids[index].id;
-            var user_id = user_ids[index].id;
+feed.addEventListener('click', (event) => {
+    const target = event.target;
 
-            let xhr = new XMLHttpRequest();
-            
-            follow_op.forEach((btn, index) => {
-                btn.addEventListener('click', () => {
-                    xhr.open('POST', '../../app/php/posts/followLogic.php');
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    if (target.matches('#feed .post .top-post .right i.fas.fa-ellipsis-v')) {
+        const post = target.closest('.post');
+        const form = post.querySelector('.interative-form');
 
-                    if (follow_op[index].classList.contains('Follow')){
-                        xhr.send('follow='+user_id);
-                        
-                    } else if (follow_op[index].classList.contains('Unfollow')) {
-                        xhr.send('unfollow='+user_id);
+        if (form.classList.contains('open')) {
+            form.classList.remove('open');
+            form.classList.add('close');
+        } else {
+            form.classList.add('open');
+            form.classList.remove('close');
+
+            const followBtn = form.querySelector('#follow');
+            const blockBtn = form.querySelector('#block');
+            const deleteBtn = form.querySelector('#delete');
+            const postId = post.id;
+            const userId = post.querySelector('.top-post .left').id;
+
+            followBtn.addEventListener('click', () => {
+                // Handle follow button click
+                fetch('followLogic', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'follow=' + userId
+                })
+                .then(response => response.text())
+                .then(data => {
+                    if (data === '0') {
+                        followBtn.innerHTML = 'Follow';
+                    } else if (data === '1') {
+                        followBtn.innerHTML = 'Unfollow';
                     }
-                    if (xhr.responseText = '1Sucess') {
-                        follow_op[index].classList.add('Unfollow');
-                        follow_op[index].classList.remove('Follow');
-                        follow_op[index].innerHTML = 'Unfollow';
-                        interativeForm[index].classList.remove('open');
-                        interativeForm[index].classList.add('close');
-                        interativeForm[index].classList.add('close');
-                    } else if (xhr.responseText = '0Sucess') {
-                        follow_op[index].classList.add('Follow');
-                        follow_op[index].classList.remove('Unfollow');
-                        follow_op[index].innerHTML = 'Follow';
-                        interativeForm[index].classList.remove('open');
-                        interativeForm[index].classList.add('close');
-                    }
+                })
+                .catch(error => {
+                    console.error('Failed to update follow:', error);
                 });
+                
             });
 
-            block_op.forEach((btn, index) => {
-                btn.addEventListener('click', () => {
-
-                    xhr.open('POST', '../../app/php/blockingLogic.php');
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                    xhr.send('block='+user_id);
-
-                    if (window.location.href.slice(-8) == 'home.php') {
-                        window.document.getElementById(post_id).classList.add('animate');
-                        const interval = setTimeout(()=>{
-                            window.document.getElementById(post_id).remove(); 
-                        },400);
-                    } else
-                        document.location.reload();
-                });
+            blockBtn.addEventListener('click', () => {
+                // Handle block button click
+                
             });
 
-            delete_post.forEach((btn, index) => {
-                btn.addEventListener('click', () => {
-
-                    xhr.open('POST', '../../app/php/posts/deletePost.php');
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                    xhr.send('deletePost='+post_id);
-
-                    if (xhr.responseText = 'Deleted') {
-                        window.document.getElementById(post_id).classList.add('animate');
-                        const interval = setTimeout(()=>{
-                            window.document.getElementById(post_id).remove(); 
-                        },400);
-                    }
-                });
+            deleteBtn.addEventListener('click', () => {
+                // Handle delete button click
             });
         }
-    });
+    }
 });
 
+feed.addEventListener('click', (event) => {
+    const target = event.target;
+    if (target.classList.contains('likebtn')) {
+        const index = Array.from(target.parentNode.parentNode.parentNode.children).indexOf(target.parentNode.parentNode);
+        const span = document.querySelectorAll('#feed .post .bottom-post .list #tab-like span');
+        const checklike = document.querySelectorAll('#feed .post .bottom-post .list #tab-like');
 
-
-likebtn.forEach((btn, index) => {
-    btn.addEventListener('click', () => {
-
-        var span = window.document.querySelectorAll('#feed .post .bottom-post .list #tab-like span');
-        var checklike = window.document.querySelectorAll('#feed .post .bottom-post .list #tab-like');
-
-        let xhr = new XMLHttpRequest();
-
-        xhr.open('POST', '../../app/php/posts/likeLogic.php');
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        let url = 'likeLogic';
+        let body = '';
 
         if (checklike[index].classList.contains('my-like')) {
-            xhr.addEventListener("readystatechange", function () {
-                if (xhr.responseText === '0') {
-                    span[index].innerHTML = parseInt(span[index].innerHTML.replace(/\D/g,'')) - 1 + ' Likes';
-                    checklike[index].classList.remove('my-like')
-                }
-            });
-            xhr.send('unlike=' + post_ids[index].id);
+            body = 'unlike=' + post_ids[index].id;
         } else {
-            xhr.addEventListener("readystatechange", function () {
-                if (xhr.responseText === '1') {
-                    span[index].innerHTML = parseInt(span[index].innerHTML.replace(/\D/g,'')) + 1 + ' Likes';
-                    checklike[index].classList.add('my-like')
-                }
-            });
-            xhr.send('like=' + post_ids[index].id);
+            body = 'like=' + post_ids[index].id;
         }
 
-    });
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: body
+        })
+        .then(response => response.text())
+        .then(data => {
+            if (data === '0') {
+                span[index].innerHTML = parseInt(span[index].innerHTML.replace(/\D/g,'')) - 1 + ' Likes';
+                checklike[index].classList.remove('my-like')
+            } else if (data === '1') {
+                span[index].innerHTML = parseInt(span[index].innerHTML.replace(/\D/g,'')) + 1 + ' Likes';
+                checklike[index].classList.add('my-like')
+            }
+        })
+        .catch(error => {
+            console.error('Failed to update like:', error);
+        });
+    }
 });
 
 commentbtn.forEach((btn, index) => {
@@ -141,25 +121,21 @@ commentbtn.forEach((btn, index) => {
 
         var post_id = post_ids[index].id;
 
-        window.location = document.location.href.slice(0, document.location.href.lastIndexOf('/')) + '/post.php?id='+post_id;
-
+        window.location = 'post?id='+post_id;
     });
 });
 
 sharebtn.forEach((btn, index) => {
     btn.addEventListener('click', () => {
-
-        var post_id = post_ids[index].id;
-
-        var link = document.location.href.slice(0, document.location.href.lastIndexOf('/')) + '/post.php?id='+post_id;
-
-        var dummy = document.createElement('input');
-            document.body.appendChild(dummy);
-            dummy.value = link;
-            dummy.select();
-            document.execCommand('copy');
-            document.body.removeChild(dummy);
-                
-        window.document.querySelectorAll('#feed .post .bottom-post .list #tab-share')[index].innerHTML = 'Link Copied!';
+        const post_id = post_ids[index].id;
+        const link = `/post?id=${post_id}`;
+        navigator.clipboard.writeText(link)
+            .then(() => {
+                const shareTab = document.querySelectorAll('#feed .post .bottom-post .list #tab-share')[index];
+                shareTab.innerHTML = 'Link Copied!';
+            })
+            .catch((error) => {
+                console.error('Failed to copy text: ', error);
+            });
     });
 });

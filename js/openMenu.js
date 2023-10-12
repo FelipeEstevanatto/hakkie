@@ -64,7 +64,7 @@ if(silenceUserBtn != null && blockUserBtn != null) {
 
     blockUserBtn.addEventListener('click', () => {
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', '../../app/php/blockingLogic.php');
+        xhr.open('POST', 'blockingLogic');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     
         xhr.send('block='+findGetParameter('user'));
@@ -76,14 +76,12 @@ if(silenceUserBtn != null && blockUserBtn != null) {
 }
 
 linkUserBtn.addEventListener('click', () => {
-    var dummy = document.createElement('input'),
-    text = window.location.href;
-    document.body.appendChild(dummy);
-        dummy.value = text;
-        dummy.select();
-        document.execCommand('copy');
-        document.body.removeChild(dummy);
-        
-    linkUserBtn.innerHTML = 'Link Copied!';
-
+    const text = window.location.href;
+    navigator.clipboard.writeText(text)
+        .then(() => {
+            linkUserBtn.innerHTML = 'Link Copied!';
+        })
+        .catch((error) => {
+            console.error('Failed to copy text: ', error);
+        });
 });

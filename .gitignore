@@ -1,2 +1,7 @@
 app/database/env.php
 app/google/google.php
+
+.env
+vendor/
+node_modules/
+public/posts/

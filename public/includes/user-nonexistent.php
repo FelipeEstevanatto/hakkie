@@ -1,9 +1,6 @@
 <?php
     
-    if (!isset($_SESSION['isAuth'])) {
-        header("Location: ../home.php ");
-	    exit();
-    }
+
 ?>
 
 <!DOCTYPE html>
@@ -15,10 +12,10 @@
     <title>Undefined User</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="../css/home/grid/grid.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/home/user-nonexistent.css">
-    <link rel="stylesheet" href="../css/user/user.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/../public/css/home/grid/grid.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/../public/css/style.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/../public/css/home/user-nonexistent.css">
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>/../public/css/user/user.css">
 
     <!-- Font Awesome-->
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>
@@ -30,7 +27,7 @@
     
     <?php 
 
-        include('tool-bar.php')
+        include(__DIR__.'/tool-bar.php')
 
     ?>
 
@@ -38,11 +35,11 @@
 
     <div class="top">
             <div class="banner">
-                <img src="../images/defaultBanner.jpg" alt="Banner of user">
+                <img src="<?= $GLOBALS['base_url'] ?>/../public/images/defaultBanner.jpg" alt="Banner of user">
             </div>
 
             <div class="info">
-                <img class="profile-picture" src="../images/defaultUser.png" alt="Picture of user">
+                <img class="profile-picture" src="<?= $GLOBALS['base_url'] ?>/../public/images/defaultUser.png" alt="Picture of user">
 
                 <div class="clear"></div>
 
@@ -61,7 +58,7 @@
 
     <?php 
 
-        include('message.html')
+        include(__DIR__.'/message.php')
 
     ?>
 </body>

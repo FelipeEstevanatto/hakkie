@@ -1,16 +1,8 @@
 <?php
-    session_start();
-    if(isset($_SESSION['isAuth'])){
-        header("Location: public/views/home.php ");
-	    exit();
-    }
+    require __DIR__ . '/bootstrap.php';
 
-    if ( getenv('GOOGLE_LOGIN_URI') != null) {
-        $data_login_uri = getenv('GOOGLE_LOGIN_URI')."/app/google/verifyIntegrity.php";
-    } else {
-        $data_login_uri = 'http://localhost/hakkie/app/google/verifyIntegrity.php';
-    }
-
+    $data_login_uri = $_ENV['GOOGLE_LOGIN_URI']."/app/google/verifyIntegrity.php";
+    
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +46,7 @@
                 Create Account
             </div>
 
-            <form action="app/php/registerLogic.php" method="POST">
+            <form action="registerLogic" method="POST">
                 <label for="name">Name</label>
                 <input type="text" name="name" id="name" required>
 
@@ -99,7 +91,7 @@
         </div>
     </div>
 
-    <a href="public/views/login.php">
+    <a href="login">
         <div id="switch-form-btn">
             I already have an account!
         </div>

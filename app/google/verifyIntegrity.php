@@ -1,16 +1,16 @@
 <?php
 
-session_start();
 
-include('config.php');
-require('../database/connect.php');
-require('../php/functions.php');
+
+include(__DIR__.'/config.php');
+require_once(__DIR__.'/../../bootstrap.php');
+require_once(__DIR__.'/../php/functions.php');
 
 //Verify ['g_csrf_token'] cookie, and POST id_token/credentials
 if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_csrf_token'] || !isset($_POST['credential'])) {
     
     echo "Something went very wrong with you Login request<br>
-    <a href='../../public/views/login.php'>Back to login</a>";
+    <a href='/login'>Back to login</a>";
 
 } else {
     date_default_timezone_set('America/Sao_Paulo');
@@ -26,7 +26,7 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
     }
 
     $payload = $google_client->verifyIdToken($id_token);
-    
+
     if ($payload) {
 
         // Return all user data in a JSON
@@ -36,7 +36,7 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
         // Get profile info
         $email_user = $data->email;
 
-        $query = "SELECT id_user, user_email, user_password, auth_type, darkmode FROM users WHERE user_email = :email_user";
+        $query = "SELECT id, email, password, auth_type, darkmode FROM users WHERE email = :email_user";
 
         $stmt = $conn -> prepare($query);
 
@@ -48,7 +48,7 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
  
         if ( $stmt -> rowCount() > 0) {
 
-            if ($return[0]['user_email'] == $email_user && $return[0]['auth_type'] == 'GOOGLE' && password_verify($data->sub, $return[0]['user_password'])) {
+            if ($return[0]['email'] == $email_user && $return[0]['auth_type'] == 'GOOGLE' && password_verify($data->sub, $return[0]['password'])) {
 
                 $_SESSION['isAuth'] = true;
 
@@ -56,20 +56,20 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
                 setcookie("darkMode", $theme, 2147483647, "/");
 
                 $_SESSION['authType'] = 'GOOGLE';
-                $_SESSION['idUser'] = encodeId($return[0]['id_user']);
+                $_SESSION['idUser'] = encodeId($return[0]['id']);
                 
                 if (isset($_COOKIE['resumeP'])) {
-                    header("Location: ../../public/views/post.php?id=".$_COOKIE['resumeP']);
+                    header("Location: post?id=".$_COOKIE['resumeP']);
                     setcookie("resumeP", "", -1 , "/");
                     exit();
                 } else if (isset($_COOKIE['resumeU'])) {
-                    header("Location: ../../public/views/user.php?user=".$_COOKIE['resumeU']);
+                    header("Location: user?user=".$_COOKIE['resumeU']);
                     setcookie("resumeU", "", -1 , "/");
                     exit();
                 }
 
                 //Home after sign in
-                header("Location: ../../public/views/home.php");
+                header("Location: home");
                 exit();
 
             } else {
@@ -81,12 +81,12 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
 
             $picture = str_replace('=s96-c', '=s400-c', $data->picture);
 
-            $query = "INSERT INTO users VALUES(DEFAULT, :name_user , :email_user , :password_user, 'GOOGLE', 
-                      DEFAULT, :picture_user , DEFAULT, DEFAULT, DEFAULT) RETURNING id_user, darkmode;";
+            $query = "INSERT INTO users VALUES(DEFAULT, :username , :email_user , :password_user, 'GOOGLE', 
+                      DEFAULT, :picture_user , DEFAULT, DEFAULT, DEFAULT) RETURNING id, darkmode;";
 
             $stmt = $conn -> prepare($query);
 
-            $stmt -> execute( array(':name_user' => $data->name,
+            $stmt -> execute( array(':username' => $data->name,
                                     ':email_user' => $data->email,
                                     ':password_user' => password_hash($data->sub, PASSWORD_DEFAULT),
                                     ':picture_user' => $picture) );
@@ -101,10 +101,10 @@ if (!isset($_COOKIE['g_csrf_token']) || $_COOKIE['g_csrf_token'] !== $_POST['g_c
                 setcookie("darkMode", $theme, 2147483647, "/");
 
                 $_SESSION['authType'] = 'GOOGLE';
-                $_SESSION['idUser'] = encodeId($return['id_user']);
+                $_SESSION['idUser'] = encodeId($return['id']);
 
                 //Home after registering user
-                header("Location: ../../public/views/home.php");
+                header("Location: home");
                 exit();
             }
 

@@ -1,9 +1,7 @@
 <?php
 
-session_start();
-
-require_once("../database/connect.php");
-require_once("functions.php");
+require_once(__DIR__ . '/../../bootstrap.php');
+require_once(__DIR__."/functions.php");
 
 $email_user = cleanEmail( $_POST['email'] );
 $password_user = cleanString($_POST['password']);
@@ -12,7 +10,7 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['login-user-
 
     $dbpassword = generateFakePassword();
 
-    $query = "SELECT id_user, user_email, user_password, auth_type, darkmode FROM users WHERE user_email = :email_user";
+    $query = "SELECT id, email, password, auth_type, darkmode FROM users WHERE email = :email_user";
 
     $stmt = $conn -> prepare($query);
 
@@ -25,12 +23,12 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['login-user-
     if ( count($return) > 0) {
 
         if ($return[0]['auth_type'] == 'GOOGLE'){
-            header("Location: ../../public/views/login.php?error=invalid");
+            header("Location: login?error=invalid");
             exit();
         }
         
         $password_user = cleanString($_POST['password']);
-        $dbpassword = $return[0]['user_password'];
+        $dbpassword = $return[0]['password'];
         
     }
 
@@ -43,28 +41,28 @@ if ($email_user !== false && !empty($password_user) && isset($_POST['login-user-
         $theme = $return[0]['darkmode'] ? 'dark' : 'light';
         setcookie("darkMode", $theme, 2147483647, "/");
         
-        $_SESSION['idUser'] = encodeId($return[0]['id_user']);
+        $_SESSION['idUser'] = encodeId($return[0]['id']);
         $_SESSION['authType'] = 'PASSWORD';
 
         if (isset($_COOKIE['resumeP'])) {
-            header("Location: ../../public/views/post.php?id=".$_COOKIE['resumeP']);
+            header("Location: post?id=".$_COOKIE['resumeP']);
             setcookie("resumeP", "", -1 , "/");
             exit();
         } else if (isset($_COOKIE['resumeU'])) {
-            header("Location: ../../public/views/user.php?user=".$_COOKIE['resumeU']);
+            header("Location: user?user=".$_COOKIE['resumeU']);
             setcookie("resumeU", "", -1 , "/");
             exit();
         }
 
-        header("Location: ../../public/views/home.php");
+        header("Location: home");
         exit();
 
     } else {
-        header("Location: ../../public/views/login.php?error=invalid");
+        header("Location: login?error=invalid");
         exit();
     }
 
 } else {
-    header("Location: ../../public/views/login.php?error=emptyfiels");
+    header("Location: login?error=emptyfiels");
     exit();
 }

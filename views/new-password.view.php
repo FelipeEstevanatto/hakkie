@@ -16,8 +16,8 @@
             ?>
             <form action="changePasswordDB" method="POST" class="text-lg font-semibold font-popins">
                 
-                <input type="hidden" name="selector" value="<?php echo$_GET['selector']; ?>">
-                <input type="hidden" name="validator" value="<?php echo$_GET['validator']; ?>">
+                <input type="hidden" name="selector" value="<?=$_GET['selector']?>">
+                <input type="hidden" name="validator" value="<?=$_GET['validator']?>">
 
                 <div class="mb-8">
                     <label for="password" class="font-medium">New Password</label>

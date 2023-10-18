@@ -18,6 +18,8 @@ require BASE_PATH . 'routes.php';
 $uri = str_replace('/hakkie', '', parse_url($_SERVER['REQUEST_URI'])['path']);
 $method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
 
+define('DEFAULT_THEME', 'dark');
+
 try {
     $router->route($uri, $method);
 } catch (ValidationException $exception) {

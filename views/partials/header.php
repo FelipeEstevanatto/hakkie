@@ -1,5 +1,13 @@
+<?php
+if (isset($_SESSION['user'])) {
+    $theme = $_SESSION['user']['theme'] ? 'dark':'';
+} else {
+    $theme = DEFAULT_THEME;
+}
+?>
+
 <!DOCTYPE html>
-<html lang="pt-br"  class="<?=$_SESSION['user']['theme'] ? 'dark' : ''?>" >
+<html lang="pt-br" class="<?=$theme?>" >
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

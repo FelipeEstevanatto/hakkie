@@ -107,6 +107,10 @@ function shareLink(post) {
         .then(() => {
             const shareTab = post.querySelector('#tab-share');
             shareTab.innerHTML = 'Link Copied!';
+            // wait 2 seconds and change back to share
+            setTimeout(() => {
+                shareTab.innerHTML = '<i class="fas fa-share"></i> <span>Share</span>';
+            }, 2000);
         })
         .catch((error) => {
             console.error('Failed to copy text: ', error);

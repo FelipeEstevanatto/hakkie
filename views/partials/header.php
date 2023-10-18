@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br"  class="<?=$_SESSION['user']['theme'] ? 'dark' : ''?>" >
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,17 +23,14 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="<?= $GLOBALS['base_url'] ?>public/images/favicon.png" type="image/x-icon">
 
-    <script>
-        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            // add the class to the body
-            document.documentElement.classList.add('dark')
-            console.log('dark mode')
-        } else {
-            document.documentElement.classList.remove('dark')
-        }
-    </script>
-
 </head>
 <body>
+<script>
+    // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+    if (window.document.body.classList.contains('dark')) {
+        localStorage.theme = 'dark'
+    } else {
+        localStorage.theme = ''
+    }
+</script>
     

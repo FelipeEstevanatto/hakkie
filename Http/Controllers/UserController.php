@@ -166,4 +166,19 @@ class UserController {
         exit(2);
 
     }
-}
+
+    public function editTheme() {
+        $theme = $_POST['theme'] ?? 'true';
+        $theme_bool = filter_var($theme, FILTER_VALIDATE_BOOLEAN);
+
+        $this->db->query('UPDATE users SET darkmode = :theme WHERE id = :id',[
+            'theme' => $theme_bool,
+            'id' => $_SESSION['user']['id'],
+        ]);
+
+        $_SESSION['user']['theme'] = $theme_bool;
+        
+        header('Content-Type: application/json');
+        echo json_encode(['success' => true, 'theme' => $theme_bool]);
+    }
+} 

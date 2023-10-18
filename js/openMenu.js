@@ -26,23 +26,15 @@ btn.addEventListener('click', () => {
 });
 
 directMessage.addEventListener('click', () => {
-    const messageBtn = window.document.querySelector('#message-btn');
+    const messageBtn = window.document.querySelector('#message-btn i');
     const messageSection = window.document.querySelector('#message-section');
 
-    if(messageBtn.classList.contains('message-btn-close')) {
-        messageBtn.classList.remove('message-btn-close');
-        messageBtn.classList.add('message-btn-open');
-
-        messageSection.classList.remove('message-section-close');
-        messageSection.classList.add('message-section-open'); 
+    if (messageSection.classList.contains('translate-y-full')) {
+        messageSection.classList.remove('translate-y-full');
+    } else {
+        messageSection.classList.add('translate-y-full');
     }
-    else {
-        messageBtn.classList.remove('message-btn-open');
-        messageBtn.classList.add('message-btn-close');
-
-        messageSection.classList.remove('message-section-open');
-        messageSection.classList.add('message-section-close');
-    }
+    messageBtn.classList.toggle('rotate-180');
     
 });
 

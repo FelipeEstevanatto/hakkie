@@ -19,6 +19,7 @@ $router->get('/following', 'FollowingController@index')->only('auth');
 $router->get('/followers', 'FollowersController@index')->only('auth');
 $router->post('/changeUserData', 'UserController@edit')->only('auth');
 $router->post('/block', 'UserController@block')->only('auth');
+$router->post('/edittheme', 'UserController@editTheme')->only('auth');
 
 // Content routes
 $router->get('/', 'IndexController@index');//->only('guest');

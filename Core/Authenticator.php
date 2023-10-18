@@ -31,7 +31,7 @@ class Authenticator
             'id' => $user['id'],
             'email' => $user['email'],
             'authType' => "PASSWORD",
-            'theme' => 'dark',
+            'theme' => $user['darkmode']
         ];
         
         session_regenerate_id(true);

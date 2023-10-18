@@ -22,7 +22,7 @@ $router->post('/block', 'UserController@block')->only('auth');
 $router->post('/edittheme', 'UserController@editTheme')->only('auth');
 
 // Content routes
-$router->get('/', 'IndexController@index');//->only('guest');
+$router->get('/', 'IndexController@index')->only('guest');
 $router->get('/post', 'post/PostController@view')->only('auth');
 $router->post('/post', 'post/PostController@store')->only('auth');
 $router->post('/post/delete', 'post/PostController@destroy')->only('auth');

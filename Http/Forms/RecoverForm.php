@@ -23,7 +23,7 @@ class RecoverForm extends Validator
         return $this;
     }
 
-    public function message()
+    public function messages()
     {
         return [
             'email' => [

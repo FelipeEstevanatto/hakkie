@@ -24,7 +24,7 @@ class RegisterForm extends Validator
         return $this;
     }
 
-    public function message()
+    public function messages()
     {
         return [
             'name' => [

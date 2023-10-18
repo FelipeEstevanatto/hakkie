@@ -67,24 +67,24 @@ class Validator
                         case 'file':
                             if (!empty($_FILES[$field]['name'])) {
                                 if ($_FILES[$field]['error'] !== UPLOAD_ERR_OK) {
-                                    $this->addError($field, $this->getCustomMessage($field, 'file') ?: 'The ' . $field . ' field must be a valid file.', 'file');
+                                    $this->addError($field, 'The ' . $field . ' field must be a valid file.', 'file');
                                 } else {
                                     $fileSize = $_FILES[$field]['size'];
                                     $maxSize = $ruleArgs[0] ?? 0;
         
                                     if ($maxSize > 0 && $fileSize > $maxSize) {
-                                        $this->addError($field, $this->getCustomMessage($field, 'file') ?: 'The ' . $field . ' field must be smaller than ' . $maxSize . ' bytes.', 'file');
+                                        $this->addError($field, 'The ' . $field . ' field must be smaller than ' . $maxSize . ' bytes.', 'file');
                                     }
         
                                     $fileType = $_FILES[$field]['type'];
                                     $allowedTypes = $ruleArgs[1] ?? [];
         
                                     if (!empty($allowedTypes) && !in_array($fileType, $allowedTypes)) {
-                                        $this->addError($field, $this->getCustomMessage($field, 'file') ?: 'The ' . $field . ' field must be a valid file type.', 'file');
+                                        $this->addError($field, 'The ' . $field . ' field must be a valid file type.', 'file');
                                     }
                                 }
                             } elseif ($ruleName !== 'nullable' && empty($_FILES[$field]['name'])) {
-                                $this->addError($field, $this->getCustomMessage($field, 'required') ?: 'The ' . $field . ' field is required.', 'required');
+                                $this->addError($field, 'The ' . $field . ' field is required.', 'required');
                             }
                             break;
         
@@ -97,7 +97,7 @@ class Validator
                         case 'files':
                             if (empty($_FILES[$field]['name'])) {
                                 if ($ruleName !== 'nullable') {
-                                    $this->addError($field, $this->getCustomMessage($field, 'required') ?: 'The ' . $field . ' field is required.', 'required');
+                                    $this->addError($field, 'The ' . $field . ' field is required.', 'required');
                                 } else {
                                     break 2;
                                 }
@@ -110,7 +110,7 @@ class Validator
                             if (!empty($_FILES[$field]['name'])) {
                                 $this->images($field, $ruleArgs[0]);
                             } elseif ($ruleName !== 'nullable' && empty($_FILES[$field]['name'])) {
-                                $this->addError($field, $this->getCustomMessage($field, 'required') ?: 'The ' . $field . ' field is required.', 'required');
+                                $this->addError($field, 'The ' . $field . ' field is required.', 'required');
                             }
                             break;
                 }
@@ -158,11 +158,9 @@ class Validator
         if (!empty($value)) {
             $db = App::resolve(Database::class);
 
-            $query = $db->query("SELECT * FROM {$table} WHERE {$column} = :{$column}", [
+            $result = $db->query("SELECT * FROM {$table} WHERE {$column} = :{$column}", [
                 $column => $value
-            ]);
-
-            $result = $query->find();
+            ])->find();
 
             if ($result) {
                 $this->addError($field, 'The ' . $field . ' field must be unique.', 'unique');
@@ -189,7 +187,7 @@ class Validator
         }
     
         $customMessage = $this->getCustomMessage($field, $rule);
-    
+
         if ($customMessage) {
             $message = $customMessage;
         }
@@ -200,12 +198,11 @@ class Validator
     protected function getCustomMessage($field, $rule)
     {
         $messages = $this->messages();
-    
+
         if (isset($messages[$field]) && isset($messages[$field][$rule])) {
             return $messages[$field][$rule];
         }
 
-    
         return null;
     }
 

@@ -84,20 +84,20 @@ function showPosts($user, $maxPosts, $choosenId = '') {
                     <a href="user?user=<?=$user?>"><?=$username?></a>
                 </div>
                 <div class="right">
-                    <span>
-                        <?=time_elapsed_string($post['date'])?>
-                        <i class="fas fa-ellipsis-v interative-form-btn pl-2 cursor-pointer"></i>
+                    <?=time_elapsed_string($post['date'])?>
+                    <span class="mx-2">
+                        <i class="fas fa-ellipsis-v interative-form-btn cursor-pointer"></i>
                     </span>
-                    <div class="interative-form hidden border rounded-lg absolute bg-gray-200 dark:bg-almost-black">
+                    <div class="interative-form hidden border-2 border-gray-500 dark:border-gray-800 rounded-lg absolute bg-gray-200 dark:bg-almost-black">
                         <?php
                         if ($post['fk_owner'] != $_SESSION['user']['id']) {
                         ?>
-                            <div class="btn-form p-2 <?=$following_status?>" id="follow"><?=$following_status?> User</div>
-                            <div class="btn-form p-2" id="block">Block User</div>
+                            <div class="btn-form p-2 <?=$following_status?> cursor-pointer" id="follow"><?=$following_status?> User</div>
+                            <div class="btn-form p-2 cursor-pointer hover:bg-gray-500" id="block">Block User</div>
                         <?php
                         } else {
                         ?>
-                            <div class="btn-form  p-2 cursor-pointer absolute w-auto" id="delete">Delete Post</div>
+                            <div class="btn-form p-2 cursor-pointer absolute w-auto" id="delete">Delete Post</div>
                         <?php
                         }
                         ?>

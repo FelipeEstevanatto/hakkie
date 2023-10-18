@@ -18,7 +18,7 @@ $chats = [
 ?>
 
 
-<div id="message-section" class="border-x-2 border-slate-500 bg-almost-black fixed w-screen lg:w-1/4 h-screen right-0 bottom-0 transform translate-y-full transition duration-500 ease-in-out font-popins font-bold text-white divide-y divide-stone-700/50">
+<div id="message-section" class="border-x-2 border-slate-500 bg-gray-200 dark:bg-almost-black fixed w-screen lg:w-1/4 h-screen right-0 bottom-0 transform translate-y-full transition duration-500 ease-in-out font-popins font-bold text-gray-500 dark:text-white divide-y divide-stone-700/50">
     <h2 class="text-2xl m-6">
         Chats
     </h2>

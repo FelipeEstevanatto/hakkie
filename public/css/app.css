@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.logo {
+    font-size: 4em;
+    max-width: 280px;
+    background: linear-gradient(45deg, #7700ff, #eb4808);
+    background-clip: text;
+    font-weight: bold;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Comfortaa', cursive;
+    position: relative;
+    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.212);
+}

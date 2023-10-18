@@ -2,8 +2,6 @@ const inputTheme = window.document.querySelector('#theme-check');
 const stateTheme = window.document.querySelector('#theme-state');
 
 inputTheme.addEventListener('click', (value) => { 
-    console.log('dark', value.target.checked)
-
     fetch('edittheme', {
         method: 'POST',
         headers: {
@@ -20,11 +18,11 @@ inputTheme.addEventListener('click', (value) => {
     ).then(data => {
         if (data.theme) {
             localStorage.setItem('theme', 'dark');
-            window.document.body.classList.add('dark');
+            window.document.documentElement.classList.add('dark');
             stateTheme.innerHTML = 'ON';
         } else {
             localStorage.setItem('theme', '');
-            window.document.body.classList.remove('dark');
+            window.document.documentElement.classList.remove('dark');
             stateTheme.innerHTML = 'OFF';
         }
 

@@ -4,7 +4,7 @@ require('partials/header.php');
 $userIP = getUserIP()->ip;
 
 ?>
-    <div class="flex items-center justify-center bg-almost-black text-white justify-center h-screen">
+    <div class="flex items-center justify-center bg-gray-200 dark:bg-almost-black text-white justify-center h-screen">
         <div class="p-4 font-popins">
             <div class="mb-6 bg-clip-text text-transparent font-comfortaa text-3xl font-bold tracking-widest text-center bg-gradient-to-tr from-purple-700 via-purple-700 to-blue-500 drop-shadow-glow">
                 Recover you password

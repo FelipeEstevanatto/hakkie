@@ -4,7 +4,7 @@
     include('partials/tool-bar.php');
 ?>
 
-    <div class="flex justify-center bg-almost-black text-white justify-center min-h-screen">
+    <div class="flex justify-center bg-gray-200 dark:bg-almost-black text-black dark:text-white justify-center min-h-screen">
 
         <div id="feed" class="w-screen lg:w-1/2 p-4">
             <?php

@@ -1,7 +1,7 @@
 <?php
     require('partials/header.php');
 ?>
-    <div class="flex items-center justify-center bg-almost-black text-white justify-center h-screen">
+    <div class="flex items-center justify-center bg-gray-200 dark:bg-almost-black text-white justify-center h-screen">
         <div class="w-screen p-12 block md:flex md:justify-evenly">
             <div class="p-4 font-popins md:w-3/5 max-w-[900px] flex flex-col items-left justify-center">
                 <div class="mb-6 bg-clip-text text-transparent font-comfortaa text-3xl font-bold tracking-widest text-center bg-gradient-to-tr from-purple-700 via-purple-700 to-blue-500 drop-shadow-glow text-start">

@@ -5,14 +5,14 @@
     include('partials/no-script.php');
 
 ?>
-    <div class="flex justify-center bg-almost-black text-white min-h-screen relative">
+    <div class="flex justify-center bg-gray-200 dark:bg-almost-black text-white min-h-screen relative">
         <div class="w-screen lg:w-1/2">
             <div class="top relative">
                 <div class="banner w-full h-96">
                     <img src="<?= $GLOBALS['base_url'] . "/../public/images/" ?><?= is_null($banner) ? "defaultBanner.jpg" : $banner ?>" alt="Banner of user" class="w-full h-full">
                 </div>
     
-                <div class="info p-4">
+                <div class="info p-4 text-gray-800 dark:text-gray-200">
                     <img class="profile-picture absolute rounded-full h-72 w-72 top-52 border-4 border-stone-500" src="<?= is_null($picture) ? $GLOBALS['base_url']."/../public/images/defaultUser.png" : "$picture" ?>" alt="Picture of user">
                     <div class="time text-right text-gray-400">
                         <i class="fas fa-calendar-alt"></i>
@@ -23,7 +23,7 @@
     
                     <h2 class="name font-bold text-2xl"><?=$user_name?></h2>
     
-                    <p class="description text-justify break-words my-4 text-gray-200">
+                    <p class="description text-justify break-words my-4 ">
                         <?=!is_null($user_info) ? $user_info : 'Nothing to say.';?>
                     </p>
     
@@ -58,7 +58,7 @@
                                 <i class="fas fa-comment-dots"></i>
                             </div>
     
-                            <div id="ellipsis-modal" class="hidden border-2 border-stone-700 rounded-lg p-2 absolute w-32 divide-y divide-stone-700 mt-12 mr-4 bg-almost-black z-50">
+                            <div id="ellipsis-modal" class="hidden border-2 border-stone-700 rounded-lg p-2 absolute w-32 divide-y divide-stone-700 mt-12 mr-4 bg-gray-200 dark:bg-almost-black z-50">
                             <?php 
     
                                 if (!$own_profile) {
@@ -80,7 +80,7 @@
                 </div>
              </div>
     
-            <div class="tab-list flex">
+            <div class="tab-list flex text-gray-800 dark:text-gray-200">
                 <div class="tab flex-grow border-2 border-stone-700/75 p-2 grid justify-items-center cursor-pointer">
                     Posts
                     <div class="underline w-1/3 bg-purple-900 h-1 rounded-full"></div>
@@ -106,7 +106,7 @@
                     }
             ?>
     
-            <div class="post-input p-4 m-4 border-2 border-stone-700/75 rounded-lg">
+            <div class="post-input p-4 m-4 border-2 border-stone-700/75 rounded-lg text-gray-700 dark:text-white">
                 <h2 class="font-bold text-3xl">Post</h2>
                 <form action="post" method="POST" enctype='multipart/form-data' class="relative">
                     <textarea 
@@ -114,7 +114,7 @@
                         id="textarea" 
                         maxlength="256" cols="30" rows="10" 
                         placeholder="What is going on?"
-                        class="w-full h-48 rounded-lg p-4 my-4 bg-gray-800"
+                        class="w-full h-48 rounded-lg p-4 my-4 bg-gray-300 dark:bg-gray-800"
                     ><?= !empty($old) ? $old['post-text'] : '' ?></textarea>
                     <label id="count" for="post-text" class="absolute right-2 top-40 text-right w-auto rounded-full font-normal bg-gray-900 p-1"></label>
     
@@ -132,7 +132,7 @@
                     <label id="uploadfile-label" for="uploadfile" class="border-2 border-gray-300 rounded-full py-2 px-3 absolute left-2 bottom-28 cursor-pointer">
                         <span><i class="fas fa-upload"></i></span>     
                     </label>
-                    <input type="submit" value="Submit" class="p-4 rounded-lg bg-gray-700 font-bold text-lg cursor-pointer">
+                    <input type="submit" value="Submit" class="p-4 rounded-lg bg-gray-300 dark:bg-gray-700 font-bold text-lg cursor-pointer">
                 </form>
             </div>
             <script>
@@ -152,7 +152,7 @@
             }
             ?>
         
-            <div id="feed" class="p-4">        
+            <div id="feed" class="p-4 text-gray-800 dark:text-gray-200">        
                 <?php
                     // Post layout
                     showPosts($_GET['user'], 10);
@@ -163,9 +163,10 @@
                 ?>
      
             </div>
+            <div class="h-24 lg:h-0"></div>
         </div>
     </div>
-
+    
     <?php 
 
         include('partials/message.php')

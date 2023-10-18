@@ -6,7 +6,7 @@
     $picture_url = $isGoogle ? $picture : '../images/'.$picture;
 ?>
 
-<div id="container" class="flex justify-center bg-almost-black text-white min-h-screen p-8 relative"> 
+<div id="container" class="flex justify-center bg-gray-200 dark:bg-almost-black text-white min-h-screen p-8 relative"> 
     <div id="feed" class="w-screen lg:w-1/2 p-4">
         <div class="top">
             <img class="profile-picture" src="<?=$picture_url?>" alt="Picture of user">

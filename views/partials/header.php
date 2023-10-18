@@ -7,15 +7,8 @@
     <title><?= $heading ?? "Hakkie"?></title>
 
     <!-- Styles -->
-    <style>
-        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
-        @import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap");
-    </style>
-    <!-- Font Awesome-->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="<?= $GLOBALS['base_url'] ?>public/tailwind.js"></script>
-
     <script src="https://kit.fontawesome.com/a39639353a.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="<?= $GLOBALS['base_url'] ?>public/css/style.css">
 
     <!--API Google login-->
     <script src="https://accounts.google.com/gsi/client" async defer></script>

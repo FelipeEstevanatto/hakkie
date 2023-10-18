@@ -12,7 +12,6 @@ buttonSetting.forEach((btn) => {
 const blockedBox = window.document.getElementById('block-manage');
 window.document.addEventListener('click', (event) => {
     if (event.target.matches('#container .settings #block-manage .block .right i')) {
-        //console.log('aa', blockedBox)
         const block = event.target.closest('.block');
         const xhr = new XMLHttpRequest();
         xhr.open('POST', 'blockingLogic');

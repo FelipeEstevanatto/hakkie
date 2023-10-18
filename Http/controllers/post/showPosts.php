@@ -77,10 +77,10 @@ function showPosts($user, $maxPosts, $choosenId = '') {
 
         ?>
         <!--Post layout-->
-        <div class="post text p-6 rounded-lg border-4 border-gray-800 font-popins mb-4 transition duration-500 ease-in-out transform" id="<?=$post['id']?>">
+        <div class="post text p-6 rounded-lg border-solid border-4 border-gray-500 dark:border-gray-800 font-popins mb-4 transition duration-500 ease-in-out transform" id="<?=$post['id']?>">
             <div class="top-post flex items-center justify-between">
                 <div class="left flex items-center font-medium" id="<?=$user?>">
-                    <img src="<?=$imageurl?>" class="h-16 rounded-full mr-3.5">
+                    <img src="<?=$imageurl?>" class="h-16 rounded-full mr-4">
                     <a href="user?user=<?=$user?>"><?=$username?></a>
                 </div>
                 <div class="right">
@@ -88,7 +88,7 @@ function showPosts($user, $maxPosts, $choosenId = '') {
                         <?=time_elapsed_string($post['date'])?>
                         <i class="fas fa-ellipsis-v interative-form-btn pl-2 cursor-pointer"></i>
                     </span>
-                    <div class="interative-form hidden border rounded-lg absolute bg-almost-black">
+                    <div class="interative-form hidden border rounded-lg absolute bg-gray-200 dark:bg-almost-black">
                         <?php
                         if ($post['fk_owner'] != $_SESSION['user']['id']) {
                         ?>

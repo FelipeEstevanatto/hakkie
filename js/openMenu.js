@@ -2,7 +2,6 @@ const btn = window.document.querySelector('#ellipsis');
 const modal = window.document.querySelector('#ellipsis-modal');
 
 const directMessage = window.document.querySelector('.info .bottom-bar .right .btn#direct_message');
-
 const blockUserBtn = window.document.querySelector('#ellipsis-modal .btn#block_user');
 const silenceUserBtn = window.document.querySelector('#ellipsis-modal .btn#silence_user');
 const linkUserBtn = window.document.querySelector('#ellipsis-modal .btn#link_user');

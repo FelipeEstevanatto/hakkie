@@ -1,10 +1,10 @@
 
-<div class="flex lg:hidden border-b-2 border-slate-500 bg-almost-black justify-between">
+<div class="flex lg:hidden border-b-2 border-slate-500 bg-gray-200 dark:bg-almost-black justify-between">
     <div class="logo pl-6">Hakkie</div>
-    <i id="sandwich-menu-button" class="fa-solid fa-bars text-white text-4xl p-6 cursor-pointer"></i>
+    <i id="sandwich-menu-button" class="fa-solid fa-bars text-black dark:text-white text-4xl p-6 cursor-pointer"></i>
 </div>
 
-<div id="sandwich-menu" class="flex min-h-screen w-screen bg-almost-black pl-8 md:pl-8 lg:w-3/12 hidden lg:block lg:fixed lg:pt-8 text-white border-r-2 border-slate-500 z-50 drop-shadow-xl">
+<div id="sandwich-menu" class="flex min-h-screen w-screen bg-gray-200 dark:bg-almost-black pl-8 md:pl-8 lg:w-3/12 hidden lg:block lg:fixed lg:pt-8 text-black dark:text-white border-r-2 border-slate-500 z-50 drop-shadow-xl">
     <div>
         <div class="logo hidden lg:block">Hakkie</div>
         <div class="buttons text-3xl lg:text-2xl">
@@ -40,18 +40,3 @@
         sandwichMenu.classList.toggle('hidden');
     });
 </script>
-
-<style>
-    .logo {
-    font-size: 4em;
-    max-width: 280px;
-    background: linear-gradient(45deg, #7700ff, #eb4808);
-    background-clip: text;
-    font-weight: bold;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-family: 'Comfortaa', cursive;
-    position: relative;
-    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.212);
-}
-</style>

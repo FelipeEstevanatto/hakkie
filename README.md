@@ -13,5 +13,8 @@ And the last you should run the script to set up the database with the command:
 
 Then you should be ready to go and create your account to use the project.
 
+To update the tailwind compiled css you will need to run the command:
+```npm run build```
+
 But if you want to integrate the google login you will need to create a project on [Google Cloud Platform](https://console.cloud.google.com/) and enable the Google+ API, then create a OAuth 2.0 Client ID and download the credentials.json file, and put it in the root folder of the project, then you will need to run the command:
 ```composer run setup-google-login```

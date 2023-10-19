@@ -44,10 +44,10 @@
                             <?php
                                 if (!$own_profile) {
                                     ?>
-                                        <div class="btn flex border-2 rounded-lg mr-2 cursor-pointer <?=$follow_status?>" id="interact-btn">
-                                            <div class="align-middle">
-                                                <i class="fas fa-user-plus"></i>
-                                                <span> <?=$follow_status?></span>
+                                        <div class="btn flex border-2 rounded-lg mr-2 cursor-pointer items-center <?=$follow_status?>" id="interact-btn">
+                                            <div class="h-4 inline-block align-middle p-1">
+                                                <i class="fas fa-user-plus mr-2"></i>
+                                                <span><?=$follow_status?></span>
                                             </div>
                                         </div>
                                     <?php
@@ -61,11 +61,11 @@
                             <div id="ellipsis-modal" class="hidden border-2 border-stone-700 rounded-lg p-2 absolute w-32 divide-y divide-stone-700 mt-12 mr-4 bg-gray-200 dark:bg-almost-black z-50">
                             <?php 
     
-                                if (!$own_profile) {
-                                echo '<div class="btn hover:bg-indigo-500 rounded p-2 cursor-pointer" id="silence_user">Silence User</div>
-                                      <div class="btn hover:bg-indigo-500 rounded p-2 cursor-pointer" id="block_user">Block User</div>';
-                                } else {
+                                if ($own_profile) {
                                     echo '<a href="settings"><div class="btn hover:bg-indigo-500 rounded p-2 cursor-pointer" id="edit_user">Edit User</div></a>';
+                                } else {
+                                    echo '<div class="btn hover:bg-indigo-500 rounded p-2 cursor-pointer" id="silence_user">Silence User</div>
+                                    <div class="btn hover:bg-indigo-500 rounded p-2 cursor-pointer" id="block_user">Block User</div>';
                                 }
     
                             ?>

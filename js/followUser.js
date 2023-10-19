@@ -5,7 +5,7 @@ interactBtn.addEventListener('click', () => {
     if(interactBtn.classList.contains('follow')) {
         interactBtn.classList.remove('follow');
         interactBtn.classList.add('unfollow');
-        interactBtn.innerHTML = '<i class="fas fa-user-times"></i> <span>Unfollow</span>';
+        interactBtn.innerHTML = '<i class="fas fa-user-times mr-2"></i><span>Unfollow</span>';
 
         let xhr = new XMLHttpRequest();
 

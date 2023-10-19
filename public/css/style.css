@@ -720,6 +720,10 @@ video {
   display: block;
 }
 
+.inline-block{
+  display: inline-block;
+}
+
 .inline{
   display: inline;
 }
@@ -790,6 +794,15 @@ video {
 
 .h-screen{
   height: 100vh;
+}
+
+.h-fit{
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.h-4{
+  height: 1rem;
 }
 
 .min-h-screen{
@@ -1215,6 +1228,10 @@ video {
 
 .align-middle{
   vertical-align: middle;
+}
+
+.align-super{
+  vertical-align: super;
 }
 
 .font-comfortaa{

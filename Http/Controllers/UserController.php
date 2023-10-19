@@ -89,7 +89,7 @@ class UserController {
 
         $followers = $follow_info['followers'];
         $following = $follow_info['followings'];
-        $follow_status = $follow_info['isfollowing'] ? 'Unfollow' : 'follow';
+        $follow_status = $follow_info['isfollowing'] ? 'Unfollow' : 'Follow';
 
         view("user.view.php", [
             'heading' => 'User',
